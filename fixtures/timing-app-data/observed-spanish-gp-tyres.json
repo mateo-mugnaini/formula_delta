@@ -1,0 +1,17 @@
+{
+  "TimingAppData": {
+    "Lines": {
+      "12": {
+        "RacingNumber": "12",
+        "Stints": [
+          { "LapFlags": 0, "Compound": "MEDIUM", "New": "true", "TyresNotChanged": "0", "TotalLaps": 14, "StartLaps": 0, "LapTime": "1:39.322", "LapNumber": 13 },
+          { "LapFlags": 1, "Compound": "HARD", "New": "true", "TyresNotChanged": "0", "TotalLaps": 43, "StartLaps": 0, "LapTime": "1:36.030", "LapNumber": 57 }
+        ],
+        "Line": 1,
+        "GridPos": "2"
+      }
+    },
+    "_kf": true
+  },
+  "_fixtureNote": "Stint field names are preserved as observed and are not yet interpreted as final tyre-age semantics."
+}

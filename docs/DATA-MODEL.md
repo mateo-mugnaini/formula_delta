@@ -18,6 +18,14 @@ FORMULA DELTA DOMAIN MODEL
 
 Everything downstream should depend primarily on this model rather than on Formula 1's raw payload structure.
 
+## Implementation Status
+
+The shared package currently contains the first pure domain helpers for
+primitive normalization, lap times, gaps, capabilities, initial state, and
+delta merging. Collection helpers now transform observed driver, timing, stint,
+and Race Control fixture collections. These helpers are intentionally small and
+do not yet represent the complete normalized session model.
+
 This includes:
 
 * state management;

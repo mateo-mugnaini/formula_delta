@@ -27,6 +27,9 @@ A phase should not be considered complete simply because its happy path works.
 
 # Phase 0 — Live Timing Discovery
 
+Status: In progress — the discovery probe has been scaffolded, but no live
+endpoint behavior is considered verified yet.
+
 ## Goal
 
 Validate what Formula Delta can actually receive from Formula 1 without paid infrastructure.
@@ -57,6 +60,22 @@ Suggested location:
 tools/
 └── f1-probe/
 ```
+
+Current implementation:
+
+- `tools/f1-probe/probe.mjs` performs negotiation, WebSocket setup, SignalR
+  handshake, configurable subscription attempts, lifecycle logging, and raw
+  diagnostic capture;
+- output preserves extracted payloads without normalization;
+- the exact subscription method and argument shape remain experimental until
+  observed against the upstream endpoint.
+- unexpected WebSocket closures trigger bounded reconnect attempts with
+  exponential backoff;
+
+Initial environment observation on 2026-09-19: the negotiation endpoint
+responded successfully with HTTP 200 and advertised WebSockets, Server-Sent
+Events, and Long Polling. The connection and subscription steps remain to be
+observed.
 
 ---
 
@@ -221,6 +240,10 @@ The goal is to obtain representative fixtures even for capabilities unavailable 
 
 ## 0.9 Create Initial Fixtures
 
+Initial curated fixtures have been created from the observed completed-session
+snapshot under `fixtures/`. They intentionally preserve upstream field names
+and remain small; they are evidence fixtures, not normalized domain fixtures.
+
 Create minimal fixtures from observed data.
 
 Target:
@@ -257,6 +280,15 @@ docs/KNOWN-LIMITATIONS.md
 
 with verified findings.
 
+The first negotiation, handshake, snapshot, topic, and fixture findings are
+now documented. Live-session continuity, delta behavior, reconnect behavior,
+and compressed telemetry remain open.
+
+The current completed-session capture does not provide enough evidence to
+classify topics as snapshot-only or delta-based. That classification must be
+made from repeated messages during an active or actively updating session, not
+inferred from the completed snapshot.
+
 Clearly distinguish:
 
 ```text
@@ -270,6 +302,10 @@ Unknown
 ---
 
 ## Phase 0 Exit Criteria
+
+Current status: not complete. The probe exists, but it still requires a
+compatible Node.js runtime and a successful live observation run before the
+criteria below can be assessed.
 
 Phase 0 is complete when:
 
@@ -285,6 +321,9 @@ Phase 0 is complete when:
 ---
 
 # Phase 1 — Repository Foundation
+
+Status: In progress — workspace structure, shared package, scoped instructions,
+and base test command are present. Application start commands remain pending.
 
 ## Goal
 
@@ -385,6 +424,9 @@ Verify tests can run from repository root.
 
 ## Phase 1 Exit Criteria
 
+Current status: not complete. The repository foundation is present, but the
+frontend and backend applications have not been implemented or started yet.
+
 - workspace installs correctly;
 - frontend starts;
 - backend starts;
@@ -396,6 +438,12 @@ Verify tests can run from repository root.
 ---
 
 # Phase 2 — Internal Domain Model
+
+Status: In progress — shared primitive normalization, capability defaults, and
+delta helpers are implemented and covered by deterministic tests. Initial
+entity normalizers for session, drivers, timing, stints, track, weather, and
+Race Control are now also present. Observed fixture collections can be
+transformed into normalized domain collections.
 
 ## Goal
 

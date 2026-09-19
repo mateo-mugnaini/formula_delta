@@ -1,0 +1,30 @@
+{
+  "RaceControlMessages": {
+    "Messages": [
+      {
+        "Utc": "2026-09-13T14:43:38",
+        "Lap": 57,
+        "Category": "Other",
+        "Message": "FIA STEWARDS: 5 SECOND TIME PENALTY FOR CAR 10 (GAS) - SPEEDING IN THE PIT LANE (16:37:16)"
+      },
+      {
+        "Utc": "2026-09-13T14:47:33",
+        "Lap": 57,
+        "Category": "Flag",
+        "Flag": "DOUBLE YELLOW",
+        "Scope": "Sector",
+        "Sector": 4,
+        "Message": "DOUBLE YELLOW IN TRACK SECTOR 4"
+      },
+      {
+        "Utc": "2026-09-13T14:38:28",
+        "Lap": 57,
+        "Category": "Flag",
+        "Flag": "CHEQUERED",
+        "Scope": "Track",
+        "Message": "CHEQUERED FLAG"
+      }
+    ],
+    "_kf": true
+  }
+}

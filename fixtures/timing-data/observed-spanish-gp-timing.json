@@ -1,0 +1,38 @@
+{
+  "TimingData": {
+    "Lines": {
+      "12": {
+        "GapToLeader": "",
+        "IntervalToPositionAhead": { "Value": "", "Catching": false },
+        "Line": 1,
+        "Position": "1",
+        "RacingNumber": "12",
+        "Retired": false,
+        "InPit": false,
+        "PitOut": false,
+        "Stopped": false,
+        "LastLapTime": { "Value": "1:36.030", "PersonalFastest": true },
+        "BestLapTime": { "Value": "1:36.030", "Lap": 57 },
+        "NumberOfLaps": 57,
+        "NumberOfPitStops": 1
+      },
+      "3": {
+        "GapToLeader": "+4.351",
+        "IntervalToPositionAhead": { "Value": "+4.351", "Catching": false },
+        "Line": 2,
+        "Position": "2",
+        "RacingNumber": "3",
+        "Retired": false,
+        "InPit": false,
+        "PitOut": false,
+        "Stopped": false,
+        "LastLapTime": { "Value": "1:37.001" },
+        "BestLapTime": { "Value": "1:36.760", "Lap": 52 },
+        "NumberOfLaps": 57,
+        "NumberOfPitStops": 1
+      }
+    },
+    "Withheld": false,
+    "_kf": true
+  }
+}

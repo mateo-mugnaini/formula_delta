@@ -1,0 +1,13 @@
+{
+  "WeatherData": {
+    "AirTemp": "31.4",
+    "Humidity": "21.4",
+    "Pressure": "944.3",
+    "Rainfall": "0",
+    "TrackTemp": "53.3",
+    "WindDirection": "81",
+    "WindSpeed": "2.2",
+    "_kf": true
+  },
+  "_fixtureNote": "Units and numeric conversion rules remain to be verified."
+}

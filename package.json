@@ -1,0 +1,11 @@
+{
+  "name": "formula-delta",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "test:watch": "node --test --watch",
+    "probe": "pnpm --dir tools/f1-probe start"
+  },
+  "engines": { "node": ">=20.19" }
+}

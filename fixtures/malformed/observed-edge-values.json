@@ -1,0 +1,22 @@
+{
+  "TimingData": {
+    "Lines": {
+      "12": {
+        "Position": "1",
+        "GapToLeader": "",
+        "IntervalToPositionAhead": null,
+        "LastLapTime": null,
+        "NumberOfPitStops": "unknown"
+      },
+      "3": null,
+      "16": {
+        "Position": null,
+        "Sectors": [],
+        "UnexpectedField": { "preserve": true }
+      }
+    },
+    "UnknownCollection": [],
+    "_kf": true
+  },
+  "_fixtureNote": "Synthetic defensive-parsing fixture; not a direct upstream event."
+}

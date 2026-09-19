@@ -288,12 +288,16 @@ These values are derived by Formula Delta and should remain distinguishable from
 Formula Delta is currently in:
 
 ```text
-Phase 0 — Live Timing Discovery
+Phase 0 — Live Timing Discovery (probe scaffolded)
 ```
 
 The first objective is not to build the interface.
 
 The first objective is to verify the real Formula 1 timing feed.
+
+A first independent discovery probe exists under `tools/f1-probe/`. It has not
+yet established verified endpoint behavior; live observations must still be
+captured and documented before production ingestion work begins.
 
 A dedicated Node.js probe will investigate:
 

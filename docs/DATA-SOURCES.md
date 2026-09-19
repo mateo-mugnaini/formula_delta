@@ -1294,6 +1294,35 @@ Approximate positions must not be presented as GPS positions.
 
 ---
 
+# Phase 0 Observations — 2026-09-19
+
+The first successful probe run connected anonymously to the expected endpoint
+and received a completed-session snapshot after the `Subscribe` invocation.
+Observed topics included:
+
+- `SessionInfo`, `SessionStatus`, and `SessionData`;
+- `DriverList`;
+- `TimingData`, `TimingAppData`, and `TimingStats`;
+- `LapCount` and `TrackStatus`;
+- `RaceControlMessages`;
+- `WeatherData`;
+- `TeamRadio`;
+- `TopThree`, `ExtrapolatedClock`, and `Heartbeat`.
+
+This is evidence from one completed session. It does not yet prove live
+availability, update frequency, delta semantics, or stable access to every
+topic. The captured values were used to create small fixtures under
+`fixtures/` while preserving the original upstream field names.
+
+No delta behavior is claimed from this capture. A complete `result` object is
+evidence of a snapshot response for this subscription, not proof that later
+updates will have the same shape.
+
+The same day, a second connection attempt failed before WebSocket
+establishment. Repeated connection and reconnection tests remain required.
+
+---
+
 # 42. Unknown Topics
 
 Formula 1 may expose topics not currently documented by Formula Delta.

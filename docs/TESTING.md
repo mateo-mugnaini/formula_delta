@@ -55,6 +55,11 @@ weather, Race Control, malformed payloads, and recordings.
 Real captured payloads are preferred for protocol behavior. Synthetic fixtures
 are appropriate for isolated edge cases and deterministic failure tests.
 
+The `fixtures/malformed/` directory contains synthetic defensive-parsing
+cases. These must not be treated as evidence of an exact upstream payload;
+their purpose is to verify that optional malformed data does not crash the
+pipeline.
+
 ## Determinism
 
 Parser and normalization tests must not depend on wall-clock time or network

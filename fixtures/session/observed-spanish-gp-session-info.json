@@ -1,0 +1,21 @@
+{
+  "SessionInfo": {
+    "Meeting": {
+      "Key": 1294,
+      "Name": "Spanish Grand Prix",
+      "Location": "Madrid",
+      "Circuit": { "Key": 153, "ShortName": "Madring" }
+    },
+    "SessionStatus": "Finalised",
+    "ArchiveStatus": { "Status": "Complete" },
+    "Key": 11369,
+    "Type": "Race",
+    "Name": "Race",
+    "StartDate": "2026-09-13T15:00:00",
+    "EndDate": "2026-09-13T17:00:00",
+    "GmtOffset": "02:00:00",
+    "_kf": true
+  },
+  "SessionStatus": { "Status": "Ends", "Started": "Finished", "_kf": true },
+  "LapCount": { "CurrentLap": 57, "TotalLaps": 57, "_kf": true }
+}

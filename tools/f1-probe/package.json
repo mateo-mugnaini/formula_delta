@@ -1,0 +1,8 @@
+{
+  "name": "@formula-delta/f1-probe",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node --experimental-websocket probe.mjs"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "@formula-delta/shared",
+  "private": true,
+  "type": "module",
+  "exports": { ".": "./src/index.js" }
+}

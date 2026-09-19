@@ -1,0 +1,6 @@
+{
+  "name": "@formula-delta/frontend",
+  "private": true,
+  "type": "module",
+  "scripts": {}
+}

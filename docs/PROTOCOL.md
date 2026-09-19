@@ -25,6 +25,43 @@ Formula 1 Live Timing is treated as an unofficial and unstable upstream dependen
 
 This document must evolve from **research assumptions** into **observed protocol documentation** during Phase 0.
 
+## Phase 0 Implementation Status
+
+An independent discovery probe is available at `tools/f1-probe/`. It tests
+negotiation, WebSocket framing, the SignalR handshake, subscription attempts,
+and raw message capture. Its default subscription shape is experimental.
+Until a live run produces evidence, endpoint behavior in this document remains
+a working assumption rather than an implementation contract.
+
+### Observed — 2026-09-19
+
+`POST /signalrcore/negotiate?negotiateVersion=1` responded with HTTP 200 and a
+JSON object containing `negotiateVersion`, `connectionId`, `connectionToken`,
+and `availableTransports`. The advertised transports included WebSockets,
+Server-Sent Events, and Long Polling. The response does not by itself verify
+the WebSocket handshake or hub subscription behavior.
+
+A successful probe run then observed this sequence:
+
+1. WebSocket connection accepted;
+2. JSON SignalR handshake acknowledgement represented by `{}`;
+3. `Subscribe` invocation accepted;
+4. a completion message with `type: 3` and `result` containing a complete
+   multi-topic snapshot.
+
+The snapshot included `SessionInfo`, `SessionStatus`, `SessionData`,
+`DriverList`, `TimingData`, `TimingAppData`, `TimingStats`, `LapCount`,
+`TrackStatus`, `RaceControlMessages`, `WeatherData`, `TeamRadio`, `TopThree`,
+`ExtrapolatedClock`, and `Heartbeat`. This confirms availability for that
+captured completed Spanish Grand Prix session, but does not yet establish
+continuous live-session availability or the semantics of every topic.
+
+A subsequent probe attempt was rejected before WebSocket establishment with a
+network error. Connection behavior therefore still requires repeated-session
+testing and reconnect investigation. The probe now performs bounded reconnect
+attempts with exponential backoff, but no successful recovery sequence has yet
+been observed and this behavior is not a production protocol decision.
+
 ---
 
 # 2. Evidence Levels

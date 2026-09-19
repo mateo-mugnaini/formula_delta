@@ -1,0 +1,32 @@
+{
+  "DriverList": {
+    "1": {
+      "RacingNumber": "1",
+      "FullName": "Lando NORRIS",
+      "Tla": "NOR",
+      "TeamName": "McLaren",
+      "TeamColour": "F47600",
+      "FirstName": "Lando",
+      "LastName": "Norris"
+    },
+    "3": {
+      "RacingNumber": "3",
+      "FullName": "Max VERSTAPPEN",
+      "Tla": "VER",
+      "TeamName": "Red Bull Racing",
+      "TeamColour": "4781D7",
+      "FirstName": "Max",
+      "LastName": "Verstappen"
+    },
+    "12": {
+      "RacingNumber": "12",
+      "FullName": "Kimi ANTONELLI",
+      "Tla": "ANT",
+      "TeamName": "Mercedes",
+      "TeamColour": "00D7B6",
+      "FirstName": "Kimi",
+      "LastName": "Antonelli"
+    }
+  },
+  "_fixtureNote": "Small curated sample from an observed completed-session snapshot."
+}
