@@ -10,7 +10,7 @@ export function createInitialState() {
     raceControl: [],
     weather: null,
     capabilities: createCapabilities(),
-    connection: { status: 'disconnected', source: null }
+    connection: { status: 'disconnected', source: null },
   };
 }
 

@@ -1,4 +1,10 @@
-export function createDelayBuffer({ delayMs = 0, now = () => Date.now(), onReady = () => {}, setTimer = setTimeout, clearTimer = clearTimeout } = {}) {
+export function createDelayBuffer({
+  delayMs = 0,
+  now = () => Date.now(),
+  onReady = () => {},
+  setTimer = setTimeout,
+  clearTimer = clearTimeout,
+} = {}) {
   let configuredDelay = validateDelay(delayMs);
   let sequence = 0;
   let timer = null;
@@ -27,7 +33,7 @@ export function createDelayBuffer({ delayMs = 0, now = () => Date.now(), onReady
       timer = null;
       queue.length = 0;
     },
-    size: () => queue.length
+    size: () => queue.length,
   };
 
   function schedule(reset = false) {
@@ -44,8 +50,12 @@ export function createDelayBuffer({ delayMs = 0, now = () => Date.now(), onReady
     }, wait);
   }
 
-  function readyAt(entry) { return entry.receivedAt + configuredDelay; }
-  function compareReadyTime(a, b) { return readyAt(a) - readyAt(b) || a.sequence - b.sequence; }
+  function readyAt(entry) {
+    return entry.receivedAt + configuredDelay;
+  }
+  function compareReadyTime(a, b) {
+    return readyAt(a) - readyAt(b) || a.sequence - b.sequence;
+  }
 }
 
 function validateDelay(value) {

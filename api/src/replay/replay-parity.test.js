@@ -4,9 +4,24 @@ import { createIngestionPipeline } from '../f1/event-pipeline.js';
 import { createReplaySource } from './replay-source.js';
 
 const events = [
-  { sequence: 1, elapsedMs: 0, topic: 'DriverList', payload: { '3': { RacingNumber: '3', Tla: 'VER', FullName: 'Max VERSTAPPEN' } } },
-  { sequence: 2, elapsedMs: 0, topic: 'TimingData', payload: { Lines: { '3': { Position: '2', GapToLeader: '+4.351' } } } },
-  { sequence: 3, elapsedMs: 5, topic: 'TimingData', payload: { Lines: { '3': { GapToLeader: '+4.100' } } } }
+  {
+    sequence: 1,
+    elapsedMs: 0,
+    topic: 'DriverList',
+    payload: { 3: { RacingNumber: '3', Tla: 'VER', FullName: 'Max VERSTAPPEN' } },
+  },
+  {
+    sequence: 2,
+    elapsedMs: 0,
+    topic: 'TimingData',
+    payload: { Lines: { 3: { Position: '2', GapToLeader: '+4.351' } } },
+  },
+  {
+    sequence: 3,
+    elapsedMs: 5,
+    topic: 'TimingData',
+    payload: { Lines: { 3: { GapToLeader: '+4.100' } } },
+  },
 ];
 
 test('live and replay feed the same ingestion pipeline semantics', async () => {

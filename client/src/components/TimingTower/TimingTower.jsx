@@ -1,14 +1,46 @@
 import styles from './TimingTower.module.css';
 
 export function TimingTower({ timing, drivers }) {
-  const rows = Object.entries(timing || {}).sort(([, a], [, b]) => (a.position ?? 999) - (b.position ?? 999));
-  return <section className={styles.tower} aria-label="Timing tower">
-    <div className={styles.sectionHeading}><h2>Timing</h2><span>{rows.length} drivers</span></div>
-    <div className={styles.columnHeader}><span>POS</span><span>DRIVER</span><span>GAP</span><span>LAST LAP</span><span>TYRE</span></div>
-    {rows.length ? rows.map(([id, row]) => <div className={styles.row} key={id}>
-      <strong>{row.position ?? '—'}</strong>
-      <span className={styles.driverCell}><span className={styles.driver}>{drivers?.[id]?.abbreviation || id}</span><small>{row.status || `INT ${row.intervalToAhead?.display || '—'} · AGE ${row.tyreAge ?? '—'} · PIT ${row.pitStops ?? 0}`}</small><small className={styles.sectors}>S1 {row.sectors?.[0]?.value?.display || '—'} · S2 {row.sectors?.[1]?.value?.display || '—'} · S3 {row.sectors?.[2]?.value?.display || '—'}</small></span>
-      <span>{row.gapToLeader?.display || '—'}</span><span>{row.lastLap?.display || '—'}</span><span className={styles.tyre}>{row.tyre?.compound || '—'}</span>
-    </div>) : <p className={styles.empty}>Waiting for timing data</p>}
-  </section>;
+  const rows = Object.entries(timing || {}).sort(
+    ([, a], [, b]) => (a.position ?? 999) - (b.position ?? 999),
+  );
+  return (
+    <section className={styles.tower} aria-label="Timing tower">
+      <div className={styles.sectionHeading}>
+        <h2>Timing</h2>
+        <span>{rows.length} drivers</span>
+      </div>
+      <div className={styles.columnHeader}>
+        <span>POS</span>
+        <span>DRIVER</span>
+        <span>GAP</span>
+        <span>LAST LAP</span>
+        <span>TYRE</span>
+      </div>
+      {rows.length ? (
+        rows.map(([id, row]) => (
+          <div className={styles.row} key={id}>
+            <strong>{row.position ?? '—'}</strong>
+            <span className={styles.driverCell}>
+              <span className={styles.driver}>{drivers?.[id]?.abbreviation || id}</span>
+              <small>
+                {row.status ||
+                  `INT ${row.intervalToAhead?.display || '—'} · AGE ${row.tyreAge ?? '—'} · PIT ${row.pitStops ?? 0}`}
+              </small>
+              <small className={styles.sectors}>
+                S1 {row.sectors?.[0]?.value?.display || '—'} · S2{' '}
+                {row.sectors?.[1]?.value?.display || '—'} · S3{' '}
+                {row.sectors?.[2]?.value?.display || '—'}
+              </small>
+            </span>
+            <span>{row.gapToLeader?.display || '—'}</span>
+            <span>{row.lastLap?.display || '—'}</span>
+            <span className={styles.tyre}>{row.tyre?.compound || '—'}</span>
+          </div>
+        ))
+      ) : (
+        <p className={styles.empty}>Waiting for timing data</p>
+      )}
+    </section>
+  );
 }

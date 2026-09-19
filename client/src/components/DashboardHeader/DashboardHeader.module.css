@@ -1,7 +1,66 @@
-.header { display: flex; align-items: center; justify-content: space-between; gap: 2rem; padding-bottom: 1.25rem; border-bottom: 1px solid #263142; }
-.eyebrow { margin: 0 0 .5rem; color: #7dd3fc; font-size: .7rem; font-weight: 800; letter-spacing: .2em; }
-h1 { margin: 0; color: #f8fafc; font-size: clamp(1.5rem, 3vw, 2.25rem); letter-spacing: -.04em; }
-.headerMeta { display: flex; align-items: center; gap: 1.25rem; color: #8d9aae; font-size: .75rem; font-variant-numeric: tabular-nums; }
-.connection { display: inline-flex; align-items: center; gap: .4rem; color: #fbbf24; text-transform: uppercase; } .connection i { width: .45rem; height: .45rem; border-radius: 50%; background: currentColor; } .connected { color: #4ade80; }
-.statusBar { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; min-height: 3rem; border-bottom: 1px solid #1b2533; color: #8290a5; font-size: .75rem; text-transform: uppercase; } .trackStatus { color: #facc15; }
-@media (max-width: 800px) { .header { align-items: flex-start; flex-direction: column; gap: 1rem; } }
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid #263142;
+}
+.eyebrow {
+  margin: 0 0 0.5rem;
+  color: #7dd3fc;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+}
+h1 {
+  margin: 0;
+  color: #f8fafc;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  letter-spacing: -0.04em;
+}
+.headerMeta {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  color: #8d9aae;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+.connection {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #fbbf24;
+  text-transform: uppercase;
+}
+.connection i {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: currentColor;
+}
+.connected {
+  color: #4ade80;
+}
+.statusBar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  min-height: 3rem;
+  border-bottom: 1px solid #1b2533;
+  color: #8290a5;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+.trackStatus {
+  color: #facc15;
+}
+@media (max-width: 800px) {
+  .header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1rem;
+  }
+}

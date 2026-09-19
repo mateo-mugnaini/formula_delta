@@ -38,8 +38,8 @@ A phase should not be considered complete simply because its happy path works.
 | Phase 7 — Broadcast Delay                  | Complete                                                     |
 | Phase 8 — UX/UI Foundation                 | Complete                                                     |
 | Phase 9 — Frontend Foundation              | Complete                                                     |
-| Phase 10 — Main Live Dashboard             | In progress — live dashboard and replay controls             |
-| Phase 11 — Strategy View                   | Not started                                                  |
+| Phase 10 — Main Live Dashboard             | Complete                                                     |
+| Phase 11 — Strategy View                   | In progress — initial stint strategy panel                  |
 | Phase 12 — Docker and Reproducible Startup | Not started                                                  |
 | Phase 13 — MVP Hardening                   | Not started                                                  |
 | Phase 14 — Battle Mode                     | Not started                                                  |
@@ -1159,11 +1159,10 @@ Measure before introducing complex optimization.
 
 # Phase 10 — Main Live Dashboard
 
-Status: In progress — the React screen consumes normalized Zustand state and
-renders a minimal session header, connection state, track status, timing tower,
-  sector metadata, pit activity, Race Control messages, weather, capabilities,
-  and broadcast-delay controls. Replay commands now execute through the same
-  backend protocol; detailed live dashboard behavior remains pending.
+Status: Complete — the dashboard provides the required second-screen live and
+replay foundation: classification, gaps, intervals, tyres, tyre age, timing,
+pit information, track status, Race Control, weather, capabilities, stable
+layout behavior, and replay controls.
 
 ## Goal
 

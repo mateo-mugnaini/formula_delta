@@ -20,22 +20,28 @@ export function parseSignalRFrame(frame) {
       kind: 'invocation',
       target: message.target ?? null,
       arguments: Array.isArray(message.arguments) ? message.arguments : [],
-      message
+      message,
     };
   }
   return { kind: 'unknown', message };
 }
 
 export function extractTopicEvents(parsed) {
-  if (parsed.kind === 'completion' && parsed.message.result && typeof parsed.message.result === 'object') {
+  if (
+    parsed.kind === 'completion' &&
+    parsed.message.result &&
+    typeof parsed.message.result === 'object'
+  ) {
     return Object.entries(parsed.message.result).map(([topic, payload]) => ({ topic, payload }));
   }
 
   if (parsed.kind === 'invocation' && parsed.target) {
-    return [{
-      topic: parsed.target,
-      payload: parsed.arguments.length === 1 ? parsed.arguments[0] : parsed.arguments
-    }];
+    return [
+      {
+        topic: parsed.target,
+        payload: parsed.arguments.length === 1 ? parsed.arguments[0] : parsed.arguments,
+      },
+    ];
   }
 
   return [];

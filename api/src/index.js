@@ -15,7 +15,10 @@ processReplayEvent = (event) => app.pipeline.process(event);
 try {
   await app.start();
   console.log(`Formula Delta backend listening on http://${host}:${port}`);
-  if (source) { source.play(); console.log(`Replay source loaded: ${process.env.FORMULA_DELTA_REPLAY_DIR}`); }
+  if (source) {
+    source.play();
+    console.log(`Replay source loaded: ${process.env.FORMULA_DELTA_REPLAY_DIR}`);
+  }
 } catch (error) {
   console.error(`Unable to start Formula Delta backend: ${error.message}`);
   process.exitCode = 1;

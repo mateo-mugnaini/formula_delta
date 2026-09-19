@@ -4,7 +4,7 @@ import {
   extractTopicEvents,
   frameSignalRMessage,
   parseSignalRFrame,
-  splitSignalRFrames
+  splitSignalRFrames,
 } from './signalr-framing.js';
 
 test('frames and splits SignalR JSON messages', () => {
@@ -14,14 +14,16 @@ test('frames and splits SignalR JSON messages', () => {
 });
 
 test('extracts multi-topic completion snapshots', () => {
-  const parsed = parseSignalRFrame(JSON.stringify({
-    type: 3,
-    invocationId: '1',
-    result: { SessionInfo: { Key: 1 }, TimingData: { Lines: {} } }
-  }));
+  const parsed = parseSignalRFrame(
+    JSON.stringify({
+      type: 3,
+      invocationId: '1',
+      result: { SessionInfo: { Key: 1 }, TimingData: { Lines: {} } },
+    }),
+  );
   assert.deepEqual(extractTopicEvents(parsed), [
     { topic: 'SessionInfo', payload: { Key: 1 } },
-    { topic: 'TimingData', payload: { Lines: {} } }
+    { topic: 'TimingData', payload: { Lines: {} } },
   ]);
 });
 

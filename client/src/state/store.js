@@ -6,7 +6,7 @@ export const useFormulaDeltaStore = create((set) => ({
   connectionStatus: 'idle',
   applyMessage: (message) => set((state) => applyServerMessage(state, message)),
   setConnectionStatus: (connectionStatus) => set({ connectionStatus }),
-  reset: () => set({ ...createInitialClientState(), connectionStatus: 'idle' })
+  reset: () => set({ ...createInitialClientState(), connectionStatus: 'idle' }),
 }));
 
 export function selectDriverTiming(state, driverId) {

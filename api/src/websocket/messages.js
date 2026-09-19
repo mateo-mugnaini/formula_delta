@@ -5,7 +5,7 @@ export const messageTypes = Object.freeze({
   stateUpdate: 'STATE_UPDATE',
   replayState: 'REPLAY_STATE',
   connectionStatus: 'CONNECTION_STATUS',
-  error: 'ERROR'
+  error: 'ERROR',
 });
 
 export function createStateSnapshot(state, source = { mode: 'unknown' }) {
@@ -13,8 +13,13 @@ export function createStateSnapshot(state, source = { mode: 'unknown' }) {
 }
 
 export function createStateUpdate(state, change = {}) {
-  const key = change.kind === 'sessionStatus' || change.kind === 'lapCount' ? 'session' : change.kind;
-  return { type: messageTypes.stateUpdate, protocolVersion, payload: { change, value: state?.[key] ?? null } };
+  const key =
+    change.kind === 'sessionStatus' || change.kind === 'lapCount' ? 'session' : change.kind;
+  return {
+    type: messageTypes.stateUpdate,
+    protocolVersion,
+    payload: { change, value: state?.[key] ?? null },
+  };
 }
 
 export function createReplayState(state) {

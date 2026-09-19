@@ -1,6 +1,11 @@
 import { parseClientCommand } from './commands.js';
 
-export function attachWebSocketTransport({ httpServer, publisher, webSocketServerFactory, onCommand = () => {} }) {
+export function attachWebSocketTransport({
+  httpServer,
+  publisher,
+  webSocketServerFactory,
+  onCommand = () => {},
+}) {
   const webSocketServer = webSocketServerFactory({ server: httpServer });
   webSocketServer.on('connection', (client) => {
     const disconnect = publisher.connect(client);
@@ -24,5 +29,9 @@ function sendError(client, error) {
 
 export async function createWebSocketTransport({ httpServer, publisher }) {
   const { WebSocketServer } = await import('ws');
-  return attachWebSocketTransport({ httpServer, publisher, webSocketServerFactory: (options) => new WebSocketServer(options) });
+  return attachWebSocketTransport({
+    httpServer,
+    publisher,
+    webSocketServerFactory: (options) => new WebSocketServer(options),
+  });
 }

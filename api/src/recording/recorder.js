@@ -23,7 +23,7 @@ export async function createRecorder({ rootDir, recordingId, metadata = {} }) {
         elapsedMs: receivedAt - startedAt,
         receivedAt,
         topic: event.topic,
-        payload: event.payload
+        payload: event.payload,
       };
       await appendFile(eventsPath, JSON.stringify(record) + '\n');
       return record;
@@ -32,18 +32,25 @@ export async function createRecorder({ rootDir, recordingId, metadata = {} }) {
       if (stopped) return;
       stopped = true;
       await writeMetadata({ status: 'complete' });
-    }
+    },
   };
 
   async function writeMetadata(status) {
-    await writeFile(metadataPath, JSON.stringify({
-      formatVersion: 1,
-      recordingId,
-      ...metadata,
-      ...status,
-      startedAt: new Date(startedAt).toISOString(),
-      eventCount: sequence,
-      durationMs: Date.now() - startedAt
-    }, null, 2) + '\n');
+    await writeFile(
+      metadataPath,
+      JSON.stringify(
+        {
+          formatVersion: 1,
+          recordingId,
+          ...metadata,
+          ...status,
+          startedAt: new Date(startedAt).toISOString(),
+          eventCount: sequence,
+          durationMs: Date.now() - startedAt,
+        },
+        null,
+        2,
+      ) + '\n',
+    );
   }
 }

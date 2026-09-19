@@ -23,7 +23,7 @@ const coreTopics = [
   'ExtrapolatedClock',
   'Heartbeat',
   'CarData.z',
-  'Position.z'
+  'Position.z',
 ];
 
 const config = readConfig();
@@ -41,7 +41,7 @@ const summary = {
   topics: {},
   unknownMessages: 0,
   reconnects: 0,
-  errors: []
+  errors: [],
 };
 
 let sequence = 0;
@@ -80,7 +80,7 @@ function readConfig() {
     outputDir: process.env.F1_PROBE_OUTPUT_DIR || './output',
     hubMethod: process.env.F1_PROBE_HUB_METHOD || 'Subscribe',
     topics,
-    subscriptionArgs
+    subscriptionArgs,
   };
 }
 
@@ -107,7 +107,7 @@ async function negotiate(baseUrl) {
   const response = await fetch(`${baseUrl.replace(/\/$/, '')}/negotiate?negotiateVersion=1`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
-    body: '{}'
+    body: '{}',
   });
 
   const text = await response.text();
@@ -183,7 +183,7 @@ async function reconnect() {
 
   reconnecting = true;
   summary.reconnects += 1;
-  const delayMs = Math.min(30_000, 1_000 * (2 ** (summary.reconnects - 1)));
+  const delayMs = Math.min(30_000, 1_000 * 2 ** (summary.reconnects - 1));
   summary.connection = 'reconnecting';
   log(`Reconnect attempt ${summary.reconnects}/${config.maxReconnects} in ${delayMs}ms.`);
 
@@ -211,7 +211,7 @@ function sendSubscription() {
     type: 1,
     invocationId: String(++sequence),
     target: config.hubMethod,
-    arguments: config.subscriptionArgs
+    arguments: config.subscriptionArgs,
   };
   log(`Sending subscription target=${config.hubMethod}`);
   socket.send(JSON.stringify(message) + RECORD_SEPARATOR);
@@ -245,7 +245,9 @@ async function handleMessage(rawMessage) {
     }
 
     if (message.type === 7) {
-      summary.errors.push(toError(new Error(`SignalR close message: ${message.error || 'unknown error'}`)));
+      summary.errors.push(
+        toError(new Error(`SignalR close message: ${message.error || 'unknown error'}`)),
+      );
       logError(new Error(`SignalR close message: ${message.error || 'unknown error'}`));
       continue;
     }
@@ -271,14 +273,17 @@ async function handleMessage(rawMessage) {
 async function recordEvent(topic, payload, receivedAt, extraction) {
   summary.events += 1;
   summary.topics[topic] = (summary.topics[topic] || 0) + 1;
-  await appendFile(eventsPath, JSON.stringify({
+  await appendFile(
+    eventsPath,
+    JSON.stringify({
       type: 'event',
       sequence: summary.events,
       receivedAt,
       topic,
       payload,
-      extraction
-    }) + '\n');
+      extraction,
+    }) + '\n',
+  );
 }
 
 function extractTopic(message) {
@@ -312,7 +317,9 @@ async function finish() {
   if (!stopped) stop('completed');
   summary.durationMs = Date.now() - startedAt;
   await writeFile(metadataPath, JSON.stringify({ config, summary }, null, 2) + '\n');
-  log(`Finished. Messages=${summary.messages}, events=${summary.events}, topics=${Object.keys(summary.topics).length}`);
+  log(
+    `Finished. Messages=${summary.messages}, events=${summary.events}, topics=${Object.keys(summary.topics).length}`,
+  );
 }
 
 function parseJsonEnv(name, fallback) {
@@ -329,7 +336,8 @@ function numberEnv(name, fallback) {
   const value = process.env[name];
   if (!value) return fallback;
   const parsed = Number(value);
-  if (!Number.isFinite(parsed) || parsed < 0) throw new Error(`${name} must be a non-negative number.`);
+  if (!Number.isFinite(parsed) || parsed < 0)
+    throw new Error(`${name} must be a non-negative number.`);
   return parsed;
 }
 

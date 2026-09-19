@@ -5,7 +5,7 @@ export const capabilityNames = [
   'raceControl',
   'teamRadio',
   'carTelemetry',
-  'livePosition'
+  'livePosition',
 ];
 
 export function createCapabilities(overrides = {}) {

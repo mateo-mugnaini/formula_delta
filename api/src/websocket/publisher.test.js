@@ -3,11 +3,23 @@ import assert from 'node:assert/strict';
 import { createPublisher } from './publisher.js';
 
 function fakeClient() {
-  return { readyState: 1, messages: [], send(message) { this.messages.push(JSON.parse(message)); }, close() { this.closed = true; } };
+  return {
+    readyState: 1,
+    messages: [],
+    send(message) {
+      this.messages.push(JSON.parse(message));
+    },
+    close() {
+      this.closed = true;
+    },
+  };
 }
 
 test('sends an authoritative snapshot when a client connects', () => {
-  const publisher = createPublisher({ getState: () => ({ timing: {} }), source: { mode: 'replay' } });
+  const publisher = createPublisher({
+    getState: () => ({ timing: {} }),
+    source: { mode: 'replay' },
+  });
   const client = fakeClient();
   publisher.connect(client);
   assert.equal(publisher.clientCount(), 1);

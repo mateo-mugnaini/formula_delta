@@ -19,7 +19,9 @@ test('parses timing, stints, weather, and Race Control topics', async () => {
   const timing = await fixture('api/fixtures/timing-data/observed-spanish-gp-timing.json');
   const stints = await fixture('api/fixtures/timing-app-data/observed-spanish-gp-tyres.json');
   const weather = await fixture('api/fixtures/weather/observed-spanish-gp-weather.json');
-  const raceControl = await fixture('api/fixtures/race-control/observed-spanish-gp-race-control.json');
+  const raceControl = await fixture(
+    'api/fixtures/race-control/observed-spanish-gp-race-control.json',
+  );
 
   assert.equal(parseTopic('TimingData', timing.TimingData).value['3'].position, 2);
   assert.equal(parseTopic('TimingAppData', stints.TimingAppData).value['12'].length, 2);

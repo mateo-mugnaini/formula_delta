@@ -1,7 +1,19 @@
 export const protocolVersion = 1;
 
 export function createInitialClientState() {
-  return { source: { mode: 'unknown' }, session: {}, drivers: {}, timing: {}, stints: {}, track: {}, raceControl: [], weather: {}, capabilities: {}, connection: {}, replay: { status: 'idle', speed: 1, index: 0, total: 0 } };
+  return {
+    source: { mode: 'unknown' },
+    session: {},
+    drivers: {},
+    timing: {},
+    stints: {},
+    track: {},
+    raceControl: [],
+    weather: {},
+    capabilities: {},
+    connection: {},
+    replay: { status: 'idle', speed: 1, index: 0, total: 0 },
+  };
 }
 
 export function applyServerMessage(state, message) {

@@ -5,7 +5,7 @@ import {
   normalizeStintLines,
   normalizeTimingLines,
   normalizeTrackState,
-  normalizeWeather
+  normalizeWeather,
 } from '../../../packages/shared/src/index.js';
 
 export function parseTopic(topic, payload) {
@@ -36,14 +36,14 @@ export function parseTopic(topic, payload) {
 function normalizeSessionStatus(raw = {}) {
   return {
     status: raw.Status ?? null,
-    started: raw.Started ?? null
+    started: raw.Started ?? null,
   };
 }
 
 function normalizeLapCount(raw = {}) {
   return {
     currentLap: toInteger(raw.CurrentLap),
-    totalLaps: toInteger(raw.TotalLaps)
+    totalLaps: toInteger(raw.TotalLaps),
   };
 }
 

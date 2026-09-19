@@ -12,6 +12,10 @@ test('creates a source-independent state snapshot', () => {
 
 test('creates machine-readable errors without stack traces', () => {
   const message = createError('INVALID_MESSAGE', 'Invalid message.');
-  assert.deepEqual(message, { type: 'ERROR', protocolVersion: 1, payload: { code: 'INVALID_MESSAGE', message: 'Invalid message.' } });
+  assert.deepEqual(message, {
+    type: 'ERROR',
+    protocolVersion: 1,
+    payload: { code: 'INVALID_MESSAGE', message: 'Invalid message.' },
+  });
   assert.equal(serializeMessage(message).includes('stack'), false);
 });

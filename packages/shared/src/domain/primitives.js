@@ -34,7 +34,7 @@ export function parseLapTime(value) {
 
   return {
     milliseconds: Math.round((minutes * 60 + seconds) * 1000),
-    display
+    display,
   };
 }
 
