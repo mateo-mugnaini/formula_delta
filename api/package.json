@@ -2,5 +2,12 @@
   "name": "@formula-delta/backend",
   "private": true,
   "type": "module",
-  "scripts": { "start": "node src/index.js", "test": "node --test src" }
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node --test src"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
 }

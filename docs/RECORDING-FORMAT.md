@@ -1,4 +1,4 @@
-# Formula Delta â€” Recording Format
+# Formula Delta — Recording Format
 
 ## 1. Purpose
 
@@ -27,22 +27,22 @@ Formula Delta records upstream events as close as practical to the raw protocol 
 
 ```text id="0xyvfc"
 Formula 1
-    â”‚
-    â–¼
+    │
+    ▼
 LiveSource
-    â”‚
-    â–¼
+    │
+    ▼
 RawEvent
-    â”‚
-    â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–º Recorder
-    â”‚
-    â–¼
+    │
+    ├────────────► Recorder
+    │
+    ▼
 Parser
-    â”‚
-    â–¼
+    │
+    ▼
 Normalizer
-    â”‚
-    â–¼
+    │
+    ▼
 State Manager
 ```
 
@@ -102,7 +102,7 @@ If only normalized state was recorded:
 Raw F1 Data
     X
 Wrong Normalization
-    â†“
+    ↓
 Recording
 ```
 
@@ -112,14 +112,14 @@ With raw recording:
 
 ```text id="exs82r"
 Recording
-    â”‚
-    â–¼
+    │
+    ▼
 Fixed Parser
-    â”‚
-    â–¼
+    │
+    ▼
 Fixed Normalization
-    â”‚
-    â–¼
+    │
+    ▼
 Correct State
 ```
 
@@ -181,9 +181,9 @@ Conceptually:
 
 ```text id="vrrt9i"
 api/recordings/
-â”œâ”€â”€ 2026-italian-gp-race/
-â”œâ”€â”€ 2026-singapore-gp-qualifying/
-â””â”€â”€ ...
+├── 2026-italian-gp-race/
+├── 2026-singapore-gp-qualifying/
+└── ...
 ```
 
 Exact naming is an implementation detail.
@@ -198,9 +198,9 @@ Example:
 
 ```text id="2vk74u"
 api/recordings/
-â””â”€â”€ 2026-italian-gp-race/
-    â”œâ”€â”€ metadata.json
-    â””â”€â”€ events.jsonl
+└── 2026-italian-gp-race/
+    ├── metadata.json
+    └── events.jsonl
 ```
 
 Future optional files could include:
@@ -376,10 +376,10 @@ for each recording.
 Example:
 
 ```text id="aw8ar7"
-event 1 â†’ 0
-event 2 â†’ 127
-event 3 â†’ 241
-event 4 â†’ 1082
+event 1 → 0
+event 2 → 127
+event 3 → 241
+event 4 → 1082
 ```
 
 Replay primarily uses this value for scheduling.
@@ -444,10 +444,10 @@ Conceptually:
 
 ```text id="ny3gd4"
 monotonic clock
-â†’ elapsedMs
+→ elapsedMs
 
 wall clock
-â†’ receivedAt
+→ receivedAt
 ```
 
 ---
@@ -640,11 +640,11 @@ Replay then exercises:
 
 ```text id="cdywqx"
 recorded compressed payload
-        â”‚
-        â–¼
+        │
+        ▼
 decompression
-        â”‚
-        â–¼
+        │
+        ▼
 parser
 ```
 
@@ -696,11 +696,11 @@ Conceptually:
 
 ```text id="vzrgvm"
 Recording starts on Lap 37
-        â”‚
-        â–¼
+        │
+        ▼
 Initial upstream snapshot recorded
-        â”‚
-        â–¼
+        │
+        ▼
 Replay can reconstruct Lap 37 state
 ```
 
@@ -746,14 +746,14 @@ JSONL naturally improves crash resilience.
 Suppose:
 
 ```text id="i9ldpl"
-Line 1 âœ“
-Line 2 âœ“
-Line 3 âœ“
+Line 1 ✓
+Line 2 ✓
+Line 3 ✓
 Line 4 partial
 CRASH
 ```
 
-Lines 1â€“3 remain usable.
+Lines 1–3 remain usable.
 
 Replay should detect and report the malformed final line rather than rejecting the entire recording automatically.
 
@@ -818,13 +818,13 @@ Conceptually:
 
 ```text id="6ivajg"
 event
-  â”‚
-  â–¼
+  │
+  ▼
 write()
-  â”‚
-  â”œâ”€â”€ accepted â†’ continue
-  â”‚
-  â””â”€â”€ backpressure â†’ wait for drain
+  │
+  ├── accepted → continue
+  │
+  └── backpressure → wait for drain
 ```
 
 Recording reliability is more important than blindly writing without control.
@@ -847,10 +847,10 @@ Architecture:
 
 ```text id="2i6y0e"
 Recorder failed
-      â”‚
-      â”œâ”€â”€ report recording failure
-      â”‚
-      â””â”€â”€ live timing continues
+      │
+      ├── report recording failure
+      │
+      └── live timing continues
 ```
 
 Recording is core functionality, but it should not unnecessarily destroy the live session display.
@@ -906,9 +906,9 @@ They can explain gaps such as:
 ```text id="00i5bg"
 TimingData
 TimingData
-      â”‚
-      â”‚ 18 seconds missing
-      â”‚
+      │
+      │ 18 seconds missing
+      │
 TimingData
 ```
 
@@ -998,11 +998,11 @@ Potential strategy:
 
 ```text id="gj6o61"
 write metadata.tmp
-      â”‚
-      â–¼
+      │
+      ▼
 rename atomically
-      â”‚
-      â–¼
+      │
+      ▼
 metadata.json
 ```
 
@@ -1078,20 +1078,20 @@ Conceptually:
 
 ```text id="knpwnr"
 events.jsonl
-      â”‚
-      â–¼
+      │
+      ▼
 ReplaySource
-      â”‚
-      â–¼
+      │
+      ▼
 RawEvent
-      â”‚
-      â–¼
+      │
+      ▼
 Parser
-      â”‚
-      â–¼
+      │
+      ▼
 Normalizer
-      â”‚
-      â–¼
+      │
+      ▼
 State Manager
 ```
 
@@ -1103,8 +1103,8 @@ Forbidden:
 
 ```text id="i5yxt8"
 Recording
-    â”‚
-    â–¼
+    │
+    ▼
 Frontend
 ```
 
@@ -1112,8 +1112,8 @@ Forbidden:
 
 ```text id="0hlr42"
 Recording
-    â”‚
-    â–¼
+    │
+    ▼
 Precomputed Zustand State
 ```
 
@@ -1121,14 +1121,14 @@ Required:
 
 ```text id="f2q9y4"
 Recording
-    â”‚
-    â–¼
+    │
+    ▼
 same parser
-    â”‚
-    â–¼
+    │
+    ▼
 same normalization
-    â”‚
-    â–¼
+    │
+    ▼
 same state reconstruction
 ```
 
@@ -1285,7 +1285,7 @@ Conceptually:
 
 ```text id="p86ovr"
 Raw Events
-0m â”€â”€â”€â”€â”€â”€â”€â”€â”€ 10m â”€â”€â”€â”€â”€â”€â”€â”€â”€ 20m â”€â”€â”€â”€â”€â”€â”€â”€â”€ 30m
+0m ───────── 10m ───────── 20m ───────── 30m
 
      Snapshot     Snapshot     Snapshot
 ```
@@ -1294,8 +1294,8 @@ Seeking could then:
 
 ```text id="qu8n2r"
 load nearest checkpoint
-        â”‚
-        â–¼
+        │
+        ▼
 replay deltas until target
 ```
 
@@ -1330,10 +1330,10 @@ Correct:
 
 ```text id="6mdvt3"
 RawEvent
-   â”‚
-   â”œâ”€â”€â”€â”€â–º Recorder
-   â”‚
-   â–¼
+   │
+   ├────► Recorder
+   │
+   ▼
 Presentation Delay
 ```
 
@@ -1341,11 +1341,11 @@ Incorrect:
 
 ```text id="luep89"
 RawEvent
-   â”‚
-   â–¼
+   │
+   ▼
 12s delay
-   â”‚
-   â–¼
+   │
+   ▼
 Recorder
 ```
 
@@ -1366,11 +1366,11 @@ Preferred initial behavior:
 
 ```text id="56gmm8"
 LIVE
-â†’ TV delay available
+→ TV delay available
 
 REPLAY
-â†’ replay timing controls available
-â†’ TV delay disabled
+→ replay timing controls available
+→ TV delay disabled
 ```
 
 This keeps timing semantics understandable.
@@ -1595,17 +1595,17 @@ Preferred workflow:
 
 ```text id="7pgogz"
 Live Session
-    â”‚
-    â–¼
+    │
+    ▼
 Recording
-    â”‚
-    â–¼
+    │
+    ▼
 Identify Interesting Event
-    â”‚
-    â–¼
+    │
+    ▼
 Extract Fixture
-    â”‚
-    â–¼
+    │
+    ▼
 Regression Test
 ```
 
@@ -1613,8 +1613,8 @@ Example:
 
 ```text id="4udocb"
 Safety Car timing delta
-â†’ fixture
-â†’ state reconstruction test
+→ fixture
+→ state reconstruction test
 ```
 
 ---
@@ -1759,19 +1759,19 @@ Conceptually:
 
 ```text id="7y31r6"
 IDLE
- â”‚
- â–¼
+ │
+ ▼
 STARTING
- â”‚
- â–¼
+ │
+ ▼
 RECORDING
- â”‚
- â”œâ”€â”€â”€â”€â–º FAILED
- â”‚
- â–¼
+ │
+ ├────► FAILED
+ │
+ ▼
 STOPPING
- â”‚
- â–¼
+ │
+ ▼
 COMPLETED
 ```
 
@@ -1797,8 +1797,8 @@ Potential initial behavior:
 
 ```text id="vgcyp5"
 Live session connection established
-        â”‚
-        â–¼
+        │
+        ▼
 Recording automatically starts
 ```
 
@@ -1826,11 +1826,11 @@ Therefore:
 Browser A
 Browser B
 Browser C
-     â”‚
-     â–¼
+     │
+     ▼
 one backend
-     â”‚
-     â–¼
+     │
+     ▼
 one live recording
 ```
 
@@ -1945,29 +1945,29 @@ The actual payload must remain valid JSON rather than placeholder strings.
 ```text id="q4pcdr"
 metadata.json
 events.jsonl
-      â”‚
-      â–¼
+      │
+      ▼
 Validate Recording
-      â”‚
-      â–¼
+      │
+      ▼
 ReplaySource
-      â”‚
-      â–¼
+      │
+      ▼
 event #1
-      â”‚
-      â–¼
-Parser â†’ Normalizer â†’ State
-      â”‚
-      â–¼
+      │
+      ▼
+Parser → Normalizer → State
+      │
+      ▼
 wait according to elapsedMs
-      â”‚
-      â–¼
+      │
+      ▼
 event #2
-      â”‚
-      â–¼
-Parser â†’ Normalizer â†’ State
-      â”‚
-      â–¼
+      │
+      ▼
+Parser → Normalizer → State
+      │
+      ▼
 ...
 ```
 
@@ -2018,20 +2018,20 @@ A critical test should eventually perform:
 
 ```text id="2h9ilb"
 fixture recording
-      â”‚
-      â–¼
+      │
+      ▼
 ReplaySource
-      â”‚
-      â–¼
+      │
+      ▼
 real parser
-      â”‚
-      â–¼
+      │
+      ▼
 real normalizer
-      â”‚
-      â–¼
+      │
+      ▼
 real State Manager
-      â”‚
-      â–¼
+      │
+      ▼
 expected final state
 ```
 
@@ -2068,10 +2068,10 @@ Potential structure:
 
 ```text id="h2qgm5"
 api/recordings/
-â†’ ignored by Git
+→ ignored by Git
 
 api/fixtures/
-â†’ committed when small and useful
+→ committed when small and useful
 ```
 
 The exact `.gitignore` policy should reflect this.

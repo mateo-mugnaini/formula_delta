@@ -97,6 +97,11 @@ It is an internal application contract.
 
 # 4. Transport
 
+The backend transport adapter uses the zero-cost `ws` Node.js package to bind
+the internal Formula Delta publisher to the local HTTP server. The adapter is
+responsible only for connection lifecycle and client registration; message
+construction and state authority remain in the publisher and domain pipeline.
+
 Formula Delta uses standard WebSocket communication between backend and frontend.
 
 Conceptually:
