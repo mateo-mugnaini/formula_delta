@@ -33,9 +33,17 @@
   padding: 0.5rem 1rem;
   border-bottom: 1px solid #1e2938;
 }
-.row > strong {
+.driver {
+  display: grid;
+  gap: 0.2rem;
+}
+.driver strong {
   color: #f8fafc;
   font-size: 0.8rem;
+}
+.driver small {
+  color: #718096;
+  font-size: 0.65rem;
 }
 .stints {
   display: flex;
@@ -54,6 +62,13 @@
 }
 .stint small {
   color: #718096;
+}
+.stint em {
+  color: #718096;
+  font-style: normal;
+}
+.stint.current {
+  border-left-color: #4ade80;
 }
 .empty {
   padding: 1.25rem 1rem;

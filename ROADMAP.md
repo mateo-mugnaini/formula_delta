@@ -39,8 +39,8 @@ A phase should not be considered complete simply because its happy path works.
 | Phase 8 — UX/UI Foundation                 | Complete                                                     |
 | Phase 9 — Frontend Foundation              | Complete                                                     |
 | Phase 10 — Main Live Dashboard             | Complete                                                     |
-| Phase 11 — Strategy View                   | In progress — initial stint strategy panel                  |
-| Phase 12 — Docker and Reproducible Startup | Not started                                                  |
+| Phase 11 — Strategy View                   | Complete                                                     |
+| Phase 12 — Docker and Reproducible Startup | In progress — container definitions started                 |
 | Phase 13 — MVP Hardening                   | Not started                                                  |
 | Phase 14 — Battle Mode                     | Not started                                                  |
 | Phase 15 — Race Analytics                  | Not started                                                  |
@@ -834,11 +834,11 @@ At this point Formula Delta development should no longer depend on race weekends
 Status: Complete — a local Node application exposes `/health` and
 `/snapshot` over HTTP, owns the ingestion pipeline lifecycle, attaches the
 WebSocket transport, sends authoritative snapshots on connect, and broadcasts
-  normalized incremental state updates after processed events. Client command
-  validation and formal client-side recovery behavior are implemented.
+normalized incremental state updates after processed events. Client command
+validation and formal client-side recovery behavior are implemented.
 The transport now validates the `COMMAND` envelope, rejects malformed JSON
 and unknown commands with machine-readable `ERROR` messages, and forwards
-  supported commands to the application layer. Replay and delay command
+supported commands to the application layer. Replay and delay command
 execution remain pending until their respective phases.
 
 ## Goal
@@ -1252,6 +1252,10 @@ This is the first major product milestone.
 
 # Phase 11 — Strategy View
 
+Status: Complete — strategy rows reconstruct normalized stints, show compound
+timelines proportional to stint length, identify the current stint, and expose
+pit-stop counts without requiring manual reconstruction from timing data.
+
 ## Goal
 
 Expose stint and tyre strategy clearly.
@@ -1296,6 +1300,10 @@ The user can understand each driver's tyre strategy without manually reconstruct
 ---
 
 # Phase 12 — Docker and Reproducible Startup
+
+Status: In progress — API and client container definitions plus a local Docker
+Compose topology are implemented. Container validation and recording volume
+behavior remain pending.
 
 ## Goal
 

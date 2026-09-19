@@ -30,7 +30,7 @@ export function App() {
         <TimingTower timing={state.timing} drivers={state.drivers} />
         <DashboardPanels state={state} client={client} delayMs={delayMs} setDelayMs={setDelayMs} />
       </section>
-      <StrategyPanel stints={state.stints} drivers={state.drivers} />
+      <StrategyPanel stints={state.stints} drivers={state.drivers} timing={state.timing} />
     </main>
   );
 }

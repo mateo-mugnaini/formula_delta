@@ -1,0 +1,17 @@
+services:
+  api:
+    build:
+      context: ./api
+    environment:
+      FORMULA_DELTA_HOST: 0.0.0.0
+      FORMULA_DELTA_PORT: 3000
+    ports:
+      - "3000:3000"
+
+  client:
+    build:
+      context: ./client
+    depends_on:
+      - api
+    ports:
+      - "5173:80"
