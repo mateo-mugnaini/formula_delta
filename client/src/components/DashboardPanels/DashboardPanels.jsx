@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import styles from './DashboardPanels.module.css';
+import { useI18n } from '../../i18n/i18n.js';
 export function DashboardPanels({ state, client, delayMs, setDelayMs }) {
+  const { t } = useI18n();
   const [pendingCommand, setPendingCommand] = useState(null);
   const send = (command, payload = {}) => {
     if (!client || pendingCommand) return;
@@ -13,7 +15,7 @@ export function DashboardPanels({ state, client, delayMs, setDelayMs }) {
     .slice(0, 4);
   return (
     <aside className={styles.rail}>
-      <Panel title="Race control">
+      <Panel title={t.raceControl}>
         {state.raceControl?.length ? (
           <div className={styles.messages}>
             {state.raceControl
@@ -21,28 +23,28 @@ export function DashboardPanels({ state, client, delayMs, setDelayMs }) {
               .reverse()
               .map((event) => (
                 <p key={event.id}>
-                  <strong>{event.category || 'EVENT'}</strong>
+                  <strong>{event.category || t.event}</strong>
                   <span>{event.message}</span>
                 </p>
               ))}
           </div>
         ) : (
-          <Empty text="No recent messages" />
+          <Empty text={t.noRecentMessages} />
         )}
       </Panel>
-      <Panel title="Pit activity">
+      <Panel title={t.pitActivity}>
         {activePits.length ? (
           activePits.map(([id, row]) => (
             <p className={styles.pitRow} key={id}>
               <strong>{state.drivers?.[id]?.abbreviation || id}</strong>
-              <span>{row.inPit ? 'IN PIT' : 'PIT LANE'}</span>
+              <span>{row.inPit ? t.inPit : t.pitLane}</span>
             </p>
           ))
         ) : (
-          <Empty text="No active pit events" />
+          <Empty text={t.noActivePitEvents} />
         )}
       </Panel>
-      <Panel title="Weather">
+      <Panel title={t.weather}>
         <div className={styles.weather}>
           <Metric label="Air" value={state.weather?.airTemperature} suffix="°C" />
           <Metric label="Track" value={state.weather?.trackTemperature} suffix="°C" />
@@ -50,7 +52,7 @@ export function DashboardPanels({ state, client, delayMs, setDelayMs }) {
         </div>
       </Panel>
       {state.source?.mode === 'replay' && (
-        <Panel title="Replay">
+        <Panel title={t.replay}>
           <div className={styles.replay}>
             <span>
               {state.replay?.status || 'idle'} · {state.replay?.speed || 1}x
@@ -69,7 +71,7 @@ export function DashboardPanels({ state, client, delayMs, setDelayMs }) {
           </div>
         </Panel>
       )}
-      <Panel title="Capabilities">
+      <Panel title={t.capabilities}>
         <div className={styles.capabilities}>
           {[
             'timing',
@@ -90,9 +92,9 @@ export function DashboardPanels({ state, client, delayMs, setDelayMs }) {
           ))}
         </div>
       </Panel>
-      <Panel title="Broadcast delay">
+      <Panel title={t.broadcastDelay}>
         <div className={styles.delayControl}>
-          <label htmlFor="delay">Delay (seconds)</label>
+          <label htmlFor="delay">{t.delaySeconds}</label>
           <div>
             <input
               id="delay"
@@ -107,7 +109,7 @@ export function DashboardPanels({ state, client, delayMs, setDelayMs }) {
               disabled={pendingCommand !== null}
               onClick={() => send('SYNC_SET_DELAY', { delayMs })}
             >
-              {pendingCommand === 'SYNC_SET_DELAY' ? 'Applying…' : 'Apply'}
+              {pendingCommand === 'SYNC_SET_DELAY' ? t.applying : t.apply}
             </button>
           </div>
         </div>

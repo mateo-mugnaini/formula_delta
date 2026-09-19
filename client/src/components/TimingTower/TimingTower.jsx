@@ -1,21 +1,23 @@
 import styles from './TimingTower.module.css';
+import { useI18n } from '../../i18n/i18n.js';
 
 export function TimingTower({ timing, drivers }) {
+  const { t } = useI18n();
   const rows = Object.entries(timing || {}).sort(
     ([, a], [, b]) => (a.position ?? 999) - (b.position ?? 999),
   );
   return (
     <section className={styles.tower} aria-label="Timing tower">
       <div className={styles.sectionHeading}>
-        <h2>Timing</h2>
+        <h2>{t.timing}</h2>
         <span>{rows.length} drivers</span>
       </div>
       <div className={styles.columnHeader}>
-        <span>POS</span>
-        <span>DRIVER</span>
-        <span>GAP</span>
-        <span>LAST LAP</span>
-        <span>TYRE</span>
+        <span>{t.position}</span>
+        <span>{t.driver}</span>
+        <span>{t.gap}</span>
+        <span>{t.lastLap}</span>
+        <span>{t.tyre}</span>
       </div>
       {rows.length ? (
         rows.map(([id, row]) => (
@@ -40,7 +42,7 @@ export function TimingTower({ timing, drivers }) {
           </div>
         ))
       ) : (
-        <p className={styles.empty}>Waiting for timing data</p>
+        <p className={styles.empty}>{t.waitingTiming}</p>
       )}
     </section>
   );

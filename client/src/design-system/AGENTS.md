@@ -1,5 +1,10 @@
 # UX/UI Agent Instructions
 
+The active visual redesign brief is defined in `VISUAL-DESIGN-AGENT.md`.
+It takes precedence for the current presentation direction: premium dark
+broadcast sport, compact lightly rounded panels, red/yellow signal accents,
+technical monospace values, and explicit interaction feedback.
+
 This area owns the complete Formula Delta visual language: design tokens,
 typography, spacing, density, accessibility, semantic race states, stable live
 layouts, responsive behavior, and interaction consistency. These rules apply to

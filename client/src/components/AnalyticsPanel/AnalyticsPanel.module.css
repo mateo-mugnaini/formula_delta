@@ -1,7 +1,8 @@
 .panel {
   padding: 1rem;
-  border-top: 1px solid #252a30;
-  background: #101317;
+  border: 1px solid var(--fd-border);
+  border-radius: var(--fd-radius);
+  background: var(--fd-surface);
 }
 
 .heading,
@@ -23,7 +24,7 @@
 
 .heading p {
   margin-bottom: 0.2rem;
-  color: #f0c674;
+  color: var(--fd-yellow);
   font-size: 0.62rem;
   letter-spacing: 0.14em;
 }
@@ -34,7 +35,7 @@
 
 .heading span,
 .empty {
-  color: #89939d;
+  color: var(--fd-text-muted);
   font-size: 0.72rem;
 }
 
@@ -45,10 +46,10 @@
 
 .row {
   padding: 0.45rem 0;
-  border-bottom: 1px solid #1c2025;
+  border-bottom: 1px solid var(--fd-border-soft);
 }
 
 .row span {
-  color: #f0c674;
+  color: var(--fd-yellow);
   font-variant-numeric: tabular-nums;
 }

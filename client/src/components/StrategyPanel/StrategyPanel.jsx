@@ -1,7 +1,9 @@
 import styles from './StrategyPanel.module.css';
 import { buildStrategyRows } from '../../state/strategy.js';
+import { useI18n } from '../../i18n/i18n.js';
 
 export function StrategyPanel({ stints, drivers, timing }) {
+  const { t } = useI18n();
   const rows = buildStrategyRows(stints, drivers, timing);
   return (
     <section className={styles.panel} aria-label="Strategy view">
@@ -16,7 +18,7 @@ export function StrategyPanel({ stints, drivers, timing }) {
           ))}
         </div>
       ) : (
-        <p className={styles.empty}>Waiting for stint data</p>
+        <p className={styles.empty}>{t.waitingStints}</p>
       )}
     </section>
   );

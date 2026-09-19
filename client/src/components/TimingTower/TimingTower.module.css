@@ -1,18 +1,19 @@
 .tower {
   min-width: 0;
-  border: 1px solid #263142;
-  background: #111827;
+  border: 1px solid var(--fd-border);
+  border-radius: var(--fd-radius);
+  background: var(--fd-surface);
 }
 .sectionHeading {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0.85rem 1rem;
-  border-bottom: 1px solid #263142;
+  border-bottom: 1px solid var(--fd-border);
 }
 .sectionHeading h2 {
   margin: 0;
-  color: #f8fafc;
+  color: var(--fd-text);
   font-size: 0.85rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -31,21 +32,21 @@
 .columnHeader {
   padding-top: 0.55rem;
   padding-bottom: 0.55rem;
-  border-bottom: 1px solid #1e2938;
-  color: #64748b;
+  border-bottom: 1px solid var(--fd-border-soft);
+  color: var(--fd-text-dim);
   font-size: 0.62rem;
   letter-spacing: 0.08em;
 }
 .row {
   min-height: 3.1rem;
   align-items: center;
-  border-bottom: 1px solid #1e2938;
-  color: #aab5c7;
+  border-bottom: 1px solid var(--fd-border-soft);
+  color: var(--fd-text-muted);
   font-size: 0.82rem;
   font-variant-numeric: tabular-nums;
 }
 .row strong {
-  color: #f8fafc;
+  color: var(--fd-text);
 }
 .driverCell {
   display: grid;
@@ -64,7 +65,7 @@
   white-space: nowrap;
 }
 .tyre {
-  color: #c4b5fd;
+  color: var(--fd-yellow);
 }
 .empty {
   padding: 1.25rem 1rem;

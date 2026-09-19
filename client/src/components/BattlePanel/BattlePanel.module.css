@@ -1,8 +1,9 @@
 .panel {
   grid-column: 1 / -1;
   padding: 1rem;
-  border-top: 1px solid #252a30;
-  background: #101317;
+  border: 1px solid var(--fd-border);
+  border-radius: var(--fd-radius);
+  background: var(--fd-surface);
 }
 
 .heading,
@@ -30,7 +31,7 @@
 .empty,
 .metric span,
 .driverHeading span {
-  color: #89939d;
+  color: var(--fd-text-muted);
   font-size: 0.72rem;
 }
 
@@ -63,17 +64,18 @@
 .selector select {
   min-width: 7rem;
   padding: 0.35rem;
-  border: 1px solid #30363d;
-  background: #0b0d10;
-  color: #f1f3f5;
+  border: 1px solid var(--fd-border);
+  background: var(--fd-surface-raised);
+  color: var(--fd-text);
 }
 
 .driver {
   display: grid;
   gap: 0.5rem;
   padding: 0.75rem;
-  border: 1px solid #252a30;
-  background: #0b0d10;
+  border: 1px solid var(--fd-border-soft);
+  border-radius: var(--fd-radius);
+  background: var(--fd-bg);
 }
 
 .driverHeading strong {
@@ -83,7 +85,7 @@
 
 .metric {
   min-height: 1.6rem;
-  border-bottom: 1px solid #1c2025;
+  border-bottom: 1px solid var(--fd-border-soft);
 }
 
 .metric strong {
@@ -91,7 +93,7 @@
 }
 
 .derived {
-  color: #f0c674;
+  color: var(--fd-yellow);
   font-size: 0.75rem;
   text-transform: uppercase;
 }
@@ -110,13 +112,13 @@
   gap: 2px;
   height: 2.2rem;
   padding: 0.25rem;
-  border-bottom: 1px solid #30363d;
+  border-bottom: 1px solid var(--fd-border);
 }
 
 .historyTrack i {
   flex: 1;
   min-height: 2px;
-  background: #78e08f;
+  background: var(--fd-green);
 }
 
 .historyTrack em {

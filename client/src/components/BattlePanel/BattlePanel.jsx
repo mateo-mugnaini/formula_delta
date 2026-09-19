@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { buildBattleComparison } from '../../state/battle.js';
 import styles from './BattlePanel.module.css';
+import { useI18n } from '../../i18n/i18n.js';
 
 export function BattlePanel({ timing, drivers, gapHistory }) {
+  const { t } = useI18n();
   const availableIds = Object.keys(timing || {});
   const [selectedIds, setSelectedIds] = useState([]);
 
@@ -20,8 +22,8 @@ export function BattlePanel({ timing, drivers, gapHistory }) {
     <section className={styles.panel} aria-label="Battle mode">
       <div className={styles.heading}>
         <div>
-          <p className={styles.eyebrow}>BATTLE MODE</p>
-          <h2>Driver comparison</h2>
+          <p className={styles.eyebrow}>{t.battleMode}</p>
+          <h2>{t.driverComparison}</h2>
         </div>
         <span>{rows.length}/2 selected</span>
       </div>
@@ -46,7 +48,7 @@ export function BattlePanel({ timing, drivers, gapHistory }) {
           ))}
         </div>
       ) : (
-        <p className={styles.empty}>Waiting for two timing entries</p>
+        <p className={styles.empty}>{t.waitingTiming}</p>
       )}
     </section>
   );
@@ -97,7 +99,7 @@ function formatSectors(sectors = []) {
 function GapHistory({ values }) {
   return (
     <div className={styles.history}>
-      <span>Gap history</span>
+      <span>{useI18n().t.gapHistory}</span>
       <div className={styles.historyTrack} aria-label="Gap history">
         {values.length ? (
           values.map((value, index) => (

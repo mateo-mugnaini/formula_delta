@@ -1,7 +1,21 @@
 :root {
+  --fd-bg: #080a0d;
+  --fd-surface: #11151a;
+  --fd-surface-raised: #171c22;
+  --fd-border: #2a323c;
+  --fd-border-soft: #202831;
+  --fd-text: #f4f5f6;
+  --fd-text-muted: #89939d;
+  --fd-text-dim: #59636e;
+  --fd-red: #f04444;
+  --fd-yellow: #f0c674;
+  --fd-green: #78e08f;
+  --fd-blue: #79b8ff;
+  --fd-radius: 0.35rem;
+  --fd-transition: 140ms ease-out;
   font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-  color: #e5e7eb;
-  background: #090d16;
+  color: var(--fd-text);
+  background: var(--fd-bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
 }
@@ -11,4 +25,20 @@
 body {
   margin: 0;
   min-width: 320px;
+  background: var(--fd-bg);
+}
+button,
+input,
+select {
+  border-radius: var(--fd-radius);
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

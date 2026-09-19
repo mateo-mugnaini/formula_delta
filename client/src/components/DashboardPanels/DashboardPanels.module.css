@@ -5,26 +5,27 @@
 }
 .panel {
   padding: 1rem;
-  border: 1px solid #263142;
-  background: #111827;
+  border: 1px solid var(--fd-border);
+  border-radius: var(--fd-radius);
+  background: var(--fd-surface);
 }
 .sectionHeading {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding-bottom: 0.85rem;
-  border-bottom: 1px solid #263142;
+  border-bottom: 1px solid var(--fd-border);
 }
 .sectionHeading h2 {
   margin: 0;
-  color: #f8fafc;
+  color: var(--fd-text);
   font-size: 0.85rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 .empty {
   padding: 1.25rem 0;
-  color: #718096;
+  color: var(--fd-text-dim);
   font-size: 0.8rem;
 }
 .messages {
@@ -41,7 +42,7 @@
   line-height: 1.35;
 }
 .messages strong {
-  color: #facc15;
+  color: var(--fd-yellow);
   font-size: 0.65rem;
   letter-spacing: 0.08em;
 }
@@ -50,12 +51,12 @@
   justify-content: space-between;
   padding: 0.7rem 0;
   margin: 0;
-  border-bottom: 1px solid #1e2938;
-  color: #f8fafc;
+  border-bottom: 1px solid var(--fd-border-soft);
+  color: var(--fd-text);
   font-size: 0.75rem;
 }
 .pitRow span {
-  color: #fb923c;
+  color: var(--fd-red);
   font-size: 0.65rem;
 }
 .weather {
@@ -69,12 +70,12 @@
   gap: 0.35rem;
 }
 .weather span {
-  color: #718096;
+  color: var(--fd-text-dim);
   font-size: 0.7rem;
   text-transform: uppercase;
 }
 .weather strong {
-  color: #e5e7eb;
+  color: var(--fd-text);
   font-size: 1rem;
   font-variant-numeric: tabular-nums;
 }
@@ -88,7 +89,7 @@
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  color: #64748b;
+  color: var(--fd-text-dim);
   font-size: 0.68rem;
 }
 .capabilities i {
@@ -98,7 +99,7 @@
   background: currentColor;
 }
 .capabilities .available {
-  color: #4ade80;
+  color: var(--fd-green);
 }
 .delayControl,
 .replay {
@@ -119,10 +120,10 @@
 }
 input,
 button {
-  border: 1px solid #334155;
-  border-radius: 0.25rem;
-  background: #0b1220;
-  color: #e5e7eb;
+  border: 1px solid var(--fd-border);
+  border-radius: var(--fd-radius);
+  background: var(--fd-surface-raised);
+  color: var(--fd-text);
   padding: 0.45rem 0.55rem;
   font: inherit;
 }
@@ -132,7 +133,7 @@ input {
 }
 button {
   cursor: pointer;
-  color: #7dd3fc;
+  color: var(--fd-blue);
   transition:
     border-color 120ms ease,
     background 120ms ease,
@@ -140,11 +141,11 @@ button {
     transform 120ms ease;
 }
 button:hover:not(:disabled) {
-  border-color: #7dd3fc;
-  background: #122238;
+  border-color: var(--fd-blue);
+  background: #1b2a3b;
 }
 button:focus-visible {
-  outline: 2px solid #facc15;
+  outline: 2px solid var(--fd-yellow);
   outline-offset: 2px;
 }
 button:active:not(:disabled) {
