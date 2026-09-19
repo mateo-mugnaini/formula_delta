@@ -11,6 +11,7 @@ export function createLiveSource({ url, topics, hubMethod = 'Subscribe', fetchIm
   let stopped = false;
 
   return {
+    mode: 'live',
     async start() {
       stopped = false;
       onStatus({ status: 'negotiating' });

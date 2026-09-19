@@ -1,7 +1,7 @@
 import { createServer } from 'node:http';
 import { createIngestionPipeline } from './f1/event-pipeline.js';
 import { createPublisher } from './websocket/publisher.js';
-import { createStateUpdate } from './websocket/messages.js';
+import { createReplayState, createStateUpdate } from './websocket/messages.js';
 import { createWebSocketTransport } from './websocket/transport.js';
 import { createDelayBuffer } from './delay/delay-buffer.js';
 
@@ -17,7 +17,7 @@ export function createBackendApp({ source = null, host = '127.0.0.1', port = 300
       onStatus({ type: 'state-update', parsed, state });
     }
   });
-  publisher = createPublisher({ getState: pipeline.getState, source: { mode: source ? 'live' : 'unknown' } });
+  publisher = createPublisher({ getState: pipeline.getState, source: { mode: source?.mode || 'unknown' } });
 
   const server = createServer((request, response) => {
     if (request.method === 'GET' && request.url === '/health') {
@@ -60,6 +60,12 @@ export function createBackendApp({ source = null, host = '127.0.0.1', port = 300
       }
       if (command === 'SYNC_ADJUST_DELAY') {
         delayBuffer.setDelay(delayBuffer.getDelay() + payload?.deltaMs);
+        return;
+      }
+      if (source?.mode === 'replay') {
+        if (command === 'REPLAY_PLAY' || command === 'REPLAY_PAUSE' || command === 'REPLAY_RESTART') source[command.replace('REPLAY_', '').toLowerCase()]();
+        if (command === 'REPLAY_SET_SPEED') source.setSpeed(payload?.speed);
+        publisher.broadcast(createReplayState(source.getState()));
       }
     } catch (error) {
       onStatus({ type: 'command-error', command, error });

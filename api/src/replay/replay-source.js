@@ -14,6 +14,7 @@ export function createReplaySource({ events, onEvent = () => {}, onState = () =>
   let startedAt = 0;
 
   return {
+    mode: 'replay',
     getState: () => ({ status, speed, index, total: events.length }),
     play() {
       if (status === 'completed') index = 0;
