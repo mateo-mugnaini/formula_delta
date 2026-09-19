@@ -25,29 +25,29 @@ A phase should not be considered complete simply because its happy path works.
 
 ## Phase Status Summary
 
-| Phase                                      | Status                                                       |
-| ------------------------------------------ | ------------------------------------------------------------ |
-| Documentation foundation                   | Complete                                                     |
+| Phase                                      | Status                                                                     |
+| ------------------------------------------ | -------------------------------------------------------------------------- |
+| Documentation foundation                   | Complete                                                                   |
 | Phase 0 — Live Timing Discovery            | Partial — core connection and reconnect policy implemented; deltas pending |
-| Phase 1 — Repository Foundation            | Complete                                                     |
-| Phase 2 — Internal Domain Model            | Complete                                                     |
-| Phase 3 — F1 Ingestion Layer               | In progress — reconnect policy implemented                   |
-| Phase 4 — Recording System                 | In progress                                                  |
-| Phase 5 — Replay Engine                    | Complete                                                     |
-| Phase 6 — Backend Application              | Complete                                                     |
-| Phase 7 — Broadcast Delay                  | Complete                                                     |
-| Phase 8 — UX/UI Foundation                 | Complete                                                     |
-| Phase 9 — Frontend Foundation              | Complete                                                     |
-| Phase 10 — Main Live Dashboard             | Complete                                                     |
-| Phase 11 — Strategy View                   | Complete                                                     |
-| Phase 12 — Docker and Reproducible Startup | Complete                                                     |
-| Phase 13 — MVP Hardening                   | In progress — lifecycle failure handling started             |
-| Phase 14 — Battle Mode                     | Complete                                                     |
-| Phase 15 — Race Analytics                  | Not started                                                  |
-| Phase 16 — Team Radio                      | Not started                                                  |
-| Phase 17 — Experimental Telemetry          | Not started                                                  |
-| Phase 18 — Experimental Track Map          | Not started                                                  |
-| Phase 19 — Future Evolution                | Not started                                                  |
+| Phase 1 — Repository Foundation            | Complete                                                                   |
+| Phase 2 — Internal Domain Model            | Complete                                                                   |
+| Phase 3 — F1 Ingestion Layer               | In progress — reconnect policy implemented                                 |
+| Phase 4 — Recording System                 | In progress                                                                |
+| Phase 5 — Replay Engine                    | Complete                                                                   |
+| Phase 6 — Backend Application              | Complete                                                                   |
+| Phase 7 — Broadcast Delay                  | Complete                                                                   |
+| Phase 8 — UX/UI Foundation                 | Complete                                                                   |
+| Phase 9 — Frontend Foundation              | Complete                                                                   |
+| Phase 10 — Main Live Dashboard             | Complete                                                                   |
+| Phase 11 — Strategy View                   | Complete                                                                   |
+| Phase 12 — Docker and Reproducible Startup | Complete                                                                   |
+| Phase 13 — MVP Hardening                   | In progress — lifecycle failure handling started                           |
+| Phase 14 — Battle Mode                     | Complete                                                                   |
+| Phase 15 — Race Analytics                  | Not started                                                                |
+| Phase 16 — Team Radio                      | Not started                                                                |
+| Phase 17 — Experimental Telemetry          | Not started                                                                |
+| Phase 18 — Experimental Track Map          | Not started                                                                |
+| Phase 19 — Future Evolution                | Not started                                                                |
 
 ---
 

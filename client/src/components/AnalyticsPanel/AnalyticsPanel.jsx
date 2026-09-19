@@ -1,4 +1,8 @@
-import { calculateAverageLapTime, calculatePaceDelta, estimateDegradation } from '../../state/analytics.js';
+import {
+  calculateAverageLapTime,
+  calculatePaceDelta,
+  estimateDegradation,
+} from '../../state/analytics.js';
 import styles from './AnalyticsPanel.module.css';
 import { useI18n } from '../../i18n/i18n.js';
 
@@ -32,7 +36,9 @@ export function AnalyticsPanel({ timing, drivers, lapHistory }) {
               <strong>{row.abbreviation}</strong>
               <div className={styles.values}>
                 <span>{formatLap(row.average)}</span>
-                <small>{formatDelta(row.paceDelta)} · {formatDelta(row.degradation)}/lap</small>
+                <small>
+                  {formatDelta(row.paceDelta)} · {formatDelta(row.degradation)}/lap
+                </small>
               </div>
             </div>
           ))}

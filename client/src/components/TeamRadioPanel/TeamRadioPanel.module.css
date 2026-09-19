@@ -1,0 +1,80 @@
+.panel {
+  padding: 1rem;
+  border: 1px solid var(--fd-border);
+  border-radius: var(--fd-radius);
+  background: var(--fd-surface);
+}
+
+.heading,
+.heading > div,
+.messages article {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.heading {
+  margin-bottom: 0.75rem;
+}
+
+.heading p,
+.heading h2,
+.empty {
+  margin: 0;
+}
+
+.heading p {
+  margin-bottom: 0.2rem;
+  color: var(--fd-red);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+}
+
+.heading h2 {
+  font-size: 0.95rem;
+}
+
+.heading > span,
+.empty,
+.messages article span {
+  color: var(--fd-text-muted);
+  font-size: 0.72rem;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.filters button {
+  padding: 0.35rem 0.55rem;
+  color: var(--fd-text-muted);
+  font-size: 0.7rem;
+}
+
+.filters button.selected {
+  border-color: var(--fd-red);
+  color: var(--fd-red);
+}
+
+.messages {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.messages article {
+  gap: 0.75rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--fd-border-soft);
+}
+
+.messages audio {
+  width: 12rem;
+  height: 1.8rem;
+}
+
+.empty {
+  margin-top: 0.75rem;
+}

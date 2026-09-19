@@ -8,6 +8,7 @@ import { DashboardPanels } from './components/DashboardPanels/DashboardPanels.js
 import { StrategyPanel } from './components/StrategyPanel/StrategyPanel.jsx';
 import { BattlePanel } from './components/BattlePanel/BattlePanel.jsx';
 import { AnalyticsPanel } from './components/AnalyticsPanel/AnalyticsPanel.jsx';
+import { TeamRadioPanel } from './components/TeamRadioPanel/TeamRadioPanel.jsx';
 
 export function App() {
   const state = useFormulaDeltaStore();
@@ -35,6 +36,7 @@ export function App() {
       <StrategyPanel stints={state.stints} drivers={state.drivers} timing={state.timing} />
       <BattlePanel timing={state.timing} drivers={state.drivers} gapHistory={state.gapHistory} />
       <AnalyticsPanel timing={state.timing} drivers={state.drivers} lapHistory={state.lapHistory} />
+      <TeamRadioPanel messages={state.teamRadio} drivers={state.drivers} />
     </main>
   );
 }

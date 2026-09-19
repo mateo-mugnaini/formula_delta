@@ -53,3 +53,15 @@
   color: var(--fd-yellow);
   font-variant-numeric: tabular-nums;
 }
+
+.values {
+  display: grid;
+  justify-items: end;
+  gap: 0.15rem;
+}
+
+.values small {
+  color: var(--fd-text-dim);
+  font-size: 0.62rem;
+  font-variant-numeric: tabular-nums;
+}

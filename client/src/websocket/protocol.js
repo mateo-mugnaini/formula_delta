@@ -11,6 +11,7 @@ export function createInitialClientState() {
     stints: {},
     track: {},
     raceControl: [],
+    teamRadio: [],
     weather: {},
     capabilities: {},
     connection: {},
