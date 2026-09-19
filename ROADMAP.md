@@ -30,12 +30,12 @@ A phase should not be considered complete simply because its happy path works.
 | Documentation foundation                   | Complete                                                     |
 | Phase 0 — Live Timing Discovery            | Partial — core connection observed; deltas/reconnect pending |
 | Phase 1 — Repository Foundation            | Partial                                                      |
-| Phase 2 — Internal Domain Model            | In progress                                                  |
+| Phase 2 — Internal Domain Model            | Complete                                                     |
 | Phase 3 — F1 Ingestion Layer               | In progress                                                  |
 | Phase 4 — Recording System                 | In progress                                                  |
-| Phase 5 — Replay Engine                    | In progress                                                  |
-| Phase 6 — Backend Application              | In progress — snapshots, lifecycle, and incremental updates implemented |
-| Phase 7 — Broadcast Delay                  | Not started                                                  |
+| Phase 5 — Replay Engine                    | Complete                                                     |
+| Phase 6 — Backend Application              | In progress — snapshots, incrementals, validation, and message versioning implemented |
+| Phase 7 — Broadcast Delay                  | In progress — delay buffer implemented and tested            |
 | Phase 8 — UX/UI Foundation                 | Documentation complete; implementation not started           |
 | Phase 9 — Frontend Foundation              | Not started                                                  |
 | Phase 10 — Main Live Dashboard             | Not started                                                  |
@@ -465,7 +465,7 @@ frontend and backend applications have not been implemented or started yet.
 
 # Phase 2 — Internal Domain Model
 
-Status: In progress — shared primitive normalization, capability defaults, and
+Status: Complete — shared primitive normalization, capability defaults, and
 delta helpers are implemented and covered by deterministic tests. Initial
 entity normalizers for session, drivers, timing, stints, track, weather, and
 Race Control are now also present. Observed fixture collections can be
@@ -757,9 +757,9 @@ Handle:
 
 # Phase 5 — Replay Engine
 
-Status: In progress — recordings can be loaded and replayed through a shared
+Status: Complete — recordings can be loaded and replayed through a shared
 raw-event callback with play, pause, restart, and speed controls. Seeking and
-full backend integration remain pending. A parity test now verifies that live
+full backend integration is intentionally deferred to the backend phase. A parity test now verifies that live
 and replay event sequences produce equivalent normalized state through the same
 ingestion pipeline.
 
@@ -835,6 +835,10 @@ Status: In progress — a local Node application exposes `/health` and
 WebSocket transport, sends authoritative snapshots on connect, and broadcasts
 normalized incremental state updates after processed events. Client command
 handling and formal client-side recovery behavior remain pending.
+The transport now validates the `COMMAND` envelope, rejects malformed JSON
+and unknown commands with machine-readable `ERROR` messages, and forwards
+supported commands to the application layer. Replay and delay command
+execution remain pending until their respective phases.
 
 ## Goal
 
@@ -909,6 +913,11 @@ Define:
 docs/WEBSOCKET-PROTOCOL.md
 ```
 
+The implemented snapshot/update envelope and reconnect expectations are now
+documented there. Client commands and protocol-version negotiation remain
+future work.
+All current server messages now include the shared protocol version.
+
 ---
 
 ## Phase 6 Exit Criteria
@@ -927,6 +936,10 @@ docs/WEBSOCKET-PROTOCOL.md
 ## Goal
 
 Synchronize Formula Delta with delayed television/streaming broadcasts.
+
+Status: In progress — an isolated presentation delay buffer now preserves
+event ordering, supports runtime delay changes, and is covered by deterministic
+tests. Backend pipeline integration and protocol commands remain pending.
 
 ---
 

@@ -93,6 +93,34 @@ This protocol is not:
 
 It is an internal application contract.
 
+## 3.1 Implemented MVP Contract
+
+The current backend implements two state messages:
+
+`STATE_SNAPSHOT` is sent immediately when a client connects. Its payload
+contains the complete normalized state and the source mode.
+
+`STATE_UPDATE` is sent after a normalized event is processed. Its payload
+contains the changed domain kind and only the corresponding normalized section:
+
+```json
+{
+  "type": "STATE_UPDATE",
+  "payload": {
+    "change": { "kind": "timing" },
+    "value": { "16": { "position": 3 } }
+  }
+}
+```
+
+The frontend applies a snapshot first, then merges each update into the
+section identified by `payload.change.kind`. `sessionStatus` and `lapCount`
+update the `session` section. Unknown or unsupported kinds must be ignored
+without replacing the current state.
+
+The current transport is local WebSocket communication attached to the
+backend HTTP server. The default backend binding is localhost-only.
+
 ---
 
 # 4. Transport
@@ -158,7 +186,8 @@ Messages may include:
 }
 ```
 
-Whether every message needs the version or only handshake/snapshot messages should be decided during implementation.
+Every current server message includes `protocolVersion`. Clients must reject
+messages with an unsupported version and surface a clear compatibility error.
 
 Avoid redundant bytes without losing compatibility detection.
 

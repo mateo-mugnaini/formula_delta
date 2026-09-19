@@ -46,3 +46,16 @@ test('backend attaches WebSocket transport and broadcasts normalized snapshots',
     await app.stop();
   }
 });
+
+test('reports a readable error when the configured port is already in use', async () => {
+  const occupied = createBackendApp({ port: 0, webSocketTransportFactory: async () => ({ close() {} }) });
+  await occupied.start();
+  const port = occupied.server.address().port;
+  const conflicting = createBackendApp({ port, webSocketTransportFactory: async () => ({ close() {} }) });
+  try {
+    await assert.rejects(() => conflicting.start(), /Backend port is already in use/);
+  } finally {
+    await occupied.stop();
+    await conflicting.stop();
+  }
+});

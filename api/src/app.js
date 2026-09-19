@@ -29,7 +29,7 @@ export function createBackendApp({ source = null, host = '127.0.0.1', port = 300
     pipeline,
     server,
     async start() {
-      await new Promise((resolve) => server.listen(port, host, resolve));
+      await listen(server, port, host);
       webSocketServer = await webSocketTransportFactory({ httpServer: server, publisher });
       onStatus({ type: 'started', host, port });
       if (source) await source.start();
@@ -42,6 +42,29 @@ export function createBackendApp({ source = null, host = '127.0.0.1', port = 300
       onStatus({ type: 'stopped' });
     }
   };
+}
+
+function listen(server, port, host) {
+  return new Promise((resolve, reject) => {
+    const onError = (error) => {
+      server.removeListener('listening', onListening);
+      reject(createListenError(error, host, port));
+    };
+    const onListening = () => {
+      server.removeListener('error', onError);
+      resolve();
+    };
+    server.once('error', onError);
+    server.once('listening', onListening);
+    server.listen(port, host);
+  });
+}
+
+function createListenError(error, host, port) {
+  if (error?.code === 'EADDRINUSE') {
+    return new Error(`Backend port is already in use: ${host}:${port}. Set FORMULA_DELTA_PORT to use another port.`);
+  }
+  return error;
 }
 
 function sendJson(response, statusCode, value) {
