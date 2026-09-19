@@ -90,6 +90,39 @@
   font-variant-numeric: tabular-nums;
 }
 
+.derived {
+  color: #f0c674;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.history {
+  display: grid;
+  gap: 0.25rem;
+  margin-top: 0.25rem;
+  color: #89939d;
+  font-size: 0.7rem;
+}
+
+.historyTrack {
+  display: flex;
+  align-items: end;
+  gap: 2px;
+  height: 2.2rem;
+  padding: 0.25rem;
+  border-bottom: 1px solid #30363d;
+}
+
+.historyTrack i {
+  flex: 1;
+  min-height: 2px;
+  background: #78e08f;
+}
+
+.historyTrack em {
+  color: #59636e;
+}
+
 .empty {
   margin: 0;
 }

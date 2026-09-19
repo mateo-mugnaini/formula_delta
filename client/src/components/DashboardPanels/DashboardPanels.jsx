@@ -1,6 +1,13 @@
+import { useState } from 'react';
 import styles from './DashboardPanels.module.css';
 export function DashboardPanels({ state, client, delayMs, setDelayMs }) {
-  const send = (command, payload = {}) => client?.send({ type: 'COMMAND', command, payload });
+  const [pendingCommand, setPendingCommand] = useState(null);
+  const send = (command, payload = {}) => {
+    if (!client || pendingCommand) return;
+    setPendingCommand(command);
+    client.send({ type: 'COMMAND', command, payload });
+    window.setTimeout(() => setPendingCommand(null), 450);
+  };
   const activePits = Object.entries(state.timing || {})
     .filter(([, row]) => row.inPit || row.pitLane)
     .slice(0, 4);
@@ -49,9 +56,15 @@ export function DashboardPanels({ state, client, delayMs, setDelayMs }) {
               {state.replay?.status || 'idle'} · {state.replay?.speed || 1}x
             </span>
             <div>
-              <button onClick={() => send('REPLAY_PLAY')}>Play</button>
-              <button onClick={() => send('REPLAY_PAUSE')}>Pause</button>
-              <button onClick={() => send('REPLAY_RESTART')}>Restart</button>
+              <button disabled={pendingCommand !== null} onClick={() => send('REPLAY_PLAY')}>
+                {pendingCommand === 'REPLAY_PLAY' ? 'Sending…' : 'Play'}
+              </button>
+              <button disabled={pendingCommand !== null} onClick={() => send('REPLAY_PAUSE')}>
+                {pendingCommand === 'REPLAY_PAUSE' ? 'Sending…' : 'Pause'}
+              </button>
+              <button disabled={pendingCommand !== null} onClick={() => send('REPLAY_RESTART')}>
+                {pendingCommand === 'REPLAY_RESTART' ? 'Sending…' : 'Restart'}
+              </button>
             </div>
           </div>
         </Panel>
@@ -90,7 +103,12 @@ export function DashboardPanels({ state, client, delayMs, setDelayMs }) {
               value={delayMs / 1000}
               onChange={(event) => setDelayMs(Number(event.target.value) * 1000)}
             />
-            <button onClick={() => send('SYNC_SET_DELAY', { delayMs })}>Apply</button>
+            <button
+              disabled={pendingCommand !== null}
+              onClick={() => send('SYNC_SET_DELAY', { delayMs })}
+            >
+              {pendingCommand === 'SYNC_SET_DELAY' ? 'Applying…' : 'Apply'}
+            </button>
           </div>
         </div>
       </Panel>

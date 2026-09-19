@@ -42,7 +42,7 @@ A phase should not be considered complete simply because its happy path works.
 | Phase 11 — Strategy View                   | Complete                                                     |
 | Phase 12 — Docker and Reproducible Startup | Complete                                                     |
 | Phase 13 — MVP Hardening                   | In progress — lifecycle failure handling started             |
-| Phase 14 — Battle Mode                     | Not started                                                  |
+| Phase 14 — Battle Mode                     | Complete                                                     |
 | Phase 15 — Race Analytics                  | Not started                                                  |
 | Phase 16 — Team Radio                      | Not started                                                  |
 | Phase 17 — Experimental Telemetry          | Not started                                                  |

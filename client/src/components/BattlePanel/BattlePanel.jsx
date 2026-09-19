@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { buildBattleComparison } from '../../state/battle.js';
 import styles from './BattlePanel.module.css';
 
-export function BattlePanel({ timing, drivers }) {
+export function BattlePanel({ timing, drivers, gapHistory }) {
   const availableIds = Object.keys(timing || {});
   const [selectedIds, setSelectedIds] = useState([]);
 
@@ -14,7 +14,7 @@ export function BattlePanel({ timing, drivers }) {
   }, [availableIds.join(',')]);
 
   const driverIds = selectedIds;
-  const rows = buildBattleComparison(timing, drivers, driverIds);
+  const rows = buildBattleComparison(timing, drivers, driverIds, gapHistory);
 
   return (
     <section className={styles.panel} aria-label="Battle mode">
@@ -42,7 +42,7 @@ export function BattlePanel({ timing, drivers }) {
       {rows.length ? (
         <div className={styles.grid}>
           {rows.map((row) => (
-            <BattleDriver key={row.id} row={row} />
+            <BattleDriver key={row.id} row={row} history={gapHistory?.[row.id]} />
           ))}
         </div>
       ) : (
@@ -68,7 +68,7 @@ function DriverSelect({ label, value, options, onChange }) {
   );
 }
 
-function BattleDriver({ row }) {
+function BattleDriver({ row, history = [] }) {
   return (
     <article className={styles.driver}>
       <div className={styles.driverHeading}>
@@ -79,17 +79,43 @@ function BattleDriver({ row }) {
       <Metric label="Interval" value={row.interval?.display} />
       <Metric label="Last lap" value={row.lastLap?.display} />
       <Metric label="Best lap" value={row.bestLap?.display} />
+      <Metric label="Sectors" value={formatSectors(row.sectors)} />
       <Metric label="Tyre" value={row.tyre?.compound} />
       <Metric label="Tyre age" value={row.tyreAge != null ? `${row.tyreAge} laps` : null} />
+      <Metric label="Recent pace" value={row.recentPace?.display} derived />
+      <Metric label="Gap trend" value={row.gapTrend} derived />
+      <GapHistory values={history} />
     </article>
   );
 }
 
-function Metric({ label, value }) {
+function formatSectors(sectors = []) {
+  const values = sectors.map((sector) => sector?.value?.display).filter(Boolean);
+  return values.length ? values.join(' · ') : null;
+}
+
+function GapHistory({ values }) {
+  return (
+    <div className={styles.history}>
+      <span>Gap history</span>
+      <div className={styles.historyTrack} aria-label="Gap history">
+        {values.length ? (
+          values.map((value, index) => (
+            <i style={{ height: `${Math.min(value / 20, 100)}%` }} key={`${value}-${index}`} />
+          ))
+        ) : (
+          <em>—</em>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function Metric({ label, value, derived = false }) {
   return (
     <div className={styles.metric}>
       <span>{label}</span>
-      <strong>{value || '—'}</strong>
+      <strong className={derived ? styles.derived : undefined}>{value || '—'}</strong>
     </div>
   );
 }

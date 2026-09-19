@@ -15,11 +15,13 @@ test('builds a focused comparison for at most two drivers', () => {
     },
     { 12: { abbreviation: 'COL' } },
     [12, 10, 1],
+    { 12: [1000, 1300] },
   );
 
   assert.equal(result.length, 2);
   assert.equal(result[0].abbreviation, 'COL');
   assert.equal(result[0].lastLap.display, '1:36.030');
+  assert.equal(result[0].gapTrend, 'widening');
   assert.equal(result[1].abbreviation, 10);
   assert.equal(result[1].lastLap, null);
 });

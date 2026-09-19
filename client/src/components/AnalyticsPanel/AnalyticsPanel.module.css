@@ -1,0 +1,54 @@
+.panel {
+  padding: 1rem;
+  border-top: 1px solid #252a30;
+  background: #101317;
+}
+
+.heading,
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.heading {
+  margin-bottom: 0.75rem;
+}
+
+.heading p,
+.heading h2,
+.empty {
+  margin: 0;
+}
+
+.heading p {
+  margin-bottom: 0.2rem;
+  color: #f0c674;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+}
+
+.heading h2 {
+  font-size: 0.95rem;
+}
+
+.heading span,
+.empty {
+  color: #89939d;
+  font-size: 0.72rem;
+}
+
+.rows {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.row {
+  padding: 0.45rem 0;
+  border-bottom: 1px solid #1c2025;
+}
+
+.row span {
+  color: #f0c674;
+  font-variant-numeric: tabular-nums;
+}

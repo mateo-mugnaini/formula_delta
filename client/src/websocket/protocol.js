@@ -6,6 +6,8 @@ export function createInitialClientState() {
     session: {},
     drivers: {},
     timing: {},
+    gapHistory: {},
+    lapHistory: {},
     stints: {},
     track: {},
     raceControl: [],
@@ -28,5 +30,15 @@ export function applyServerMessage(state, message) {
   const kind = message.payload?.change?.kind;
   const key = kind === 'sessionStatus' || kind === 'lapCount' ? 'session' : kind;
   if (!key || !(key in state)) return state;
-  return { ...state, [key]: message.payload.value };
+  const nextState = { ...state, [key]: message.payload.value };
+  if (kind !== 'timing') return nextState;
+  const gapHistory = { ...state.gapHistory };
+  const lapHistory = { ...state.lapHistory };
+  for (const [driverId, timing] of Object.entries(message.payload.value || {})) {
+    const gap = timing.gapToLeader?.milliseconds;
+    if (gap != null) gapHistory[driverId] = [...(gapHistory[driverId] || []), gap].slice(-30);
+    const lap = timing.lastLap?.milliseconds;
+    if (lap != null) lapHistory[driverId] = [...(lapHistory[driverId] || []), lap].slice(-5);
+  }
+  return { ...nextState, gapHistory, lapHistory };
 }

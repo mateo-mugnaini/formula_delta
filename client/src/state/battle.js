@@ -1,4 +1,4 @@
-export function buildBattleComparison(timing = {}, drivers = {}, driverIds = []) {
+export function buildBattleComparison(timing = {}, drivers = {}, driverIds = [], gapHistory = {}) {
   return driverIds
     .filter((id) => id != null)
     .slice(0, 2)
@@ -17,6 +17,14 @@ export function buildBattleComparison(timing = {}, drivers = {}, driverIds = [])
         tyre: row.tyre ?? null,
         tyreAge: row.tyreAge ?? null,
         recentPace: row.recentPace ?? null,
+        gapTrend: getGapTrend(gapHistory[id]),
       };
     });
+}
+
+function getGapTrend(history = []) {
+  if (history.length < 2) return 'stable';
+  const change = history.at(-1) - history[0];
+  if (Math.abs(change) < 50) return 'stable';
+  return change > 0 ? 'widening' : 'closing';
 }

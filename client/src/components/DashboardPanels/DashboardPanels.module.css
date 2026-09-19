@@ -133,4 +133,24 @@ input {
 button {
   cursor: pointer;
   color: #7dd3fc;
+  transition:
+    border-color 120ms ease,
+    background 120ms ease,
+    color 120ms ease,
+    transform 120ms ease;
+}
+button:hover:not(:disabled) {
+  border-color: #7dd3fc;
+  background: #122238;
+}
+button:focus-visible {
+  outline: 2px solid #facc15;
+  outline-offset: 2px;
+}
+button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+button:disabled {
+  cursor: wait;
+  opacity: 0.55;
 }

@@ -18,3 +18,21 @@ test('store tracks frontend connection status', () => {
   assert.equal(useFormulaDeltaStore.getState().connectionStatus, 'connected');
   useFormulaDeltaStore.getState().reset();
 });
+
+test('stores a bounded gap history from timing updates', () => {
+  const store = useFormulaDeltaStore.getState();
+  store.reset();
+  for (let index = 0; index < 35; index += 1) {
+    store.applyMessage({
+      type: 'STATE_UPDATE',
+      protocolVersion: 1,
+      payload: {
+        change: { kind: 'timing' },
+        value: { 10: { gapToLeader: { milliseconds: index } } },
+      },
+    });
+  }
+  const history = useFormulaDeltaStore.getState().gapHistory['10'];
+  assert.equal(history.length, 30);
+  assert.equal(history[0], 5);
+});
