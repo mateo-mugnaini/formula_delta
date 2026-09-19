@@ -43,23 +43,21 @@ export function normalizeDriver(id, raw = {}) {
 }
 
 export function normalizeTimingEntry(driverId, raw = {}) {
-  return {
-    driverId: String(driverId),
-    position: normalizeInteger(raw.Position),
-    gapToLeader: parseGap(raw.GapToLeader),
-    intervalToAhead: parseGap(raw.IntervalToPositionAhead?.Value),
-    lastLap: parseLapTime(raw.LastLapTime?.Value),
-    bestLap: parseLapTime(raw.BestLapTime?.Value),
-    lapCount: normalizeInteger(raw.NumberOfLaps),
-    pitStops: normalizeInteger(raw.NumberOfPitStops),
-    status: {
-      retired: normalizeBoolean(raw.Retired),
-      inPit: normalizeBoolean(raw.InPit),
-      pitOut: normalizeBoolean(raw.PitOut),
-      stopped: normalizeBoolean(raw.Stopped)
-    },
-    sectors: Array.isArray(raw.Sectors) ? raw.Sectors.map(normalizeSector) : []
-  };
+  const entry = { driverId: String(driverId) };
+  if (Object.hasOwn(raw, 'Position')) entry.position = normalizeInteger(raw.Position);
+  if (Object.hasOwn(raw, 'GapToLeader')) entry.gapToLeader = parseGap(raw.GapToLeader);
+  if (Object.hasOwn(raw, 'IntervalToPositionAhead')) entry.intervalToAhead = parseGap(raw.IntervalToPositionAhead?.Value);
+  if (Object.hasOwn(raw, 'LastLapTime')) entry.lastLap = parseLapTime(raw.LastLapTime?.Value);
+  if (Object.hasOwn(raw, 'BestLapTime')) entry.bestLap = parseLapTime(raw.BestLapTime?.Value);
+  if (Object.hasOwn(raw, 'NumberOfLaps')) entry.lapCount = normalizeInteger(raw.NumberOfLaps);
+  if (Object.hasOwn(raw, 'NumberOfPitStops')) entry.pitStops = normalizeInteger(raw.NumberOfPitStops);
+  const status = {};
+  for (const [source, target] of [['Retired', 'retired'], ['InPit', 'inPit'], ['PitOut', 'pitOut'], ['Stopped', 'stopped']]) {
+    if (Object.hasOwn(raw, source)) status[target] = normalizeBoolean(raw[source]);
+  }
+  entry.status = status;
+  if (Object.hasOwn(raw, 'Sectors')) entry.sectors = Array.isArray(raw.Sectors) ? raw.Sectors.map(normalizeSector) : [];
+  return entry;
 }
 
 export function normalizeSector(raw = {}) {

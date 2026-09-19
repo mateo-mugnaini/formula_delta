@@ -49,13 +49,13 @@ Tests should cover:
 ## Fixtures
 
 Fixtures should remain small and representative. Organize them by topic and
-failure mode under `fixtures/`, including timing data, drivers, session,
+failure mode under `api/fixtures/`, including timing data, drivers, session,
 weather, Race Control, malformed payloads, and recordings.
 
 Real captured payloads are preferred for protocol behavior. Synthetic fixtures
 are appropriate for isolated edge cases and deterministic failure tests.
 
-The `fixtures/malformed/` directory contains synthetic defensive-parsing
+The `api/fixtures/malformed/` directory contains synthetic defensive-parsing
 cases. These must not be treated as evidence of an exact upstream payload;
 their purpose is to verify that optional malformed data does not crash the
 pipeline.

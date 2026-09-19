@@ -62,6 +62,11 @@ testing and reconnect investigation. The probe now performs bounded reconnect
 attempts with exponential backoff, but no successful recovery sequence has yet
 been observed and this behavior is not a production protocol decision.
 
+The backend foundation now includes pure SignalR framing utilities for record
+separator splitting, handshake/ping/close classification, and extraction of
+multi-topic completion snapshots. These utilities do not claim that every
+future upstream message has the same shape.
+
 ---
 
 # 2. Evidence Levels

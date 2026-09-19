@@ -4,6 +4,6 @@ coverage/
 .env
 .env.*
 !.env.example
-recordings/*
-!recordings/.gitkeep
+api/api/recordings/*
+!api/recordings/.gitkeep
 output/

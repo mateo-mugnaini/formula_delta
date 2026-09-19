@@ -11,6 +11,7 @@ import {
   normalizeTimingLines,
   normalizeWeather
 } from '../packages/shared/src/index.js';
+import { createCapabilities, isValidTimingEntry, validateCapabilities } from '../packages/shared/src/index.js';
 import { readFile } from 'node:fs/promises';
 
 test('shared protocol version is defined', () => {
@@ -52,13 +53,20 @@ test('normalizes observed driver, timing, and weather shapes', () => {
 });
 
 test('transforms observed fixture collections into domain collections', async () => {
-  const drivers = JSON.parse(await readFile('fixtures/driver-list/observed-spanish-gp-drivers.json', 'utf8'));
-  const timing = JSON.parse(await readFile('fixtures/timing-data/observed-spanish-gp-timing.json', 'utf8'));
-  const stints = JSON.parse(await readFile('fixtures/timing-app-data/observed-spanish-gp-tyres.json', 'utf8'));
-  const raceControl = JSON.parse(await readFile('fixtures/race-control/observed-spanish-gp-race-control.json', 'utf8'));
+  const drivers = JSON.parse(await readFile('api/fixtures/driver-list/observed-spanish-gp-drivers.json', 'utf8'));
+  const timing = JSON.parse(await readFile('api/fixtures/timing-data/observed-spanish-gp-timing.json', 'utf8'));
+  const stints = JSON.parse(await readFile('api/fixtures/timing-app-data/observed-spanish-gp-tyres.json', 'utf8'));
+  const raceControl = JSON.parse(await readFile('api/fixtures/race-control/observed-spanish-gp-race-control.json', 'utf8'));
 
   assert.equal(Object.keys(normalizeDriverList(drivers.DriverList)).length, 3);
   assert.equal(normalizeTimingLines(timing.TimingData.Lines)['3'].position, 2);
   assert.equal(normalizeStintLines(stints.TimingAppData.Lines)['12'].length, 2);
   assert.equal(normalizeRaceControlMessages(raceControl.RaceControlMessages).length, 3);
+});
+
+test('validates normalized timing and capability contracts', () => {
+  const validEntry = normalizeTimingEntry('12', { Position: '1', Retired: false });
+  assert.equal(isValidTimingEntry(validEntry), true);
+  assert.deepEqual(validateCapabilities(createCapabilities({ timing: true })), []);
+  assert.deepEqual(validateCapabilities({ timing: 'yes' }), ['timing must be boolean']);
 });

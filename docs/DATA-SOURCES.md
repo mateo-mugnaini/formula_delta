@@ -1312,7 +1312,7 @@ Observed topics included:
 This is evidence from one completed session. It does not yet prove live
 availability, update frequency, delta semantics, or stable access to every
 topic. The captured values were used to create small fixtures under
-`fixtures/` while preserving the original upstream field names.
+`api/fixtures/` while preserving the original upstream field names.
 
 No delta behavior is claimed from this capture. A complete `result` object is
 evidence of a snapshot response for this subscription, not proof that later

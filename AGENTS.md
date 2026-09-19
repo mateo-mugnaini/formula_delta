@@ -1,4 +1,4 @@
-# Formula Delta — AGENTS.md
+# Formula Delta Ã¢â‚¬â€ AGENTS.md
 
 ## 1. Purpose
 
@@ -69,20 +69,20 @@ Conceptually:
 
 ```text
                  DataSource
-                     │
-           ┌─────────┴─────────┐
-           │                   │
+                     Ã¢â€â€š
+           Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â´Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+           Ã¢â€â€š                   Ã¢â€â€š
       LiveSource          ReplaySource
-           │                   │
-           └─────────┬─────────┘
-                     │
-                     ▼
+           Ã¢â€â€š                   Ã¢â€â€š
+           Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
+                     Ã¢â€â€š
+                     Ã¢â€“Â¼
                 StateManager
-                     │
-                     ▼
+                     Ã¢â€â€š
+                     Ã¢â€“Â¼
                  WebSocket
-                     │
-                     ▼
+                     Ã¢â€â€š
+                     Ã¢â€“Â¼
                    React
 ```
 
@@ -269,17 +269,17 @@ Conceptually:
 
 ```text
 F1 event
-   │
-   ├──────────────► Recorder
-   │                 raw event
-   │
-   ▼
+   Ã¢â€â€š
+   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº Recorder
+   Ã¢â€â€š                 raw event
+   Ã¢â€â€š
+   Ã¢â€“Â¼
 Parser
-   │
-   ▼
+   Ã¢â€â€š
+   Ã¢â€“Â¼
 Normalizer
-   │
-   ▼
+   Ã¢â€â€š
+   Ã¢â€“Â¼
 State Manager
 ```
 
@@ -295,7 +295,7 @@ Forbidden architecture:
 
 ```text
 F1 TimingData
-      ↓
+      Ã¢â€ â€œ
 React component
 ```
 
@@ -303,19 +303,19 @@ Required architecture:
 
 ```text
 F1
- ↓
+ Ã¢â€ â€œ
 Transport
- ↓
+ Ã¢â€ â€œ
 Parser
- ↓
+ Ã¢â€ â€œ
 Normalizer
- ↓
+ Ã¢â€ â€œ
 Internal Domain Model
- ↓
+ Ã¢â€ â€œ
 WebSocket Protocol
- ↓
+ Ã¢â€ â€œ
 Frontend Store
- ↓
+ Ã¢â€ â€œ
 React
 ```
 
@@ -374,7 +374,7 @@ The State Manager must support:
 Initial State
      +
 Delta
-     ↓
+     Ã¢â€ â€œ
 Updated State
 ```
 
@@ -444,11 +444,11 @@ Conceptually:
 
 ```text
 Incoming Event
-      ↓
+      Ã¢â€ â€œ
 Delay Buffer
-      ↓
+      Ã¢â€ â€œ
 WebSocket
-      ↓
+      Ã¢â€ â€œ
 Dashboard
 ```
 
@@ -555,15 +555,15 @@ Realistic fixtures should be collected during the discovery phase.
 Expected structure:
 
 ```text
-fixtures/
-├── timing-data/
-├── timing-app-data/
-├── driver-list/
-├── race-control/
-├── weather/
-├── session/
-├── malformed/
-└── recordings/
+api/fixtures/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ timing-data/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ timing-app-data/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ driver-list/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ race-control/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ weather/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ session/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ malformed/
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ api/recordings/
 ```
 
 Fixtures should remain small enough for tests and repository maintenance.
@@ -683,7 +683,7 @@ Agents should follow the closest relevant `AGENTS.md`.
 Location:
 
 ```text
-apps/backend/AGENTS.md
+api/AGENTS.md
 ```
 
 Responsible for:
@@ -704,7 +704,7 @@ Responsible for:
 Location:
 
 ```text
-apps/backend/src/f1/AGENTS.md
+api/src/f1/AGENTS.md
 ```
 
 Responsible for:
@@ -729,7 +729,7 @@ Changes to Formula 1 protocol handling should be routed here.
 Location:
 
 ```text
-apps/frontend/AGENTS.md
+client/AGENTS.md
 ```
 
 Responsible for:
@@ -749,7 +749,7 @@ Responsible for:
 Location:
 
 ```text
-apps/frontend/src/design-system/AGENTS.md
+client/src/design-system/AGENTS.md
 ```
 
 Responsible for:
@@ -845,17 +845,17 @@ may require:
 
 ```text
 F1 Data
-   ↓
+   Ã¢â€ â€œ
 Domain Model
-   ↓
+   Ã¢â€ â€œ
 WebSocket Contract
-   ↓
+   Ã¢â€ â€œ
 Frontend Store
-   ↓
+   Ã¢â€ â€œ
 UI
-   ↓
+   Ã¢â€ â€œ
 Tests
-   ↓
+   Ã¢â€ â€œ
 Documentation
 ```
 
@@ -968,15 +968,15 @@ Preferred workflow:
 
 ```text
 Observe
-   ↓
+   Ã¢â€ â€œ
 Capture
-   ↓
+   Ã¢â€ â€œ
 Document
-   ↓
+   Ã¢â€ â€œ
 Create fixture
-   ↓
+   Ã¢â€ â€œ
 Implement parser
-   ↓
+   Ã¢â€ â€œ
 Test
 ```
 

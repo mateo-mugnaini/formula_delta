@@ -1,4 +1,4 @@
-# Formula Delta — Implementation Roadmap
+# Formula Delta Ã¢â‚¬â€ Implementation Roadmap
 
 ## 1. Purpose
 
@@ -23,12 +23,38 @@ Each phase has an explicit exit criterion.
 
 A phase should not be considered complete simply because its happy path works.
 
+## Phase Status Summary
+
+| Phase | Status |
+| --- | --- |
+| Documentation foundation | Complete |
+| Phase 0 Ã¢â‚¬â€ Live Timing Discovery | Partial Ã¢â‚¬â€ core connection observed; deltas/reconnect pending |
+| Phase 1 Ã¢â‚¬â€ Repository Foundation | Partial |
+| Phase 2 Ã¢â‚¬â€ Internal Domain Model | In progress |
+| Phase 3 Ã¢â‚¬â€ F1 Ingestion Layer | In progress |
+| Phase 4 Ã¢â‚¬â€ Recording System | In progress |
+| Phase 5 Ã¢â‚¬â€ Replay Engine | In progress |
+| Phase 6 Ã¢â‚¬â€ Backend Application | In progress |
+| Phase 7 Ã¢â‚¬â€ Broadcast Delay | Not started |
+| Phase 8 Ã¢â‚¬â€ UX/UI Foundation | Documentation complete; implementation not started |
+| Phase 9 Ã¢â‚¬â€ Frontend Foundation | Not started |
+| Phase 10 Ã¢â‚¬â€ Main Live Dashboard | Not started |
+| Phase 11 Ã¢â‚¬â€ Strategy View | Not started |
+| Phase 12 Ã¢â‚¬â€ Docker and Reproducible Startup | Not started |
+| Phase 13 Ã¢â‚¬â€ MVP Hardening | Not started |
+| Phase 14 Ã¢â‚¬â€ Battle Mode | Not started |
+| Phase 15 Ã¢â‚¬â€ Race Analytics | Not started |
+| Phase 16 Ã¢â‚¬â€ Team Radio | Not started |
+| Phase 17 Ã¢â‚¬â€ Experimental Telemetry | Not started |
+| Phase 18 Ã¢â‚¬â€ Experimental Track Map | Not started |
+| Phase 19 Ã¢â‚¬â€ Future Evolution | Not started |
+
 ---
 
-# Phase 0 — Live Timing Discovery
+# Phase 0 Ã¢â‚¬â€ Live Timing Discovery
 
-Status: In progress — the discovery probe has been scaffolded, but no live
-endpoint behavior is considered verified yet.
+Status: Partial Ã¢â‚¬â€ negotiation, handshake, subscription, and a completed-session
+snapshot have been observed; active deltas and recovery remain unverified.
 
 ## Goal
 
@@ -58,7 +84,7 @@ Suggested location:
 
 ```text
 tools/
-└── f1-probe/
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ f1-probe/
 ```
 
 Current implementation:
@@ -132,7 +158,7 @@ Unknown topics should also be recorded.
 The probe should eventually produce a summary similar to:
 
 ```text
-FORMULA DELTA — F1 LIVE PROBE
+FORMULA DELTA Ã¢â‚¬â€ F1 LIVE PROBE
 
 Connection       OK
 Duration         01:32:17
@@ -241,7 +267,7 @@ The goal is to obtain representative fixtures even for capabilities unavailable 
 ## 0.9 Create Initial Fixtures
 
 Initial curated fixtures have been created from the observed completed-session
-snapshot under `fixtures/`. They intentionally preserve upstream field names
+snapshot under `api/fixtures/`. They intentionally preserve upstream field names
 and remain small; they are evidence fixtures, not normalized domain fixtures.
 
 Create minimal fixtures from observed data.
@@ -249,19 +275,19 @@ Create minimal fixtures from observed data.
 Target:
 
 ```text
-fixtures/
-├── session/
-├── driver-list/
-├── timing-data/
-├── timing-app-data/
-├── timing-stats/
-├── race-control/
-├── weather/
-├── team-radio/
-├── track-status/
-├── car-data/
-├── position/
-└── malformed/
+api/fixtures/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ session/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ driver-list/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ timing-data/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ timing-app-data/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ timing-stats/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ race-control/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ weather/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ team-radio/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ track-status/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ car-data/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ position/
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ malformed/
 ```
 
 Fixtures should be representative but small.
@@ -320,9 +346,9 @@ Phase 0 is complete when:
 
 ---
 
-# Phase 1 — Repository Foundation
+# Phase 1 Ã¢â‚¬â€ Repository Foundation
 
-Status: In progress — workspace structure, shared package, scoped instructions,
+Status: In progress Ã¢â‚¬â€ workspace structure, shared package, scoped instructions,
 and base test command are present. Application start commands remain pending.
 
 ## Goal
@@ -337,13 +363,13 @@ Create:
 
 ```text
 formula-delta/
-├── apps/
-├── packages/
-├── tools/
-├── tests/
-├── fixtures/
-├── recordings/
-└── docs/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ api/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ packages/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ tools/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ tests/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ api/fixtures/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ api/recordings/
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ docs/
 ```
 
 Configure pnpm workspace.
@@ -355,9 +381,9 @@ Configure pnpm workspace.
 Create:
 
 ```text
-apps/
-├── backend/
-└── frontend/
+api/ and client/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ api/
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ client/
 ```
 
 ---
@@ -368,7 +394,7 @@ Create:
 
 ```text
 packages/
-└── shared/
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ shared/
 ```
 
 This package will contain stable contracts shared between backend and frontend.
@@ -384,11 +410,11 @@ Create specialized instructions:
 ```text
 AGENTS.md
 
-apps/backend/AGENTS.md
-apps/backend/src/f1/AGENTS.md
+api/AGENTS.md
+api/src/f1/AGENTS.md
 
-apps/frontend/AGENTS.md
-apps/frontend/src/design-system/AGENTS.md
+client/AGENTS.md
+client/src/design-system/AGENTS.md
 
 packages/shared/AGENTS.md
 
@@ -437,13 +463,14 @@ frontend and backend applications have not been implemented or started yet.
 
 ---
 
-# Phase 2 — Internal Domain Model
+# Phase 2 Ã¢â‚¬â€ Internal Domain Model
 
-Status: In progress — shared primitive normalization, capability defaults, and
+Status: In progress Ã¢â‚¬â€ shared primitive normalization, capability defaults, and
 delta helpers are implemented and covered by deterministic tests. Initial
 entity normalizers for session, drivers, timing, stints, track, weather, and
 Race Control are now also present. Observed fixture collections can be
-transformed into normalized domain collections.
+transformed into normalized domain collections, and basic contract validation
+is implemented.
 
 ## Goal
 
@@ -478,9 +505,9 @@ ConnectionState
 Normalize external values such as:
 
 ```text
-"3"       → 3
-"true"    → true
-""        → null where appropriate
+"3"       Ã¢â€ â€™ 3
+"true"    Ã¢â€ â€™ true
+""        Ã¢â€ â€™ null where appropriate
 ```
 
 Do not leak upstream representation quirks.
@@ -539,7 +566,15 @@ docs/DATA-MODEL.md
 
 ---
 
-# Phase 3 — F1 Ingestion Layer
+# Phase 3 Ã¢â‚¬â€ F1 Ingestion Layer
+
+Status: In progress Ã¢â‚¬â€ pure topic parsers for the currently verified core
+topics are implemented and tested. SignalR framing utilities are now also
+implemented and tested, and `LiveSource` now covers negotiation, handshake,
+subscription, raw event emission, and lifecycle callbacks. Reconnect policy
+and production integration remain pending. A pure ingestion pipeline now
+preserves raw events, applies topic parsers, and reconstructs domain state with
+topic-aware current-state and history semantics.
 
 ## Goal
 
@@ -618,11 +653,11 @@ Test:
 
 ```text
 CONNECTED
-    ↓
+    Ã¢â€ â€œ
 DISCONNECTED
-    ↓
+    Ã¢â€ â€œ
 RECONNECTING
-    ↓
+    Ã¢â€ â€œ
 CONNECTED
 ```
 
@@ -641,7 +676,11 @@ Determine whether state must be rebuilt after reconnect.
 
 ---
 
-# Phase 4 — Recording System
+# Phase 4 Ã¢â‚¬â€ Recording System
+
+Status: In progress Ã¢â‚¬â€ the filesystem recorder writes ordered raw JSONL events
+and recording metadata. Replay integration and crash/backpressure policies
+remain pending.
 
 ## Goal
 
@@ -716,7 +755,13 @@ Handle:
 
 ---
 
-# Phase 5 — Replay Engine
+# Phase 5 Ã¢â‚¬â€ Replay Engine
+
+Status: In progress Ã¢â‚¬â€ recordings can be loaded and replayed through a shared
+raw-event callback with play, pause, restart, and speed controls. Seeking and
+full backend integration remain pending. A parity test now verifies that live
+and replay event sequences produce equivalent normalized state through the same
+ingestion pipeline.
 
 ## Goal
 
@@ -783,7 +828,11 @@ At this point Formula Delta development should no longer depend on race weekends
 
 ---
 
-# Phase 6 — Backend Application
+# Phase 6 Ã¢â‚¬â€ Backend Application
+
+Status: In progress Ã¢â‚¬â€ a local Node application now exposes `/health` and
+`/snapshot` over HTTP and owns the ingestion pipeline lifecycle. WebSocket
+publishing and full source wiring remain pending.
 
 ## Goal
 
@@ -868,7 +917,7 @@ docs/WEBSOCKET-PROTOCOL.md
 
 ---
 
-# Phase 7 — Broadcast Delay
+# Phase 7 Ã¢â‚¬â€ Broadcast Delay
 
 ## Goal
 
@@ -882,11 +931,11 @@ Implement:
 
 ```text
 Live Event
-    ↓
+    Ã¢â€ â€œ
 State Processing
-    ↓
+    Ã¢â€ â€œ
 Presentation Buffer
-    ↓
+    Ã¢â€ â€œ
 WebSocket
 ```
 
@@ -923,7 +972,7 @@ Events must not be reordered incorrectly.
 
 ---
 
-# Phase 8 — UX/UI Foundation
+# Phase 8 Ã¢â‚¬â€ UX/UI Foundation
 
 ## Goal
 
@@ -1019,7 +1068,7 @@ Battle and advanced strategy screens remain Post-MVP.
 
 ---
 
-# Phase 9 — Frontend Foundation
+# Phase 9 Ã¢â‚¬â€ Frontend Foundation
 
 ## Goal
 
@@ -1080,7 +1129,7 @@ Measure before introducing complex optimization.
 
 ---
 
-# Phase 10 — Main Live Dashboard
+# Phase 10 Ã¢â‚¬â€ Main Live Dashboard
 
 ## Goal
 
@@ -1168,7 +1217,7 @@ This is the first major product milestone.
 
 ---
 
-# Phase 11 — Strategy View
+# Phase 11 Ã¢â‚¬â€ Strategy View
 
 ## Goal
 
@@ -1189,9 +1238,9 @@ Represent compounds over race progression.
 Example:
 
 ```text
-NOR   M━━━━━━━━━━ H━━━━━━━━━━━━━━━━
-VER   S━━━━ M━━━━━━━━ H━━━━━━━━━━━━
-PIA   M━━━━━━━━━━━━ H━━━━━━━━━━━━━━
+NOR   MÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€Â HÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€Â
+VER   SÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€Â MÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€Â HÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€Â
+PIA   MÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€Â HÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€Â
 ```
 
 ---
@@ -1213,7 +1262,7 @@ The user can understand each driver's tyre strategy without manually reconstruct
 
 ---
 
-# Phase 12 — Docker and Reproducible Startup
+# Phase 12 Ã¢â‚¬â€ Docker and Reproducible Startup
 
 ## Goal
 
@@ -1248,7 +1297,7 @@ docker compose up
 Persist:
 
 ```text
-recordings/
+api/recordings/
 ```
 
 where appropriate.
@@ -1263,7 +1312,7 @@ No paid infrastructure is required.
 
 ---
 
-# Phase 13 — MVP Hardening
+# Phase 13 Ã¢â‚¬â€ MVP Hardening
 
 ## Goal
 
@@ -1331,7 +1380,7 @@ KNOWN-LIMITATIONS
 
 ---
 
-## Phase 13 Exit Criteria — MVP
+## Phase 13 Exit Criteria Ã¢â‚¬â€ MVP
 
 Formula Delta MVP is complete when:
 
@@ -1348,11 +1397,11 @@ Formula Delta MVP is complete when:
 - automated tests cover critical processing;
 - Docker startup works;
 - documentation reflects reality;
-- operation remains €0.
+- operation remains Ã¢â€šÂ¬0.
 
 ---
 
-# Phase 14 — Battle Mode
+# Phase 14 Ã¢â‚¬â€ Battle Mode
 
 ## Goal
 
@@ -1378,7 +1427,7 @@ Add gap history where available.
 
 ---
 
-# Phase 15 — Race Analytics
+# Phase 15 Ã¢â‚¬â€ Race Analytics
 
 ## Goal
 
@@ -1400,7 +1449,7 @@ Derived values must be clearly distinguishable from official timing data.
 
 ---
 
-# Phase 16 — Team Radio
+# Phase 16 Ã¢â‚¬â€ Team Radio
 
 ## Goal
 
@@ -1419,7 +1468,7 @@ No paid transcription dependency.
 
 ---
 
-# Phase 17 — Experimental Telemetry
+# Phase 17 Ã¢â‚¬â€ Experimental Telemetry
 
 ## Goal
 
@@ -1446,7 +1495,7 @@ This phase must not modify the architecture so that Formula Delta requires this 
 
 ---
 
-# Phase 18 — Experimental Track Map
+# Phase 18 Ã¢â‚¬â€ Experimental Track Map
 
 ## Goal
 
@@ -1468,7 +1517,7 @@ Approximate positions must be identified as approximate.
 
 ---
 
-# Phase 19 — Future Evolution
+# Phase 19 Ã¢â‚¬â€ Future Evolution
 
 Only after Formula Delta is stable should we evaluate:
 
@@ -1492,71 +1541,71 @@ Each significant addition requires a new scope decision.
 ```text
 PHASE 0
 F1 Discovery
-      │
-      ▼
+      Ã¢â€â€š
+      Ã¢â€“Â¼
 PHASE 1
 Repository Foundation
-      │
-      ▼
+      Ã¢â€â€š
+      Ã¢â€“Â¼
 PHASE 2
 Domain Model
-      │
-      ▼
+      Ã¢â€â€š
+      Ã¢â€“Â¼
 PHASE 3
 F1 Ingestion
-      │
-      ▼
+      Ã¢â€â€š
+      Ã¢â€“Â¼
 PHASE 4
 Recording
-      │
-      ▼
+      Ã¢â€â€š
+      Ã¢â€“Â¼
 PHASE 5
 Replay
-      │
-      ▼
+      Ã¢â€â€š
+      Ã¢â€“Â¼
 PHASE 6
 Backend
-      │
-      ▼
+      Ã¢â€â€š
+      Ã¢â€“Â¼
 PHASE 7
 TV Delay
-      │
-      ▼
+      Ã¢â€â€š
+      Ã¢â€“Â¼
 PHASE 8
 UX/UI Foundation
-      │
-      ▼
+      Ã¢â€â€š
+      Ã¢â€“Â¼
 PHASE 9
 Frontend Foundation
-      │
-      ▼
+      Ã¢â€â€š
+      Ã¢â€“Â¼
 PHASE 10
 Live Dashboard
-      │
-      ▼
+      Ã¢â€â€š
+      Ã¢â€“Â¼
 PHASE 11
 Strategy
-      │
-      ▼
+      Ã¢â€â€š
+      Ã¢â€“Â¼
 PHASE 12
 Docker
-      │
-      ▼
+      Ã¢â€â€š
+      Ã¢â€“Â¼
 PHASE 13
 Hardening
-      │
-      ▼
+      Ã¢â€â€š
+      Ã¢â€“Â¼
    MVP 1.0
-      │
-      ├────────► Battle Mode
-      │
-      ├────────► Analytics
-      │
-      ├────────► Team Radio
-      │
-      ├────────► Telemetry
-      │
-      └────────► Track Map
+      Ã¢â€â€š
+      Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº Battle Mode
+      Ã¢â€â€š
+      Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº Analytics
+      Ã¢â€â€š
+      Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº Team Radio
+      Ã¢â€â€š
+      Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº Telemetry
+      Ã¢â€â€š
+      Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº Track Map
 ```
 
 ---
@@ -1584,19 +1633,19 @@ Formula Delta development follows this sequence:
 
 ```text
 Observe
-   ↓
+   Ã¢â€ â€œ
 Understand
-   ↓
+   Ã¢â€ â€œ
 Record
-   ↓
+   Ã¢â€ â€œ
 Normalize
-   ↓
+   Ã¢â€ â€œ
 Replay
-   ↓
+   Ã¢â€ â€œ
 Expose
-   ↓
+   Ã¢â€ â€œ
 Visualize
-   ↓
+   Ã¢â€ â€œ
 Analyze
 ```
 
