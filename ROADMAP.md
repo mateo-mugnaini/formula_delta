@@ -38,7 +38,7 @@ A phase should not be considered complete simply because its happy path works.
 | Phase 7 — Broadcast Delay                  | Complete                                                     |
 | Phase 8 — UX/UI Foundation                 | Complete                                                     |
 | Phase 9 — Frontend Foundation              | Complete                                                     |
-| Phase 10 — Main Live Dashboard             | In progress — dashboard and replay control integration       |
+| Phase 10 — Main Live Dashboard             | In progress — live dashboard and replay controls             |
 | Phase 11 — Strategy View                   | Not started                                                  |
 | Phase 12 — Docker and Reproducible Startup | Not started                                                  |
 | Phase 13 — MVP Hardening                   | Not started                                                  |
