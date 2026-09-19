@@ -55,3 +55,28 @@ test('rejects events after stopping', async () => {
     await rm(root, { recursive: true, force: true });
   }
 });
+
+test('does not advance the sequence when an event cannot be serialized', async () => {
+  const root = await mkdtemp(join(tmpdir(), 'formula-delta-recorder-'));
+  const errors = [];
+  try {
+    const recorder = await createRecorder({
+      rootDir: root,
+      recordingId: 'failed',
+      onError: (error) => errors.push(error),
+    });
+    const circular = {};
+    circular.self = circular;
+
+    await assert.rejects(
+      () => recorder.record({ topic: 'TimingData', payload: circular }),
+      /circular structure|JSON/i,
+    );
+    const metadata = JSON.parse(await readFile(join(root, 'failed', 'metadata.json'), 'utf8'));
+    assert.equal(metadata.status, 'failed');
+    assert.equal(metadata.eventCount, 0);
+    assert.equal(errors.length, 1);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});

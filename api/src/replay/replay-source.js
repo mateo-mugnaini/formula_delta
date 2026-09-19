@@ -24,6 +24,9 @@ export function createReplaySource({
   return {
     mode: 'replay',
     getState: () => ({ status, speed, index, total: events.length }),
+    start() {
+      this.play();
+    },
     play() {
       if (status === 'completed') index = 0;
       if (status === 'playing' || events.length === 0) return;
@@ -43,6 +46,12 @@ export function createReplaySource({
       clearTimeout(timer);
       timer = null;
       index = 0;
+      status = 'idle';
+      onState(this.getState());
+    },
+    stop() {
+      clearTimeout(timer);
+      timer = null;
       status = 'idle';
       onState(this.getState());
     },

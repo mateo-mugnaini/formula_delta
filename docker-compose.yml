@@ -8,11 +8,20 @@ services:
       FORMULA_DELTA_PORT: 3000
     ports:
       - "3000:3000"
+    volumes:
+      - ./api/recordings:/app/recordings
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/health').then((response) => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
 
   client:
     build:
       context: ./client
     depends_on:
-      - api
+      api:
+        condition: service_healthy
     ports:
       - "5173:80"

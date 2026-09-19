@@ -1,27 +1,29 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
+import { join } from 'node:path';
 import { parseTopic } from './topic-parsers.js';
 
+const fixturesRoot = fileURLToPath(new URL('../../fixtures/', import.meta.url));
+
 async function fixture(path) {
-  return JSON.parse(await readFile(path, 'utf8'));
+  return JSON.parse(await readFile(join(fixturesRoot, path), 'utf8'));
 }
 
 test('parses verified session and driver topics', async () => {
-  const session = await fixture('api/fixtures/session/observed-spanish-gp-session-info.json');
-  const drivers = await fixture('api/fixtures/driver-list/observed-spanish-gp-drivers.json');
+  const session = await fixture('session/observed-spanish-gp-session-info.json');
+  const drivers = await fixture('driver-list/observed-spanish-gp-drivers.json');
 
   assert.equal(parseTopic('SessionInfo', session.SessionInfo).value.type, 'Race');
   assert.equal(Object.keys(parseTopic('DriverList', drivers.DriverList).value).length, 3);
 });
 
 test('parses timing, stints, weather, and Race Control topics', async () => {
-  const timing = await fixture('api/fixtures/timing-data/observed-spanish-gp-timing.json');
-  const stints = await fixture('api/fixtures/timing-app-data/observed-spanish-gp-tyres.json');
-  const weather = await fixture('api/fixtures/weather/observed-spanish-gp-weather.json');
-  const raceControl = await fixture(
-    'api/fixtures/race-control/observed-spanish-gp-race-control.json',
-  );
+  const timing = await fixture('timing-data/observed-spanish-gp-timing.json');
+  const stints = await fixture('timing-app-data/observed-spanish-gp-tyres.json');
+  const weather = await fixture('weather/observed-spanish-gp-weather.json');
+  const raceControl = await fixture('race-control/observed-spanish-gp-race-control.json');
 
   assert.equal(parseTopic('TimingData', timing.TimingData).value['3'].position, 2);
   assert.equal(parseTopic('TimingAppData', stints.TimingAppData).value['12'].length, 2);

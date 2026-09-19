@@ -1,0 +1,4 @@
+services:
+  api:
+    environment:
+      FORMULA_DELTA_REPLAY_DIR: /app/recordings/demo

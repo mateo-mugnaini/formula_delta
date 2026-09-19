@@ -84,6 +84,20 @@ test('reports a readable error when the configured port is already in use', asyn
   }
 });
 
+test('cleans up after transport startup failure and allows idempotent stop', async () => {
+  const app = createBackendApp({
+    port: 0,
+    webSocketTransportFactory: async () => {
+      throw new Error('transport unavailable');
+    },
+  });
+
+  await assert.rejects(() => app.start(), /transport unavailable/);
+  assert.equal(app.server.listening, false);
+  await app.stop();
+  await app.stop();
+});
+
 test('delays published updates and changes delay through sync commands', async () => {
   let connectionHandler;
   let messageHandler;

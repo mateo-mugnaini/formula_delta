@@ -14,10 +14,14 @@ export function createLiveSource({
   onEvent = () => {},
   onStatus = () => {},
   onError = () => {},
+  reconnectDelayMs = 1000,
+  maxReconnectAttempts = 5,
 }) {
   let socket = null;
   let invocationId = 0;
   let stopped = false;
+  let reconnectAttempts = 0;
+  let reconnectTimer = null;
 
   return {
     mode: 'live',
@@ -26,6 +30,7 @@ export function createLiveSource({
       onStatus({ status: 'negotiating' });
       const negotiation = await negotiate({ url, fetchImpl });
       if (stopped) return;
+      reconnectAttempts = 0;
       socket = webSocketFactory(buildWebSocketUrl(url, negotiation));
       socket.onopen = () => {
         onStatus({ status: 'connected' });
@@ -37,17 +42,61 @@ export function createLiveSource({
         onError(error);
       };
       socket.onclose = (event) => {
-        if (!stopped) onStatus({ status: 'closed', code: event.code, reason: event.reason });
+        if (stopped) return;
+        onStatus({ status: 'closed', code: event.code, reason: event.reason });
+        scheduleReconnect();
       };
     },
     stop() {
       stopped = true;
+      if (reconnectTimer) clearTimeout(reconnectTimer);
+      reconnectTimer = null;
       onStatus({ status: 'stopping' });
       socket?.close(1000, 'source stopped');
       socket = null;
       onStatus({ status: 'stopped' });
     },
   };
+
+  function scheduleReconnect() {
+    if (reconnectTimer || reconnectAttempts >= maxReconnectAttempts) {
+      if (reconnectAttempts >= maxReconnectAttempts) onStatus({ status: 'reconnect-exhausted' });
+      return;
+    }
+    reconnectAttempts += 1;
+    onStatus({ status: 'reconnecting', attempt: reconnectAttempts });
+    reconnectTimer = setTimeout(async () => {
+      reconnectTimer = null;
+      try {
+        await connect();
+      } catch (error) {
+        onError(error);
+        scheduleReconnect();
+      }
+    }, reconnectDelayMs);
+  }
+
+  async function connect() {
+    onStatus({ status: 'negotiating' });
+    const negotiation = await negotiate({ url, fetchImpl });
+    if (stopped) return;
+    socket = webSocketFactory(buildWebSocketUrl(url, negotiation));
+    socket.onopen = () => {
+      onStatus({ status: 'connected' });
+      socket.send(frameSignalRMessage({ protocol: 'json', version: 1 }));
+    };
+    socket.onmessage = (event) => handleMessage(String(event.data));
+    socket.onerror = (error) => {
+      onStatus({ status: 'error' });
+      onError(error);
+    };
+    socket.onclose = (event) => {
+      if (!stopped) {
+        onStatus({ status: 'closed', code: event.code, reason: event.reason });
+        scheduleReconnect();
+      }
+    };
+  }
 
   function handleMessage(raw) {
     for (const frame of splitSignalRFrames(raw)) {

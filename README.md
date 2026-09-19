@@ -343,6 +343,16 @@ Live Dashboard
 Strategy
     ↓
 Docker
+
+With Docker Desktop running, start the complete local stack from the repository root:
+
+```bash
+docker compose up --build
+```
+
+The frontend is available at `http://localhost:5173` and the backend health check is
+available at `http://localhost:3000/health`. Recordings written by the backend are
+persisted in `api/recordings/` through the Compose volume.
     ↓
 MVP
     ↓

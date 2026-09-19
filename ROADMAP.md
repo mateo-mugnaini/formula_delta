@@ -28,10 +28,10 @@ A phase should not be considered complete simply because its happy path works.
 | Phase                                      | Status                                                       |
 | ------------------------------------------ | ------------------------------------------------------------ |
 | Documentation foundation                   | Complete                                                     |
-| Phase 0 — Live Timing Discovery            | Partial — core connection observed; deltas/reconnect pending |
+| Phase 0 — Live Timing Discovery            | Partial — core connection and reconnect policy implemented; deltas pending |
 | Phase 1 — Repository Foundation            | Partial                                                      |
 | Phase 2 — Internal Domain Model            | Complete                                                     |
-| Phase 3 — F1 Ingestion Layer               | In progress                                                  |
+| Phase 3 — F1 Ingestion Layer               | In progress — reconnect policy implemented                   |
 | Phase 4 — Recording System                 | In progress                                                  |
 | Phase 5 — Replay Engine                    | Complete                                                     |
 | Phase 6 — Backend Application              | Complete                                                     |
@@ -40,8 +40,8 @@ A phase should not be considered complete simply because its happy path works.
 | Phase 9 — Frontend Foundation              | Complete                                                     |
 | Phase 10 — Main Live Dashboard             | Complete                                                     |
 | Phase 11 — Strategy View                   | Complete                                                     |
-| Phase 12 — Docker and Reproducible Startup | In progress — container definitions started                 |
-| Phase 13 — MVP Hardening                   | Not started                                                  |
+| Phase 12 — Docker and Reproducible Startup | Complete                                                     |
+| Phase 13 — MVP Hardening                   | In progress — lifecycle failure handling started             |
 | Phase 14 — Battle Mode                     | Not started                                                  |
 | Phase 15 — Race Analytics                  | Not started                                                  |
 | Phase 16 — Team Radio                      | Not started                                                  |
@@ -1301,9 +1301,8 @@ The user can understand each driver's tyre strategy without manually reconstruct
 
 # Phase 12 — Docker and Reproducible Startup
 
-Status: In progress — API and client container definitions plus a local Docker
-Compose topology are implemented. Container validation and recording volume
-behavior remain pending.
+Status: Complete — API and client containers, health-aware Compose startup,
+and persistent recording storage are implemented and validated locally.
 
 ## Goal
 
@@ -1354,6 +1353,9 @@ No paid infrastructure is required.
 ---
 
 # Phase 13 — MVP Hardening
+
+Status: In progress — backend lifecycle cleanup and startup failure handling
+are covered; the failure matrix and long-session validation remain pending.
 
 ## Goal
 

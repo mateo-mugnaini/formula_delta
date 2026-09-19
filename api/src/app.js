@@ -15,6 +15,8 @@ export function createBackendApp({
 } = {}) {
   let publisher;
   let webSocketServer;
+  let started = false;
+  let stopped = false;
   const delayBuffer = createDelayBuffer({
     delayMs,
     onReady: (message) => publisher?.broadcast(message),
@@ -46,27 +48,43 @@ export function createBackendApp({
     pipeline,
     server,
     async start() {
-      await listen(server, port, host);
-      webSocketServer = await webSocketTransportFactory({
-        httpServer: server,
-        publisher,
-        onCommand: ({ command, payload }) => handleCommand(command, payload),
-      });
-      onStatus({ type: 'started', host, port });
-      if (source) await source.start();
+      if (started) return;
+      stopped = false;
+      try {
+        await listen(server, port, host);
+        webSocketServer = await webSocketTransportFactory({
+          httpServer: server,
+          publisher,
+          onCommand: ({ command, payload }) => handleCommand(command, payload),
+        });
+        if (source) await source.start();
+        started = true;
+        onStatus({ type: 'started', host, port });
+      } catch (error) {
+        await closeResources();
+        throw error;
+      }
     },
     async stop() {
-      source?.stop();
-      delayBuffer.clear();
-      webSocketServer?.close?.();
-      publisher.close();
-      if (server.listening)
-        await new Promise((resolve, reject) =>
-          server.close((error) => (error ? reject(error) : resolve())),
-        );
+      if (stopped) return;
+      stopped = true;
+      await closeResources();
       onStatus({ type: 'stopped' });
     },
   };
+
+  async function closeResources() {
+    source?.stop();
+    delayBuffer.clear();
+    webSocketServer?.close?.();
+    webSocketServer = undefined;
+    publisher.close();
+    if (server.listening)
+      await new Promise((resolve, reject) =>
+        server.close((error) => (error ? reject(error) : resolve())),
+      );
+    started = false;
+  }
 
   function handleCommand(command, payload) {
     try {

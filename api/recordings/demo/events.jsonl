@@ -1,0 +1,4 @@
+{"type":"event","sequence":1,"elapsedMs":0,"receivedAt":0,"topic":"SessionInfo","payload":{"Name":"Demo Race","Type":"Race","Meeting":{"Name":"Demo Grand Prix"}}}
+{"type":"event","sequence":2,"elapsedMs":200,"receivedAt":200,"topic":"DriverList","payload":{"12":{"RacingNumber":"12","Tla":"COL","FirstName":"Franco","LastName":"Colapinto","TeamName":"Alpine"},"10":{"RacingNumber":"10","Tla":"GAS","FirstName":"Pierre","LastName":"Gasly","TeamName":"Alpine"}}}
+{"type":"event","sequence":3,"elapsedMs":400,"receivedAt":400,"topic":"TimingData","payload":{"Lines":{"12":{"Position":"1","Line":1,"RacingNumber":"12","NumberOfLaps":4,"GapToLeader":""},"10":{"Position":"2","Line":2,"RacingNumber":"10","NumberOfLaps":4,"GapToLeader":"+0.390"}}}}
+{"type":"event","sequence":4,"elapsedMs":600,"receivedAt":600,"topic":"WeatherData","payload":{"AirTemp":"28.4","TrackTemp":"42.1","Humidity":"48","WindSpeed":"3.2","WindDirection":"210","Rainfall":"0"}}
