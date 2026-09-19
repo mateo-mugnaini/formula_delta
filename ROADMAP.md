@@ -29,7 +29,7 @@ A phase should not be considered complete simply because its happy path works.
 | ------------------------------------------ | ------------------------------------------------------------ |
 | Documentation foundation                   | Complete                                                     |
 | Phase 0 — Live Timing Discovery            | Partial — core connection and reconnect policy implemented; deltas pending |
-| Phase 1 — Repository Foundation            | Partial                                                      |
+| Phase 1 — Repository Foundation            | Complete                                                     |
 | Phase 2 — Internal Domain Model            | Complete                                                     |
 | Phase 3 — F1 Ingestion Layer               | In progress — reconnect policy implemented                   |
 | Phase 4 — Recording System                 | In progress                                                  |

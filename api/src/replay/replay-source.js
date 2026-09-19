@@ -1,12 +1,20 @@
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
-export async function loadRecording(directory) {
+export async function loadRecording(directory, { onWarning = () => {} } = {}) {
   const content = await readFile(join(directory, 'events.jsonl'), 'utf8');
-  return content
-    .split(/\r?\n/)
-    .filter(Boolean)
-    .map((line) => JSON.parse(line));
+  const lines = content.split(/\r?\n/).filter(Boolean);
+  const events = [];
+  for (const [index, line] of lines.entries()) {
+    try {
+      events.push(JSON.parse(line));
+    } catch (error) {
+      const isFinalLine = index === lines.length - 1;
+      if (!isFinalLine) throw error;
+      onWarning({ type: 'incomplete-final-line', line: index + 1, error });
+    }
+  }
+  return events;
 }
 
 export function createReplaySource({
@@ -19,7 +27,6 @@ export function createReplaySource({
   let speed = 1;
   let status = 'idle';
   let timer = null;
-  let startedAt = 0;
 
   return {
     mode: 'replay',
@@ -31,7 +38,7 @@ export function createReplaySource({
       if (status === 'completed') index = 0;
       if (status === 'playing' || events.length === 0) return;
       status = 'playing';
-      startedAt = clock();
+      clock();
       onState(this.getState());
       scheduleNext();
     },

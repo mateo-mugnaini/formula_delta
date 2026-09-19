@@ -84,3 +84,44 @@ session whenever possible.
 A feature is test-ready when its normal behavior, malformed input behavior,
 replay behavior, and relevant protocol effects are covered. Tests must verify
 that optional data failure does not break core timing presentation.
+
+## Local Validation Commands
+
+Run the complete deterministic validation from the repository root:
+
+```bash
+pnpm test
+pnpm lint
+pnpm format:check
+pnpm --dir client build
+```
+
+The same checks can be run as one workspace command:
+
+```bash
+pnpm verify
+```
+
+Run the normal local applications in separate terminals:
+
+```powershell
+pnpm.cmd --dir api dev
+pnpm.cmd --dir client dev
+```
+
+The replay demo can be started locally by setting
+`FORMULA_DELTA_REPLAY_DIR` to `api/recordings/demo` before starting the API.
+Docker provides the equivalent workflow through
+`docker-compose.demo.yml`.
+
+## Current Hardening Coverage
+
+The automated suite currently covers backend startup failure cleanup, repeated
+shutdown, F1 disconnect and reconnect, malformed protocol frames, unknown
+topics, missing optional data, recording serialization failure, incomplete
+final JSONL lines, malformed middle JSONL lines, frontend WebSocket recovery,
+and a long deterministic replay.
+
+Live feed behavior still requires observation during an actual Formula 1
+session; deterministic tests must not be presented as a substitute for that
+validation.

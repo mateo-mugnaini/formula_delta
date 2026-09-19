@@ -24,8 +24,9 @@ export function TimingTower({ timing, drivers }) {
             <span className={styles.driverCell}>
               <span className={styles.driver}>{drivers?.[id]?.abbreviation || id}</span>
               <small>
-                {row.status ||
-                  `INT ${row.intervalToAhead?.display || '—'} · AGE ${row.tyreAge ?? '—'} · PIT ${row.pitStops ?? 0}`}
+                {typeof row.status === 'string' && row.status
+                  ? row.status
+                  : `INT ${row.intervalToAhead?.display || '—'} · AGE ${row.tyreAge ?? '—'} · PIT ${row.pitStops ?? 0}`}
               </small>
               <small className={styles.sectors}>
                 S1 {row.sectors?.[0]?.value?.display || '—'} · S2{' '}

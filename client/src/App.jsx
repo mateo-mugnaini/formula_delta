@@ -6,6 +6,7 @@ import { DashboardHeader } from './components/DashboardHeader/DashboardHeader.js
 import { TimingTower } from './components/TimingTower/TimingTower.jsx';
 import { DashboardPanels } from './components/DashboardPanels/DashboardPanels.jsx';
 import { StrategyPanel } from './components/StrategyPanel/StrategyPanel.jsx';
+import { BattlePanel } from './components/BattlePanel/BattlePanel.jsx';
 
 export function App() {
   const state = useFormulaDeltaStore();
@@ -31,6 +32,7 @@ export function App() {
         <DashboardPanels state={state} client={client} delayMs={delayMs} setDelayMs={setDelayMs} />
       </section>
       <StrategyPanel stints={state.stints} drivers={state.drivers} timing={state.timing} />
+      <BattlePanel timing={state.timing} drivers={state.drivers} />
     </main>
   );
 }

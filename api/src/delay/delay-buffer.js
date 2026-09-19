@@ -45,7 +45,9 @@ export function createDelayBuffer({
     const wait = Math.max(0, readyAt(queue[0]) - now());
     timer = setTimer(() => {
       timer = null;
-      const emitted = buffer.flush();
+      const emitted = [];
+      while (queue.length && readyAt(queue[0]) <= now()) emitted.push(queue.shift().value);
+      emitted.forEach(onReady);
       if (emitted.length) schedule();
     }, wait);
   }

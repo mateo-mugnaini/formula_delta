@@ -6,7 +6,10 @@ const port = Number(process.env.FORMULA_DELTA_PORT || 3000);
 let processReplayEvent;
 let source = null;
 if (process.env.FORMULA_DELTA_REPLAY_DIR) {
-  const events = await loadRecording(process.env.FORMULA_DELTA_REPLAY_DIR);
+  const events = await loadRecording(process.env.FORMULA_DELTA_REPLAY_DIR, {
+    onWarning: ({ type, line }) =>
+      console.warn(`Replay recording warning: ${type} at JSONL line ${line}.`),
+  });
   source = createReplaySource({ events, onEvent: (event) => processReplayEvent?.(event) });
 }
 const app = createBackendApp({ host, port, source });
