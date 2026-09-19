@@ -34,11 +34,11 @@ A phase should not be considered complete simply because its happy path works.
 | Phase 3 — F1 Ingestion Layer               | In progress                                                  |
 | Phase 4 — Recording System                 | In progress                                                  |
 | Phase 5 — Replay Engine                    | Complete                                                     |
-| Phase 6 — Backend Application              | In progress — snapshots, incrementals, validation, and message versioning implemented |
-| Phase 7 — Broadcast Delay                  | In progress — delay buffer implemented and tested            |
-| Phase 8 — UX/UI Foundation                 | Documentation complete; implementation not started           |
-| Phase 9 — Frontend Foundation              | Not started                                                  |
-| Phase 10 — Main Live Dashboard             | Not started                                                  |
+| Phase 6 — Backend Application              | Complete                                                     |
+| Phase 7 — Broadcast Delay                  | Complete                                                     |
+| Phase 8 — UX/UI Foundation                 | Complete                                                     |
+| Phase 9 — Frontend Foundation              | Complete                                                     |
+| Phase 10 — Main Live Dashboard             | In progress — timing, race control, weather, and delay UI    |
 | Phase 11 — Strategy View                   | Not started                                                  |
 | Phase 12 — Docker and Reproducible Startup | Not started                                                  |
 | Phase 13 — MVP Hardening                   | Not started                                                  |
@@ -349,7 +349,8 @@ Phase 0 is complete when:
 # Phase 1 — Repository Foundation
 
 Status: In progress — workspace structure, shared package, scoped instructions,
-and base test command are present. Application start commands remain pending.
+application start commands, and base tests are present. Linting and remaining
+repository tooling remain pending.
 
 ## Goal
 
@@ -450,8 +451,8 @@ Verify tests can run from repository root.
 
 ## Phase 1 Exit Criteria
 
-Current status: not complete. The repository foundation is present, but the
-frontend and backend applications have not been implemented or started yet.
+Current status: not complete. The workspace, frontend, backend, and tests work;
+linting and remaining repository tooling still need to be finalized.
 
 - workspace installs correctly;
 - frontend starts;
@@ -830,14 +831,14 @@ At this point Formula Delta development should no longer depend on race weekends
 
 # Phase 6 — Backend Application
 
-Status: In progress — a local Node application exposes `/health` and
+Status: Complete — a local Node application exposes `/health` and
 `/snapshot` over HTTP, owns the ingestion pipeline lifecycle, attaches the
 WebSocket transport, sends authoritative snapshots on connect, and broadcasts
-normalized incremental state updates after processed events. Client command
-handling and formal client-side recovery behavior remain pending.
+  normalized incremental state updates after processed events. Client command
+  validation and formal client-side recovery behavior are implemented.
 The transport now validates the `COMMAND` envelope, rejects malformed JSON
 and unknown commands with machine-readable `ERROR` messages, and forwards
-supported commands to the application layer. Replay and delay command
+  supported commands to the application layer. Replay and delay command
 execution remain pending until their respective phases.
 
 ## Goal
@@ -937,9 +938,10 @@ All current server messages now include the shared protocol version.
 
 Synchronize Formula Delta with delayed television/streaming broadcasts.
 
-Status: In progress — an isolated presentation delay buffer now preserves
-event ordering, supports runtime delay changes, and is covered by deterministic
-tests. Backend pipeline integration and protocol commands remain pending.
+Status: Complete — the presentation delay buffer is integrated between state
+processing and WebSocket publication. Runtime sync commands can change the
+delay while preserving event ordering, including rapid timing and event-like
+updates. Recording remains independent from presentation delay.
 
 ---
 
@@ -991,6 +993,10 @@ Events must not be reordered incorrectly.
 ---
 
 # Phase 8 — UX/UI Foundation
+
+Status: Complete — UX principles, information hierarchy, design system,
+component behavior, and initial screen specifications are documented. JSX and
+CSS Module implementation is intentionally deferred to the project owner.
 
 ## Goal
 
@@ -1088,6 +1094,10 @@ Battle and advanced strategy screens remain Post-MVP.
 
 # Phase 9 — Frontend Foundation
 
+Status: Complete — Vite/React startup, WebSocket protocol reconstruction,
+connection/reconnection infrastructure, and the initial Zustand store are
+implemented and tested. Dashboard feature work continues in Phase 10.
+
 ## Goal
 
 Create the React application infrastructure.
@@ -1148,6 +1158,11 @@ Measure before introducing complex optimization.
 ---
 
 # Phase 10 — Main Live Dashboard
+
+Status: In progress — the React screen consumes normalized Zustand state and
+renders a minimal session header, connection state, track status, timing tower,
+Race Control messages, weather panel, and broadcast-delay control. Detailed
+live dashboard behavior remains pending.
 
 ## Goal
 

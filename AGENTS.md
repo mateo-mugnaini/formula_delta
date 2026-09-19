@@ -742,13 +742,10 @@ Responsible for:
 - component architecture;
 - frontend performance.
 
-The project owner implements the frontend presentation layer. When Phase 9 or
-later frontend work begins, the agent must explicitly notify the owner that
-frontend implementation is starting. The owner will implement `.jsx` and
-`.module.css` files. Agents may modify frontend-adjacent infrastructure,
-contracts, stores, configuration, utilities, tests, and documentation, but
-must not implement or overwrite presentation JSX or CSS Modules unless the
-owner explicitly requests it.
+The agent has permission to implement the complete frontend, including `.jsx`
+and `.module.css` files. Frontend implementation must follow the UX/UI rules
+defined by `client/src/design-system/AGENTS.md` and remain separated from raw
+Formula 1 payloads.
 
 ---
 

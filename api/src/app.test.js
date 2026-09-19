@@ -59,3 +59,31 @@ test('reports a readable error when the configured port is already in use', asyn
     await conflicting.stop();
   }
 });
+
+test('delays published updates and changes delay through sync commands', async () => {
+  let connectionHandler;
+  let messageHandler;
+  const messages = [];
+  const app = createBackendApp({
+    port: 0,
+    delayMs: 1000,
+    webSocketTransportFactory: async ({ httpServer, publisher, onCommand }) => attachWebSocketTransport({
+      httpServer, publisher, onCommand,
+      webSocketServerFactory: () => ({
+        on(event, handler) { if (event === 'connection') connectionHandler = handler; },
+        close() {}
+      })
+    })
+  });
+  await app.start();
+  try {
+    const client = { readyState: 1, send(value) { messages.push(JSON.parse(value)); }, on(event, handler) { if (event === 'message') messageHandler = handler; } };
+    connectionHandler(client);
+    assert.equal(messages.length, 1);
+    messageHandler(JSON.stringify({ type: 'COMMAND', command: 'SYNC_SET_DELAY', payload: { delayMs: 0 } }));
+    app.pipeline.process({ topic: 'TimingData', payload: { Lines: { '1': { Position: '1' } } } });
+    assert.equal(messages.at(-1).type, 'STATE_UPDATE');
+  } finally {
+    await app.stop();
+  }
+});
