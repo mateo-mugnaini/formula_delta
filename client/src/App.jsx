@@ -9,16 +9,21 @@ import { StrategyPanel } from './components/StrategyPanel/StrategyPanel.jsx';
 import { BattlePanel } from './components/BattlePanel/BattlePanel.jsx';
 import { AnalyticsPanel } from './components/AnalyticsPanel/AnalyticsPanel.jsx';
 import { TeamRadioPanel } from './components/TeamRadioPanel/TeamRadioPanel.jsx';
+import { TrackMapPanel } from './components/TrackMapPanel/TrackMapPanel.jsx';
+import { useI18n } from './i18n/i18n.js';
 
 export function App() {
   const state = useFormulaDeltaStore();
   const [client, setClient] = useState(null);
   const [delayMs, setDelayMs] = useState(0);
+  const [selectedDriverId, setSelectedDriverId] = useState(null);
+  const { t } = useI18n();
   useEffect(() => {
     const client = createWebSocketClient({
       url: import.meta.env.VITE_WS_URL || 'ws://127.0.0.1:3000',
       onState: (next) => useFormulaDeltaStore.setState(next),
       onConnection: (status) => useFormulaDeltaStore.getState().setConnectionStatus(status),
+      logger: console,
     });
     setClient(client);
     return () => client.stop();
@@ -30,9 +35,10 @@ export function App() {
         connectionStatus={state.connectionStatus}
       />
       <section className={styles.layout}>
-        <TimingTower timing={state.timing} drivers={state.drivers} />
-        <DashboardPanels state={state} client={client} delayMs={delayMs} setDelayMs={setDelayMs} />
+        <TimingTower timing={state.timing} drivers={state.drivers} selectedDriverId={selectedDriverId} onSelectDriver={setSelectedDriverId} />
+        <DashboardPanels state={state} client={client} delayMs={delayMs} setDelayMs={setDelayMs} selectedDriverId={selectedDriverId} onSelectDriver={setSelectedDriverId} />
       </section>
+      <TrackMapPanel title={t.trackMap} message={t.livePositionUnavailable} available={state.capabilities?.livePosition} />
       <StrategyPanel stints={state.stints} drivers={state.drivers} timing={state.timing} />
       <BattlePanel timing={state.timing} drivers={state.drivers} gapHistory={state.gapHistory} />
       <AnalyticsPanel timing={state.timing} drivers={state.drivers} lapHistory={state.lapHistory} />

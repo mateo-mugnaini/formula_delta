@@ -1,5 +1,5 @@
 export function filterTeamRadioMessages(messages = [], selectedDrivers = []) {
-  if (!selectedDrivers.length) return messages;
+  if (selectedDrivers == null) return messages;
   const selected = new Set(selectedDrivers.map(String));
   return messages.filter((message) => selected.has(String(message.driverId)));
 }
@@ -9,4 +9,8 @@ export function toggleRadioDriver(selectedDrivers = [], driverId) {
   return selectedDrivers.some((value) => String(value) === id)
     ? selectedDrivers.filter((value) => String(value) !== id)
     : [...selectedDrivers, driverId];
+}
+
+export function getAllRadioDriverIds(drivers = {}) {
+  return Object.keys(drivers);
 }

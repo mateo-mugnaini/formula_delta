@@ -5,6 +5,7 @@ import {
   normalizeStintLines,
   normalizeTimingLines,
   normalizeTrackState,
+  normalizeTeamRadioMessages,
   normalizeWeather,
 } from '../../../packages/shared/src/index.js';
 
@@ -22,6 +23,9 @@ export function parseTopic(topic, payload) {
       return { kind: 'track', value: normalizeTrackState(payload) };
     case 'RaceControlMessages':
       return { kind: 'raceControl', value: normalizeRaceControlMessages(payload) };
+    case 'TeamRadio':
+    case 'TeamRadioMessages':
+      return { kind: 'teamRadio', value: normalizeTeamRadioMessages(payload) };
     case 'WeatherData':
       return { kind: 'weather', value: normalizeWeather(payload) };
     case 'SessionStatus':

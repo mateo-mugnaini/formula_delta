@@ -1,0 +1,6 @@
+.panel { min-height: 12rem; padding: 1rem; border: 1px solid var(--fd-border); border-radius: var(--fd-radius); background: var(--fd-surface); }
+.heading { display: flex; align-items: center; justify-content: space-between; padding-bottom: .75rem; border-bottom: 1px solid var(--fd-border); }
+.heading h2 { margin: 0; font-size: .85rem; letter-spacing: .08em; text-transform: uppercase; }
+.heading span { color: var(--fd-text-dim); font-size: .62rem; }
+.empty { display: grid; gap: .45rem; place-content: center; min-height: 8rem; color: var(--fd-text-muted); text-align: center; font-size: .72rem; }
+.empty strong { color: var(--fd-yellow); font-size: .78rem; }

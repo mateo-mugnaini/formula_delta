@@ -1,10 +1,17 @@
-import { useMemo, useState } from 'react';
-import { filterTeamRadioMessages, toggleRadioDriver } from '../../state/team-radio.js';
+import { memo, useMemo, useState } from 'react';
+import {
+  filterTeamRadioMessages,
+  getAllRadioDriverIds,
+  toggleRadioDriver,
+} from '../../state/team-radio.js';
 import styles from './TeamRadioPanel.module.css';
 
-export function TeamRadioPanel({ messages = [], drivers = {} }) {
-  const [selectedDrivers, setSelectedDrivers] = useState([]);
+export const TeamRadioPanel = memo(function TeamRadioPanel({ messages = [], drivers = {} }) {
+  const [selectedDrivers, setSelectedDrivers] = useState(null);
   const driverIds = Object.keys(drivers);
+  const allSelected = selectedDrivers !== null && driverIds.length > 0 && driverIds.every((id) =>
+    selectedDrivers.some((selectedId) => String(selectedId) === id),
+  );
   const visibleMessages = useMemo(
     () => filterTeamRadioMessages(messages, selectedDrivers),
     [messages, selectedDrivers],
@@ -20,8 +27,16 @@ export function TeamRadioPanel({ messages = [], drivers = {} }) {
         <span>{visibleMessages.length} messages</span>
       </div>
       <div className={styles.filters}>
+        <button
+          className={allSelected ? styles.selected : undefined}
+          type="button"
+          aria-pressed={allSelected}
+          onClick={() => setSelectedDrivers(allSelected ? [] : getAllRadioDriverIds(drivers))}
+        >
+          {allSelected ? 'Deseleccionar todos' : 'Seleccionar todos'}
+        </button>
         {driverIds.map((id) => {
-          const selected = selectedDrivers.includes(id) || selectedDrivers.includes(Number(id));
+          const selected = selectedDrivers?.some((selectedId) => String(selectedId) === id) ?? false;
           return (
             <button
               className={selected ? styles.selected : undefined}
@@ -52,8 +67,10 @@ export function TeamRadioPanel({ messages = [], drivers = {} }) {
             ))}
         </div>
       ) : (
-        <p className={styles.empty}>Team Radio unavailable or no driver selected</p>
+        <p className={styles.empty}>
+          {messages.length ? 'No hay audios para los pilotos seleccionados' : 'Audio de radio no disponible'}
+        </p>
       )}
     </section>
   );
-}
+});

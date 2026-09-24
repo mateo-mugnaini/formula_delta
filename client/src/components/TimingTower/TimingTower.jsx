@@ -1,11 +1,33 @@
+import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import styles from './TimingTower.module.css';
 import { useI18n } from '../../i18n/i18n.js';
 
-export function TimingTower({ timing, drivers }) {
+export const TimingTower = memo(function TimingTower({ timing, drivers, selectedDriverId, onSelectDriver }) {
   const { t } = useI18n();
-  const rows = Object.entries(timing || {}).sort(
-    ([, a], [, b]) => (a.position ?? 999) - (b.position ?? 999),
+  const previousPositions = useRef({});
+  const [changedDrivers, setChangedDrivers] = useState(new Set());
+  const rows = useMemo(
+    () => Object.entries(timing || {}).sort(([, a], [, b]) => (a.position ?? 999) - (b.position ?? 999)),
+    [timing],
   );
+  useEffect(() => {
+    const changed = new Set();
+    for (const [id, row] of rows) {
+      if (
+        previousPositions.current[id] !== undefined &&
+        previousPositions.current[id] !== row.position
+      ) {
+        changed.add(id);
+      }
+    }
+    previousPositions.current = Object.fromEntries(
+      rows.map(([id, row]) => [id, row.position]),
+    );
+    if (!changed.size) return undefined;
+    setChangedDrivers(changed);
+    const timer = setTimeout(() => setChangedDrivers(new Set()), 700);
+    return () => clearTimeout(timer);
+  }, [rows]);
   return (
     <section className={styles.tower} aria-label="Timing tower">
       <div className={styles.sectionHeading}>
@@ -21,7 +43,17 @@ export function TimingTower({ timing, drivers }) {
       </div>
       {rows.length ? (
         rows.map(([id, row]) => (
-          <div className={styles.row} key={id}>
+          <div
+            className={`${styles.row} ${changedDrivers.has(id) ? styles.positionChanged : ''}`}
+            key={id}
+            role="button"
+            tabIndex="0"
+            aria-pressed={String(selectedDriverId) === id}
+            onClick={() => onSelectDriver?.(id)}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' || event.key === ' ') onSelectDriver?.(id);
+            }}
+          >
             <strong>{row.position ?? '—'}</strong>
             <span className={styles.driverCell}>
               <span className={styles.driver}>{drivers?.[id]?.abbreviation || id}</span>
@@ -46,4 +78,4 @@ export function TimingTower({ timing, drivers }) {
       )}
     </section>
   );
-}
+});

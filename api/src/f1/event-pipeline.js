@@ -9,8 +9,10 @@ export function createIngestionPipeline({
   onRawEvent = () => {},
   onParsedUpdate = () => {},
   initialState = createInitialState(),
+  logger = { debug() {} },
 } = {}) {
   let state = initialState;
+  let eventCount = 0;
   return {
     getState: () => state,
     process(rawEvent) {
@@ -20,9 +22,18 @@ export function createIngestionPipeline({
         payload: rawEvent.payload,
       };
       onRawEvent(event);
+      eventCount += 1;
+      logger.debug?.('F1 event received', { count: eventCount, topic: event.topic });
       const parsed = parseTopic(event.topic, event.payload);
+      if (parsed.kind === 'unknown') {
+        logger.warn?.('Unknown F1 topic received', {
+          topic: event.topic,
+          payloadKeys: Object.keys(event.payload || {}).slice(0, 20),
+        });
+      }
       state = applyParsedUpdate(state, parsed);
       onParsedUpdate({ event, parsed, state });
+      logger.debug?.('F1 event normalized', { count: eventCount, kind: parsed.kind });
       return parsed;
     },
   };
@@ -48,6 +59,8 @@ export function applyParsedUpdate(state, parsed) {
       return { ...state, weather: applyObjectDelta(state.weather, parsed.value) };
     case 'raceControl':
       return { ...state, raceControl: appendUniqueEvents(state.raceControl, parsed.value) };
+    case 'teamRadio':
+      return { ...state, teamRadio: appendUniqueEvents(state.teamRadio, parsed.value) };
     default:
       return state;
   }

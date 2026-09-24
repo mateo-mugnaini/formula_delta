@@ -8,6 +8,7 @@ export function createInitialState() {
     stints: {},
     track: null,
     raceControl: [],
+    teamRadio: [],
     weather: null,
     capabilities: createCapabilities(),
     connection: { status: 'disconnected', source: null },

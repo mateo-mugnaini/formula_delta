@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styles from './DashboardPanels.module.css';
 import { useI18n } from '../../i18n/i18n.js';
-export function DashboardPanels({ state, client, delayMs, setDelayMs }) {
+export function DashboardPanels({ state, client, delayMs, setDelayMs, selectedDriverId, onSelectDriver }) {
   const { t } = useI18n();
   const [pendingCommand, setPendingCommand] = useState(null);
   const send = (command, payload = {}) => {
@@ -15,6 +15,18 @@ export function DashboardPanels({ state, client, delayMs, setDelayMs }) {
     .slice(0, 4);
   return (
     <aside className={styles.rail}>
+      <Panel title={t.driverFocus}>
+        {selectedDriverId ? (
+          <div className={styles.focusGrid}>
+            <strong>{state.drivers?.[selectedDriverId]?.fullName || selectedDriverId}</strong>
+            <button onClick={() => onSelectDriver?.(null)}>{t.clear}</button>
+            <span>Position {state.timing?.[selectedDriverId]?.position ?? '—'}</span>
+            <span>Gap {state.timing?.[selectedDriverId]?.gapToLeader?.display || '—'}</span>
+            <span>Last lap {state.timing?.[selectedDriverId]?.lastLap?.display || '—'}</span>
+            <span>Tyre {state.timing?.[selectedDriverId]?.tyre?.compound || '—'}</span>
+          </div>
+        ) : <Empty text={t.selectDriver} />}
+      </Panel>
       <Panel title={t.raceControl}>
         {state.raceControl?.length ? (
           <div className={styles.messages}>

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import {
   calculateAverageLapTime,
   calculatePaceDelta,
@@ -6,7 +7,7 @@ import {
 import styles from './AnalyticsPanel.module.css';
 import { useI18n } from '../../i18n/i18n.js';
 
-export function AnalyticsPanel({ timing, drivers, lapHistory }) {
+export const AnalyticsPanel = memo(function AnalyticsPanel({ timing, drivers, lapHistory }) {
   const { t } = useI18n();
   const rows = Object.entries(lapHistory || {})
     .map(([id, laps]) => ({
@@ -48,7 +49,7 @@ export function AnalyticsPanel({ timing, drivers, lapHistory }) {
       )}
     </section>
   );
-}
+});
 
 function formatLap(milliseconds) {
   const minutes = Math.floor(milliseconds / 60000);

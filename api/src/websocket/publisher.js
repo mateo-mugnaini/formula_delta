@@ -4,15 +4,18 @@ export function createPublisher({
   getState,
   source = { mode: 'unknown' },
   serialize = serializeMessage,
+  logger = console,
 } = {}) {
   const clients = new Set();
   return {
     connect(client) {
       clients.add(client);
+      logger.info?.('Sending initial state snapshot to frontend', { clients: clients.size });
       send(client, createStateSnapshot(getState(), source));
       return () => clients.delete(client);
     },
     broadcast(message) {
+      logger.debug?.('Broadcasting state to frontend clients', { clients: clients.size, type: message.type });
       for (const client of clients) send(client, message);
     },
     clientCount: () => clients.size,

@@ -12,6 +12,7 @@ export function createBackendApp({
   delayMs = 0,
   onStatus = () => {},
   webSocketTransportFactory = createWebSocketTransport,
+  logger = console,
 } = {}) {
   let publisher;
   let webSocketServer;
@@ -22,6 +23,7 @@ export function createBackendApp({
     onReady: (message) => publisher?.broadcast(message),
   });
   const pipeline = createIngestionPipeline({
+    logger,
     onParsedUpdate: ({ parsed, state }) => {
       const message = createStateUpdate(state, { kind: parsed.kind });
       if (delayBuffer.getDelay() === 0) publisher?.broadcast(message);
@@ -32,6 +34,7 @@ export function createBackendApp({
   publisher = createPublisher({
     getState: pipeline.getState,
     source: { mode: source?.mode || 'unknown' },
+    logger,
   });
 
   const server = createServer((request, response) => {
@@ -56,6 +59,7 @@ export function createBackendApp({
           httpServer: server,
           publisher,
           onCommand: ({ command, payload }) => handleCommand(command, payload),
+          logger,
         });
         if (source) await source.start();
         started = true;

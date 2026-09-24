@@ -5,11 +5,16 @@ export function attachWebSocketTransport({
   publisher,
   webSocketServerFactory,
   onCommand = () => {},
+  logger = console,
 }) {
   const webSocketServer = webSocketServerFactory({ server: httpServer });
   webSocketServer.on('connection', (client) => {
+    logger.info?.('Frontend WebSocket connected');
     const disconnect = publisher.connect(client);
-    client.on?.('close', disconnect);
+    client.on?.('close', () => {
+      logger.info?.('Frontend WebSocket disconnected');
+      disconnect();
+    });
     client.on?.('message', (input) => {
       const result = parseClientCommand(input);
       if (result.error) {
@@ -27,11 +32,12 @@ function sendError(client, error) {
   client.send(JSON.stringify(error));
 }
 
-export async function createWebSocketTransport({ httpServer, publisher }) {
+export async function createWebSocketTransport({ httpServer, publisher, logger = console }) {
   const { WebSocketServer } = await import('ws');
   return attachWebSocketTransport({
     httpServer,
     publisher,
     webSocketServerFactory: (options) => new WebSocketServer(options),
+    logger,
   });
 }

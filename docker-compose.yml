@@ -6,6 +6,9 @@ services:
     environment:
       FORMULA_DELTA_HOST: 0.0.0.0
       FORMULA_DELTA_PORT: 3000
+      F1_SIGNALR_URL: ${F1_SIGNALR_URL}
+      F1_SIGNALR_TOPICS: ${F1_SIGNALR_TOPICS}
+      FORMULA_DELTA_LOG_LEVEL: ${FORMULA_DELTA_LOG_LEVEL:-info}
     ports:
       - "3000:3000"
     volumes:

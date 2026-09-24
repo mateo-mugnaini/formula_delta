@@ -53,6 +53,9 @@ const translations = {
     unavailable: 'Dashboard temporalmente no disponible',
     unexpectedState: 'El estado recibido contiene un valor inesperado.',
     reload: 'Recargar dashboard',
+    driverFocus: 'Foco del piloto', clear: 'Limpiar', selectDriver: 'Selecciona un piloto en la torre',
+    unavailableData: 'Datos no disponibles', trackMap: 'Mapa del circuito', livePositionUnavailable: 'Posiciones en pista no disponibles',
+    interval: 'INTERVALO', tyreAge: 'EDAD', stops: 'PARADAS', bestLap: 'MEJOR VUELTA', team: 'EQUIPO',
   },
   en: {
     liveTiming: 'Live timing',
@@ -100,6 +103,9 @@ const translations = {
     unavailable: 'Dashboard temporarily unavailable',
     unexpectedState: 'The live state contained an unexpected value.',
     reload: 'Reload dashboard',
+    driverFocus: 'Driver focus', clear: 'Clear', selectDriver: 'Select a driver in the timing tower',
+    unavailableData: 'Data unavailable', trackMap: 'Track map', livePositionUnavailable: 'Live track positions unavailable',
+    interval: 'INTERVAL', tyreAge: 'AGE', stops: 'STOPS', bestLap: 'BEST LAP', team: 'TEAM',
   },
   it: {
     liveTiming: 'Tempi dal vivo',
@@ -147,6 +153,9 @@ const translations = {
     unavailable: 'Dashboard temporaneamente non disponibile',
     unexpectedState: 'Lo stato ricevuto contiene un valore imprevisto.',
     reload: 'Ricarica dashboard',
+    driverFocus: 'Focus pilota', clear: 'Pulisci', selectDriver: 'Seleziona un pilota nella torre',
+    unavailableData: 'Dati non disponibili', trackMap: 'Mappa del circuito', livePositionUnavailable: 'Posizioni in pista non disponibili',
+    interval: 'INTERVALLO', tyreAge: 'ETÀ', stops: 'SOSTE', bestLap: 'MIGLIOR GIRO', team: 'SQUADRA',
   },
 };
 

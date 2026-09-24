@@ -36,3 +36,15 @@ test('preserves unknown topics without throwing', () => {
   assert.equal(result.kind, 'unknown');
   assert.deepEqual(result.value, { Value: 1 });
 });
+
+test('normalizes Team Radio audio entries', () => {
+  const result = parseTopic('TeamRadio', {
+    Messages: [{ RacingNumber: 1, Utc: '2025-01-01T12:00:00Z', Path: 'https://audio.test/radio.mp3' }],
+  });
+  assert.deepEqual(result.value[0], {
+    id: '2025-01-01T12:00:00Z',
+    driverId: '1',
+    timestamp: '2025-01-01T12:00:00Z',
+    url: 'https://audio.test/radio.mp3',
+  });
+});

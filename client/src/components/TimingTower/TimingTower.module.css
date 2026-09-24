@@ -25,7 +25,7 @@
 .columnHeader,
 .row {
   display: grid;
-  grid-template-columns: 2.5rem minmax(7rem, 1fr) 8rem 8rem 6rem;
+  grid-template-columns: 2.5rem minmax(10rem, 1fr) 8rem 8rem 6rem;
   gap: 0.75rem;
   padding: 0 1rem;
 }
@@ -45,8 +45,31 @@
   font-size: 0.82rem;
   font-variant-numeric: tabular-nums;
 }
+.row[role='button'] { cursor: pointer; }
+.row[role='button']:hover,
+.row[role='button'][aria-pressed='true'] { background: color-mix(in srgb, var(--fd-blue) 10%, var(--fd-surface)); }
+.row:focus-visible { outline: 2px solid var(--fd-yellow); outline-offset: -2px; }
 .row strong {
   color: var(--fd-text);
+}
+.positionChanged {
+  animation: positionChange 700ms ease-out;
+}
+@keyframes positionChange {
+  0% {
+    background: color-mix(in srgb, var(--fd-red) 22%, transparent);
+    transform: translateY(-2px);
+  }
+  100% {
+    background: transparent;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .positionChanged {
+    animation: none;
+    background: color-mix(in srgb, var(--fd-red) 18%, transparent);
+  }
 }
 .driverCell {
   display: grid;

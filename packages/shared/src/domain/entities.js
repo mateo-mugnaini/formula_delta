@@ -157,3 +157,16 @@ export function normalizeStintLines(raw = {}) {
 export function normalizeRaceControlMessages(raw = {}) {
   return Array.isArray(raw.Messages) ? raw.Messages.map(normalizeRaceControlEvent) : [];
 }
+
+export function normalizeTeamRadioMessages(raw = {}) {
+  const entries = Array.isArray(raw)
+    ? raw
+    : raw && (raw.Messages || raw.Lines || raw.TeamRadio) || [];
+  if (!Array.isArray(entries)) return [];
+  return entries.map((entry, index) => ({
+    id: normalizeString(entry.Utc) || `${normalizeString(entry.RacingNumber)}:${index}`,
+    driverId: normalizeString(entry.RacingNumber || entry.DriverId || entry.DriverNumber),
+    timestamp: normalizeString(entry.Utc || entry.Timestamp),
+    url: normalizeString(entry.Path || entry.Url || entry.URL || entry.AudioUrl || entry.AudioURL),
+  }));
+}

@@ -1,3 +1,4 @@
+import WebSocket from 'ws';
 import {
   extractTopicEvents,
   frameSignalRMessage,
@@ -5,17 +6,21 @@ import {
   splitSignalRFrames,
 } from './signalr-framing.js';
 
+const f1Origin = 'https://www.formula1.com';
+const f1UserAgent = 'Mozilla/5.0 FormulaDelta/1.0';
+
 export function createLiveSource({
   url,
   topics,
   hubMethod = 'Subscribe',
   fetchImpl = fetch,
-  webSocketFactory = (value) => new WebSocket(value),
+  webSocketFactory = (value, options) => new WebSocket(value, options),
   onEvent = () => {},
   onStatus = () => {},
   onError = () => {},
   reconnectDelayMs = 1000,
-  maxReconnectAttempts = 5,
+  maxReconnectDelayMs = 30000,
+  maxReconnectAttempts = Infinity,
 }) {
   let socket = null;
   let invocationId = 0;
@@ -28,11 +33,19 @@ export function createLiveSource({
     async start() {
       stopped = false;
       onStatus({ status: 'negotiating' });
-      const negotiation = await negotiate({ url, fetchImpl });
+      let negotiation;
+      try {
+        negotiation = await negotiate({ url, fetchImpl });
+      } catch (error) {
+        onStatus({ status: 'error' });
+        onError(error);
+        scheduleReconnect();
+        return;
+      }
       if (stopped) return;
-      reconnectAttempts = 0;
-      socket = webSocketFactory(buildWebSocketUrl(url, negotiation));
+      socket = webSocketFactory(buildWebSocketUrl(url, negotiation), negotiation.webSocketOptions);
       socket.onopen = () => {
+        reconnectAttempts = 0;
         onStatus({ status: 'connected' });
         socket.send(frameSignalRMessage({ protocol: 'json', version: 1 }));
       };
@@ -65,6 +78,11 @@ export function createLiveSource({
     }
     reconnectAttempts += 1;
     onStatus({ status: 'reconnecting', attempt: reconnectAttempts });
+    const delay = Math.min(
+      reconnectDelayMs * 2 ** Math.max(reconnectAttempts - 1, 0),
+      maxReconnectDelayMs,
+    );
+    onStatus({ status: 'reconnect-scheduled', attempt: reconnectAttempts, delayMs: delay });
     reconnectTimer = setTimeout(async () => {
       reconnectTimer = null;
       try {
@@ -80,7 +98,7 @@ export function createLiveSource({
     onStatus({ status: 'negotiating' });
     const negotiation = await negotiate({ url, fetchImpl });
     if (stopped) return;
-    socket = webSocketFactory(buildWebSocketUrl(url, negotiation));
+    socket = webSocketFactory(buildWebSocketUrl(url, negotiation), negotiation.webSocketOptions);
     socket.onopen = () => {
       onStatus({ status: 'connected' });
       socket.send(frameSignalRMessage({ protocol: 'json', version: 1 }));
@@ -129,13 +147,41 @@ export function createLiveSource({
 }
 
 export async function negotiate({ url, fetchImpl }) {
-  const response = await fetchImpl(`${url.replace(/\/$/, '')}/negotiate?negotiateVersion=1`, {
+  const negotiateUrl = `${url.replace(/\/$/, '')}/negotiate?negotiateVersion=1`;
+  const preflight = await fetchImpl(negotiateUrl, {
+    method: 'OPTIONS',
+    headers: { Origin: f1Origin, 'user-agent': f1UserAgent },
+  });
+  const cookie = getAwsAlbCookies(preflight);
+  const response = await fetchImpl(negotiateUrl, {
     method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    headers: {
+      'content-type': 'application/json',
+      Origin: f1Origin,
+      'user-agent': f1UserAgent,
+      ...(cookie ? { Cookie: cookie } : {}),
+    },
     body: '{}',
   });
   if (!response.ok) throw new Error(`F1 negotiation failed with status ${response.status}`);
-  return response.json();
+  return {
+    ...(await response.json()),
+    webSocketOptions: {
+      headers: {
+        Origin: f1Origin,
+        'User-Agent': f1UserAgent,
+        ...(cookie ? { Cookie: cookie } : {}),
+      },
+    },
+  };
+}
+
+function getAwsAlbCookies(response) {
+  const cookies = response?.headers?.getSetCookie?.() || [];
+  return cookies
+    .filter((value) => value.startsWith('AWSALB=') || value.startsWith('AWSALBCORS='))
+    .map((value) => value.split(';', 1)[0])
+    .join('; ');
 }
 
 export function buildWebSocketUrl(baseUrl, negotiation) {
