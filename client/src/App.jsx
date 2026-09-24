@@ -28,6 +28,9 @@ export function App() {
     setClient(client);
     return () => client.stop();
   }, []);
+  useEffect(() => {
+    if (selectedDriverId && !state.drivers?.[selectedDriverId]) setSelectedDriverId(null);
+  }, [selectedDriverId, state.drivers]);
   return (
     <main className={styles.appShell}>
       <DashboardHeader
@@ -35,14 +38,16 @@ export function App() {
         connectionStatus={state.connectionStatus}
       />
       <section className={styles.layout}>
-        <TimingTower timing={state.timing} drivers={state.drivers} selectedDriverId={selectedDriverId} onSelectDriver={setSelectedDriverId} />
+        <TimingTower timing={state.timing} stints={state.stints} drivers={state.drivers} selectedDriverId={selectedDriverId} onSelectDriver={setSelectedDriverId} />
         <DashboardPanels state={state} client={client} delayMs={delayMs} setDelayMs={setDelayMs} selectedDriverId={selectedDriverId} onSelectDriver={setSelectedDriverId} />
       </section>
-      <TrackMapPanel title={t.trackMap} message={t.livePositionUnavailable} available={state.capabilities?.livePosition} />
-      <StrategyPanel stints={state.stints} drivers={state.drivers} timing={state.timing} />
-      <BattlePanel timing={state.timing} drivers={state.drivers} gapHistory={state.gapHistory} />
-      <AnalyticsPanel timing={state.timing} drivers={state.drivers} lapHistory={state.lapHistory} />
-      <TeamRadioPanel messages={state.teamRadio} drivers={state.drivers} />
+      <section className={styles.secondaryGrid}>
+        <TrackMapPanel title={t.trackMap} message={t.livePositionUnavailable} available={state.capabilities?.livePosition} />
+        <StrategyPanel stints={state.stints} drivers={state.drivers} timing={state.timing} />
+        <BattlePanel timing={state.timing} drivers={state.drivers} gapHistory={state.gapHistory} />
+        <AnalyticsPanel timing={state.timing} drivers={state.drivers} lapHistory={state.lapHistory} />
+        <TeamRadioPanel messages={state.teamRadio} drivers={state.drivers} />
+      </section>
     </main>
   );
 }

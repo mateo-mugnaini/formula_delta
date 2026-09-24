@@ -37,3 +37,19 @@ test('ignores incompatible or unknown messages', () => {
     state,
   );
 });
+
+test('applies authoritative replay and synchronization state', () => {
+  const state = createInitialClientState();
+  const replay = applyServerMessage(state, {
+    type: 'REPLAY_STATE',
+    protocolVersion: 1,
+    payload: { status: 'playing', speed: 5 },
+  });
+  const synced = applyServerMessage(replay, {
+    type: 'SYNC_STATE',
+    protocolVersion: 1,
+    payload: { delayMs: 12000 },
+  });
+  assert.equal(synced.replay.speed, 5);
+  assert.equal(synced.sync.delayMs, 12000);
+});

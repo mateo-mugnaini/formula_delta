@@ -30,10 +30,13 @@ export function DashboardHeader({ session, connectionStatus }) {
         </div>
       </header>
       <div className={styles.statusBar}>
+        <span>{session?.meeting?.name || session?.name || t.formulaSession}</span>
+        <span>{session?.meeting?.circuit?.shortName || '—'}</span>
         <strong className={styles.trackStatus}>
           {session?.trackStatus || t.trackStatusUnknown}
         </strong>
         <span>{session?.type || t.formulaSession}</span>
+        <span>{session?.currentLap != null ? `${t.lapOf} ${session.currentLap}/${session.totalLaps || '—'}` : t.sessionReady}</span>
         <span>{session?.source || 'unknown'} source</span>
       </div>
     </>

@@ -3,7 +3,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 2rem;
-  padding-bottom: 1.25rem;
+  min-height: 3.6rem;
+  padding: 0.55rem 0 0.7rem;
   border-bottom: 1px solid var(--fd-border);
 }
 .eyebrow {
@@ -16,7 +17,7 @@
 h1 {
   margin: 0;
   color: var(--fd-text);
-  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-size: clamp(1.15rem, 2vw, 1.65rem);
   letter-spacing: -0.04em;
 }
 .headerMeta {
@@ -66,12 +67,15 @@ h1 {
   align-items: center;
   gap: 1rem;
   flex-wrap: wrap;
-  min-height: 3rem;
+  min-height: 2.35rem;
   border-bottom: 1px solid #1b2533;
   color: #8290a5;
   font-size: 0.75rem;
   text-transform: uppercase;
 }
+.statusBar span,
+.statusBar strong { padding: 0.25rem 0.55rem; border: 1px solid var(--fd-border-soft); border-radius: 0.2rem; }
+.statusBar span:first-child { color: var(--fd-text); font-weight: 700; }
 .trackStatus {
   color: var(--fd-yellow);
 }

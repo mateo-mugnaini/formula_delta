@@ -16,6 +16,7 @@ export function createInitialClientState() {
     capabilities: {},
     connection: {},
     replay: { status: 'idle', speed: 1, index: 0, total: 0 },
+    sync: { delayMs: 0 },
   };
 }
 
@@ -27,6 +28,7 @@ export function applyServerMessage(state, message) {
     return { ...snapshot, source: message.payload.source ?? snapshot.source ?? state.source };
   }
   if (message.type === 'REPLAY_STATE') return { ...state, replay: message.payload ?? state.replay };
+  if (message.type === 'SYNC_STATE') return { ...state, sync: message.payload ?? state.sync };
   if (message.type !== 'STATE_UPDATE') return state;
   const kind = message.payload?.change?.kind;
   const key = kind === 'sessionStatus' || kind === 'lapCount' ? 'session' : kind;

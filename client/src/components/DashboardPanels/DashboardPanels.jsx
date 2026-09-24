@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import styles from './DashboardPanels.module.css';
 import { useI18n } from '../../i18n/i18n.js';
-export function DashboardPanels({ state, client, delayMs, setDelayMs, selectedDriverId, onSelectDriver }) {
+export const DashboardPanels = memo(function DashboardPanels({ state, client, delayMs, setDelayMs, selectedDriverId, onSelectDriver }) {
   const { t } = useI18n();
   const [pendingCommand, setPendingCommand] = useState(null);
   const send = (command, payload = {}) => {
@@ -11,8 +11,10 @@ export function DashboardPanels({ state, client, delayMs, setDelayMs, selectedDr
     window.setTimeout(() => setPendingCommand(null), 450);
   };
   const activePits = Object.entries(state.timing || {})
-    .filter(([, row]) => row.inPit || row.pitLane)
+    .filter(([, row]) => row.inPit || row.pitLane || row.status?.inPit || row.status?.pitOut)
     .slice(0, 4);
+  const focusedStints = selectedDriverId ? state.stints?.[selectedDriverId] || [] : [];
+  const currentStint = focusedStints.at(-1);
   return (
     <aside className={styles.rail}>
       <Panel title={t.driverFocus}>
@@ -20,6 +22,15 @@ export function DashboardPanels({ state, client, delayMs, setDelayMs, selectedDr
           <div className={styles.focusGrid}>
             <strong>{state.drivers?.[selectedDriverId]?.fullName || selectedDriverId}</strong>
             <button onClick={() => onSelectDriver?.(null)}>{t.clear}</button>
+            <span>{t.team} {state.drivers?.[selectedDriverId]?.team?.name || '—'}</span>
+            <span>STINT {currentStint?.number ?? '—'}</span>
+            <span>COMPOUND {currentStint?.compound || '—'}</span>
+            <span>LAPS {currentStint?.totalLaps ?? '—'}</span>
+            <span>STATUS {getFocusStatus(state.timing?.[selectedDriverId])}</span>
+            <span>{t.interval} {state.timing?.[selectedDriverId]?.intervalToAhead?.display || '—'}</span>
+            <span>{t.bestLap} {state.timing?.[selectedDriverId]?.bestLap?.display || '—'}</span>
+            <span>{t.tyreAge} {state.timing?.[selectedDriverId]?.tyreAge ?? '—'}</span>
+            <span>{t.stops} {state.timing?.[selectedDriverId]?.pitStops ?? 0}</span>
             <span>Position {state.timing?.[selectedDriverId]?.position ?? '—'}</span>
             <span>Gap {state.timing?.[selectedDriverId]?.gapToLeader?.display || '—'}</span>
             <span>Last lap {state.timing?.[selectedDriverId]?.lastLap?.display || '—'}</span>
@@ -79,6 +90,9 @@ export function DashboardPanels({ state, client, delayMs, setDelayMs, selectedDr
               <button disabled={pendingCommand !== null} onClick={() => send('REPLAY_RESTART')}>
                 {pendingCommand === 'REPLAY_RESTART' ? 'Sending…' : 'Restart'}
               </button>
+              {[0.5, 1, 2, 5, 10].map((speed) => (
+                <button key={speed} disabled={pendingCommand !== null} onClick={() => send('REPLAY_SET_SPEED', { speed })}>{speed}x</button>
+              ))}
             </div>
           </div>
         </Panel>
@@ -123,11 +137,20 @@ export function DashboardPanels({ state, client, delayMs, setDelayMs, selectedDr
             >
               {pendingCommand === 'SYNC_SET_DELAY' ? t.applying : t.apply}
             </button>
+            <button disabled={pendingCommand !== null} onClick={() => send('SYNC_ADJUST_DELAY', { deltaMs: -1000 })}>-1s</button>
+            <button disabled={pendingCommand !== null} onClick={() => send('SYNC_ADJUST_DELAY', { deltaMs: 1000 })}>+1s</button>
           </div>
         </div>
       </Panel>
     </aside>
   );
+}, areDashboardPanelsEqual);
+
+function areDashboardPanelsEqual(previous, next) {
+  if (previous.client !== next.client || previous.delayMs !== next.delayMs || previous.selectedDriverId !== next.selectedDriverId) return false;
+  const previousState = previous.state;
+  const nextState = next.state;
+  return previousState.timing === nextState.timing && previousState.stints === nextState.stints && previousState.drivers === nextState.drivers && previousState.raceControl === nextState.raceControl && previousState.weather === nextState.weather && previousState.source === nextState.source && previousState.replay === nextState.replay && previousState.capabilities === nextState.capabilities;
 }
 function Panel({ title, children }) {
   return (
@@ -152,4 +175,10 @@ function Metric({ label, value, suffix = '' }) {
       </strong>
     </div>
   );
+}
+function getFocusStatus(timing = {}) {
+  if (timing.inPit || timing.status?.inPit) return 'PIT';
+  if (timing.pitLane || timing.status?.pitOut) return 'PIT LANE';
+  if (timing.status?.stopped) return 'STOPPED';
+  return 'RUNNING';
 }
