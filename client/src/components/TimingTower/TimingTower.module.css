@@ -107,7 +107,6 @@
 .intermediate { --compound-color: #46c26b; }
 .wet { --compound-color: #4e9bea; }
 .unknownCompound { --compound-color: #a78bfa; }
-}
 .empty {
   padding: 1.25rem 1rem;
   color: #718096;
