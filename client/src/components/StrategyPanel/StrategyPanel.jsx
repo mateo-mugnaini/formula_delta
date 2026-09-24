@@ -1,16 +1,34 @@
-import { memo, useMemo } from 'react';
+import { memo, useMemo, useState } from 'react';
 import styles from './StrategyPanel.module.css';
 import { buildStrategyRows } from '../../state/strategy.js';
 import { useI18n } from '../../i18n/i18n.js';
 
 export const StrategyPanel = memo(function StrategyPanel({ stints, drivers, timing }) {
   const { t } = useI18n();
-  const rows = useMemo(() => buildStrategyRows(stints, drivers, timing), [stints, drivers, timing]);
+  const availableDrivers = useMemo(() => Object.keys(stints || {}), [stints]);
+  const [selectedDrivers, setSelectedDrivers] = useState(['43']);
+  const rows = useMemo(
+    () => buildStrategyRows(stints, drivers, timing).filter((row) => selectedDrivers.includes(String(row.id))),
+    [stints, drivers, timing, selectedDrivers],
+  );
   return (
     <section className={styles.panel} aria-label="Strategy view">
       <div className={styles.heading}>
         <h2>Strategy</h2>
-        <span>{rows.length} drivers</span>
+        <span>{selectedDrivers.length} selected</span>
+      </div>
+      <div className={styles.driverFilters} aria-label="Strategy driver selection">
+        {availableDrivers.map((id) => (
+          <button
+            type="button"
+            key={id}
+            className={selectedDrivers.includes(id) ? styles.selectedDriver : undefined}
+            aria-pressed={selectedDrivers.includes(id)}
+            onClick={() => setSelectedDrivers((current) => current.includes(id) ? current.filter((value) => value !== id) : [...current, id])}
+          >
+            {drivers?.[id]?.abbreviation || id}
+          </button>
+        ))}
       </div>
       {rows.length ? (
         <div className={styles.rows}>

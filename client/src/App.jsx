@@ -7,7 +7,6 @@ import { TimingTower } from './components/TimingTower/TimingTower.jsx';
 import { DashboardPanels } from './components/DashboardPanels/DashboardPanels.jsx';
 import { StrategyPanel } from './components/StrategyPanel/StrategyPanel.jsx';
 import { BattlePanel } from './components/BattlePanel/BattlePanel.jsx';
-import { AnalyticsPanel } from './components/AnalyticsPanel/AnalyticsPanel.jsx';
 import { TeamRadioPanel } from './components/TeamRadioPanel/TeamRadioPanel.jsx';
 import { TrackMapPanel } from './components/TrackMapPanel/TrackMapPanel.jsx';
 import { useI18n } from './i18n/i18n.js';
@@ -52,7 +51,6 @@ export function App() {
         <TrackMapPanel title={t.trackMap} message={t.livePositionUnavailable} available={state.capabilities?.livePosition} />
         <StrategyPanel stints={state.stints} drivers={state.drivers} timing={state.timing} />
         <BattlePanel timing={state.timing} drivers={state.drivers} gapHistory={state.gapHistory} />
-        <AnalyticsPanel timing={state.timing} drivers={state.drivers} lapHistory={state.lapHistory} />
         <TeamRadioPanel messages={state.teamRadio} drivers={state.drivers} />
       </section>
     </main>
