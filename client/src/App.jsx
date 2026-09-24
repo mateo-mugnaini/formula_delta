@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import styles from './App.module.css';
 import { createWebSocketClient } from './websocket/client.js';
 import { useFormulaDeltaStore } from './state/store.js';
@@ -18,6 +18,10 @@ export function App() {
   const [delayMs, setDelayMs] = useState(0);
   const [selectedDriverId, setSelectedDriverId] = useState(null);
   const { t } = useI18n();
+  const headerSession = useMemo(
+    () => ({ ...state.session, trackStatus: state.track?.status, source: state.source?.mode }),
+    [state.session, state.track?.status, state.source?.mode],
+  );
   useEffect(() => {
     const client = createWebSocketClient({
       url: import.meta.env.VITE_WS_URL || 'ws://127.0.0.1:3000',
@@ -31,10 +35,13 @@ export function App() {
   useEffect(() => {
     if (selectedDriverId && !state.drivers?.[selectedDriverId]) setSelectedDriverId(null);
   }, [selectedDriverId, state.drivers]);
+  useEffect(() => {
+    if (Number.isFinite(state.sync?.delayMs) && state.sync.delayMs !== delayMs) setDelayMs(state.sync.delayMs);
+  }, [state.sync?.delayMs, delayMs]);
   return (
     <main className={styles.appShell}>
       <DashboardHeader
-        session={{ ...state.session, trackStatus: state.track?.status, source: state.source?.mode }}
+        session={headerSession}
         connectionStatus={state.connectionStatus}
       />
       <section className={styles.layout}>

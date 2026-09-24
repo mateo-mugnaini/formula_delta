@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 import { buildBattleComparison } from '../../state/battle.js';
 import styles from './BattlePanel.module.css';
 import { useI18n } from '../../i18n/i18n.js';
 
-export function BattlePanel({ timing, drivers, gapHistory }) {
+export const BattlePanel = memo(function BattlePanel({ timing, drivers, gapHistory }) {
   const { t } = useI18n();
-  const availableIds = Object.keys(timing || {});
+  const availableIds = useMemo(() => Object.keys(timing || {}), [timing]);
   const [selectedIds, setSelectedIds] = useState([]);
 
   useEffect(() => {
@@ -16,7 +16,7 @@ export function BattlePanel({ timing, drivers, gapHistory }) {
   }, [availableIds.join(',')]);
 
   const driverIds = selectedIds;
-  const rows = buildBattleComparison(timing, drivers, driverIds, gapHistory);
+  const rows = useMemo(() => buildBattleComparison(timing, drivers, driverIds, gapHistory), [timing, drivers, driverIds, gapHistory]);
 
   return (
     <section className={styles.panel} aria-label="Battle mode">
@@ -52,7 +52,7 @@ export function BattlePanel({ timing, drivers, gapHistory }) {
       )}
     </section>
   );
-}
+});
 
 function DriverSelect({ label, value, options, onChange }) {
   return (

@@ -1,4 +1,4 @@
-import { memo, useState } from 'react';
+import { memo, useMemo, useState } from 'react';
 import styles from './DashboardPanels.module.css';
 import { useI18n } from '../../i18n/i18n.js';
 export const DashboardPanels = memo(function DashboardPanels({ state, client, delayMs, setDelayMs, selectedDriverId, onSelectDriver }) {
@@ -10,9 +10,12 @@ export const DashboardPanels = memo(function DashboardPanels({ state, client, de
     client.send({ type: 'COMMAND', command, payload });
     window.setTimeout(() => setPendingCommand(null), 450);
   };
-  const activePits = Object.entries(state.timing || {})
-    .filter(([, row]) => row.inPit || row.pitLane || row.status?.inPit || row.status?.pitOut)
-    .slice(0, 4);
+  const activePits = useMemo(
+    () => Object.entries(state.timing || {})
+      .filter(([, row]) => row.inPit || row.pitLane || row.status?.inPit || row.status?.pitOut)
+      .slice(0, 4),
+    [state.timing],
+  );
   const focusedStints = selectedDriverId ? state.stints?.[selectedDriverId] || [] : [];
   const currentStint = focusedStints.at(-1);
   return (

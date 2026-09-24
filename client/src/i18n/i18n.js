@@ -164,8 +164,21 @@ function getInitialLanguage() {
   return translations[saved] ? saved : 'es';
 }
 
+let currentLanguage = getInitialLanguage();
+const languageListeners = new Set();
+
 export function useI18n() {
-  const [language, setLanguage] = useState(getInitialLanguage);
-  useEffect(() => globalThis.localStorage?.setItem('formula-delta-language', language), [language]);
+  const [language, setLanguageState] = useState(currentLanguage);
+  useEffect(() => {
+    const listener = () => setLanguageState(currentLanguage);
+    languageListeners.add(listener);
+    return () => languageListeners.delete(listener);
+  }, []);
+  const setLanguage = (nextLanguage) => {
+    if (!translations[nextLanguage] || nextLanguage === currentLanguage) return;
+    currentLanguage = nextLanguage;
+    globalThis.localStorage?.setItem('formula-delta-language', currentLanguage);
+    languageListeners.forEach((listener) => listener());
+  };
   return { language, setLanguage, t: translations[language] };
 }

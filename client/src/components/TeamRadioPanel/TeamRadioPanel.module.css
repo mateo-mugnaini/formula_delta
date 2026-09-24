@@ -56,7 +56,9 @@
 .filters button.selected {
   border-color: var(--fd-red);
   color: var(--fd-red);
+  background: color-mix(in srgb, var(--fd-red) 10%, var(--fd-surface-raised));
 }
+.filters button:first-child { color: var(--fd-text); border-style: dashed; }
 
 .messages {
   display: grid;

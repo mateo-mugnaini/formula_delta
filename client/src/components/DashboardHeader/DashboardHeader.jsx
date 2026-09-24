@@ -1,6 +1,7 @@
+import { memo } from 'react';
 import styles from './DashboardHeader.module.css';
 import { supportedLanguages, useI18n } from '../../i18n/i18n.js';
-export function DashboardHeader({ session, connectionStatus }) {
+export const DashboardHeader = memo(function DashboardHeader({ session, connectionStatus }) {
   const { language, setLanguage, t } = useI18n();
   return (
     <>
@@ -41,4 +42,4 @@ export function DashboardHeader({ session, connectionStatus }) {
       </div>
     </>
   );
-}
+});

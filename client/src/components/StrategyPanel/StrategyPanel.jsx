@@ -1,10 +1,11 @@
+import { memo, useMemo } from 'react';
 import styles from './StrategyPanel.module.css';
 import { buildStrategyRows } from '../../state/strategy.js';
 import { useI18n } from '../../i18n/i18n.js';
 
-export function StrategyPanel({ stints, drivers, timing }) {
+export const StrategyPanel = memo(function StrategyPanel({ stints, drivers, timing }) {
   const { t } = useI18n();
-  const rows = buildStrategyRows(stints, drivers, timing);
+  const rows = useMemo(() => buildStrategyRows(stints, drivers, timing), [stints, drivers, timing]);
   return (
     <section className={styles.panel} aria-label="Strategy view">
       <div className={styles.heading}>
@@ -22,7 +23,7 @@ export function StrategyPanel({ stints, drivers, timing }) {
       )}
     </section>
   );
-}
+});
 
 function StrategyRow({ row }) {
   return (
@@ -34,7 +35,7 @@ function StrategyRow({ row }) {
       <div className={styles.stints}>
         {row.stints.map((stint) => (
           <span
-            className={`${styles.stint} ${stint.current ? styles.current : ''}`}
+            className={`${styles.stint} ${styles[getCompoundClass(stint.compound)]} ${stint.current ? styles.current : ''}`}
             style={{ flex: stint.width }}
             key={stint.id}
             title={`${stint.compound} · ${stint.totalLaps ?? '—'} laps`}
@@ -42,9 +43,20 @@ function StrategyRow({ row }) {
             <b>{stint.compound}</b>
             <small>{stint.totalLaps ?? '—'}L</small>
             {stint.lapNumber != null && <em>L{stint.lapNumber}</em>}
+            {stint.current && <i>NOW</i>}
           </span>
         ))}
       </div>
     </div>
   );
+}
+
+function getCompoundClass(compound = '') {
+  const normalized = compound.toLowerCase();
+  if (normalized.includes('soft')) return 'soft';
+  if (normalized.includes('medium')) return 'medium';
+  if (normalized.includes('hard')) return 'hard';
+  if (normalized.includes('inter')) return 'intermediate';
+  if (normalized.includes('wet')) return 'wet';
+  return 'unknownCompound';
 }

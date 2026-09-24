@@ -1,6 +1,7 @@
+import { memo } from 'react';
 import styles from './TrackMapPanel.module.css';
 
-export function TrackMapPanel({ available = false, title, message }) {
+export const TrackMapPanel = memo(function TrackMapPanel({ available = false, title, message }) {
   return (
     <section className={styles.panel} aria-label={title}>
       <div className={styles.heading}><h2>{title}</h2><span>{available ? 'LIVE' : 'UNAVAILABLE'}</span></div>
@@ -10,4 +11,4 @@ export function TrackMapPanel({ available = false, title, message }) {
       </div>
     </section>
   );
-}
+});
