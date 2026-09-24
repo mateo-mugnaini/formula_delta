@@ -1,6 +1,6 @@
 import { memo, useMemo, useState } from 'react';
 import styles from './StrategyPanel.module.css';
-import { buildStrategyRows } from '../../state/strategy.js';
+import { buildStrategyRows, filterStrategyRows } from '../../state/strategy.js';
 import { useI18n } from '../../i18n/i18n.js';
 
 export const StrategyPanel = memo(function StrategyPanel({ stints, drivers, timing }) {
@@ -8,13 +8,13 @@ export const StrategyPanel = memo(function StrategyPanel({ stints, drivers, timi
   const availableDrivers = useMemo(() => Object.keys(stints || {}), [stints]);
   const [selectedDrivers, setSelectedDrivers] = useState(['43']);
   const rows = useMemo(
-    () => buildStrategyRows(stints, drivers, timing).filter((row) => selectedDrivers.includes(String(row.id))),
+    () => filterStrategyRows(buildStrategyRows(stints, drivers, timing), selectedDrivers),
     [stints, drivers, timing, selectedDrivers],
   );
   return (
     <section className={styles.panel} aria-label="Strategy view">
       <div className={styles.heading}>
-        <h2>Strategy</h2>
+        <div><p className={styles.eyebrow}>{t.strategy || 'TYRE STRATEGY'}</p><h2>{t.strategy || 'Strategy'}</h2></div>
         <span>{selectedDrivers.length} selected</span>
       </div>
       <div className={styles.driverFilters} aria-label="Strategy driver selection">
@@ -29,6 +29,13 @@ export const StrategyPanel = memo(function StrategyPanel({ stints, drivers, timi
             {drivers?.[id]?.abbreviation || id}
           </button>
         ))}
+      </div>
+      <div className={styles.legend} aria-label="Tyre compound legend">
+        <span><i className={styles.soft} /> SOFT</span>
+        <span><i className={styles.medium} /> MEDIUM</span>
+        <span><i className={styles.hard} /> HARD</span>
+        <span><i className={styles.intermediate} /> INTER</span>
+        <span><i className={styles.wet} /> WET</span>
       </div>
       {rows.length ? (
         <div className={styles.rows}>
@@ -48,6 +55,7 @@ function StrategyRow({ row }) {
     <div className={styles.row}>
       <div className={styles.driver}>
         <strong>{row.abbreviation}</strong>
+        <small title={row.name}>{row.team || row.name}</small>
         <small>{row.pitStops} stops</small>
       </div>
       <div className={styles.stints}>

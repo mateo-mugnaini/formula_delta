@@ -55,7 +55,7 @@ const translations = {
     reload: 'Recargar dashboard',
     driverFocus: 'Foco del piloto', clear: 'Limpiar', selectDriver: 'Selecciona un piloto en la torre',
     unavailableData: 'Datos no disponibles', trackMap: 'Mapa del circuito', livePositionUnavailable: 'Posiciones en pista no disponibles',
-    interval: 'INTERVALO', tyreAge: 'EDAD', stops: 'PARADAS', bestLap: 'MEJOR VUELTA', team: 'EQUIPO',
+    interval: 'INTERVALO', tyreAge: 'EDAD', stops: 'PARADAS', bestLap: 'MEJOR VUELTA', team: 'EQUIPO', strategy: 'Estrategia de neumáticos',
   },
   en: {
     liveTiming: 'Live timing',
@@ -105,7 +105,7 @@ const translations = {
     reload: 'Reload dashboard',
     driverFocus: 'Driver focus', clear: 'Clear', selectDriver: 'Select a driver in the timing tower',
     unavailableData: 'Data unavailable', trackMap: 'Track map', livePositionUnavailable: 'Live track positions unavailable',
-    interval: 'INTERVAL', tyreAge: 'AGE', stops: 'STOPS', bestLap: 'BEST LAP', team: 'TEAM',
+    interval: 'INTERVAL', tyreAge: 'AGE', stops: 'STOPS', bestLap: 'BEST LAP', team: 'TEAM', strategy: 'Tyre strategy',
   },
   it: {
     liveTiming: 'Tempi dal vivo',
@@ -155,7 +155,7 @@ const translations = {
     reload: 'Ricarica dashboard',
     driverFocus: 'Focus pilota', clear: 'Pulisci', selectDriver: 'Seleziona un pilota nella torre',
     unavailableData: 'Dati non disponibili', trackMap: 'Mappa del circuito', livePositionUnavailable: 'Posizioni in pista non disponibili',
-    interval: 'INTERVALLO', tyreAge: 'ETÀ', stops: 'SOSTE', bestLap: 'MIGLIOR GIRO', team: 'SQUADRA',
+    interval: 'INTERVALLO', tyreAge: 'ETÀ', stops: 'SOSTE', bestLap: 'MIGLIOR GIRO', team: 'SQUADRA', strategy: 'Strategia gomme',
   },
 };
 

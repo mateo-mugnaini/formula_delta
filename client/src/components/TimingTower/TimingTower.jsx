@@ -62,7 +62,7 @@ export const TimingTower = memo(function TimingTower({ timing, stints, drivers, 
             <span>{row.gapToLeader?.display || '—'}</span>
             <span>{row.intervalToAhead?.display || '—'}</span>
             <span>{row.lastLap?.display || '—'}</span>
-            <span className={styles.tyre}>{row.tyre?.compound || currentStint?.compound || '—'}</span>
+            <span className={`${styles.tyre} ${styles[getCompoundClass(row.tyre?.compound || currentStint?.compound)]}`}>{row.tyre?.compound || currentStint?.compound || '—'}</span>
             <span>{row.tyreAge ?? currentStint?.lapNumber ?? '—'}</span>
             <span>{row.pitStops ?? 0}</span>
           </div>
@@ -77,4 +77,14 @@ function getDriverStatus(row, t) {
   if (row.pitLane || row.status?.pitOut) return t.pitLane;
   if (row.status?.stopped) return 'STOPPED';
   return '';
+}
+
+function getCompoundClass(compound = '') {
+  const normalized = compound.toLowerCase();
+  if (normalized.includes('soft')) return 'soft';
+  if (normalized.includes('medium')) return 'medium';
+  if (normalized.includes('hard')) return 'hard';
+  if (normalized.includes('inter')) return 'intermediate';
+  if (normalized.includes('wet')) return 'wet';
+  return 'unknownCompound';
 }

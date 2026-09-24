@@ -47,9 +47,11 @@ export function App() {
         <TimingTower timing={state.timing} stints={state.stints} drivers={state.drivers} selectedDriverId={selectedDriverId} onSelectDriver={setSelectedDriverId} />
         <DashboardPanels state={state} client={client} delayMs={delayMs} setDelayMs={setDelayMs} selectedDriverId={selectedDriverId} onSelectDriver={setSelectedDriverId} />
       </section>
+      <section className={styles.strategyBand}>
+        <StrategyPanel stints={state.stints} drivers={state.drivers} timing={state.timing} />
+      </section>
       <section className={styles.secondaryGrid}>
         <TrackMapPanel title={t.trackMap} message={t.livePositionUnavailable} available={state.capabilities?.livePosition} />
-        <StrategyPanel stints={state.stints} drivers={state.drivers} timing={state.timing} />
         <BattlePanel timing={state.timing} drivers={state.drivers} gapHistory={state.gapHistory} />
         <TeamRadioPanel messages={state.teamRadio} drivers={state.drivers} />
       </section>

@@ -18,6 +18,8 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
+.heading > div { display: grid; gap: .2rem; }
+.eyebrow { margin: 0; color: var(--fd-red); font-size: .58rem; letter-spacing: .14em; text-transform: uppercase; }
 .heading span {
   color: var(--fd-text-dim);
   font-size: 0.7rem;
@@ -26,6 +28,9 @@
 .driverFilters button { padding: .25rem .45rem; border: 1px solid var(--fd-border); background: var(--fd-surface-raised); color: var(--fd-text-muted); font-size: .62rem; }
 .driverFilters button:hover { border-color: var(--fd-blue); color: var(--fd-text); }
 .driverFilters .selectedDriver { border-color: var(--fd-red); background: color-mix(in srgb, var(--fd-red) 12%, var(--fd-surface-raised)); color: var(--fd-text); }
+.legend { display: flex; flex-wrap: wrap; gap: .75rem; padding: .55rem 1rem 0; color: var(--fd-text-dim); font-size: .58rem; letter-spacing: .06em; }
+.legend span { display: inline-flex; align-items: center; gap: .3rem; }
+.legend i { width: .55rem; height: .55rem; border-radius: 50%; background: var(--compound-color); }
 .rows {
   display: grid;
 }
@@ -47,8 +52,11 @@
   font-size: 0.8rem;
 }
 .driver small {
+  overflow: hidden;
   color: var(--fd-text-dim);
   font-size: 0.65rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .stints {
   display: flex;

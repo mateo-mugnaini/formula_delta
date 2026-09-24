@@ -91,7 +91,22 @@
   white-space: nowrap;
 }
 .tyre {
-  color: var(--fd-yellow);
+  display: inline-flex;
+  justify-self: start;
+  padding: 0.18rem 0.35rem;
+  border-top: 2px solid var(--compound-color, var(--fd-text-dim));
+  border-radius: 0.2rem;
+  background: var(--fd-surface-raised);
+  color: var(--fd-text);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+.soft { --compound-color: #ed3b46; }
+.medium { --compound-color: #f3c84b; }
+.hard { --compound-color: #e7e9ed; }
+.intermediate { --compound-color: #46c26b; }
+.wet { --compound-color: #4e9bea; }
+.unknownCompound { --compound-color: #a78bfa; }
 }
 .empty {
   padding: 1.25rem 1rem;

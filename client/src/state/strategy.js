@@ -4,6 +4,8 @@ export function buildStrategyRows(stints = {}, drivers = {}, timing = {}) {
     .map(([id, driverStints]) => ({
       id,
       abbreviation: drivers[id]?.abbreviation || id,
+      name: drivers[id]?.fullName || drivers[id]?.lastName || id,
+      team: drivers[id]?.team?.name || '',
       pitStops: timing[id]?.pitStops ?? 0,
       stints: driverStints.map((stint, index) => ({
         ...stint,
@@ -11,4 +13,9 @@ export function buildStrategyRows(stints = {}, drivers = {}, timing = {}) {
         width: Math.max(stint.totalLaps ?? 1, 1),
       })),
     }));
+}
+
+export function filterStrategyRows(rows = [], selectedDrivers = ['43']) {
+  const selected = new Set(selectedDrivers.map(String));
+  return rows.filter((row) => selected.has(String(row.id)));
 }
