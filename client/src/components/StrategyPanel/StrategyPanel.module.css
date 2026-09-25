@@ -62,7 +62,7 @@
   display: flex;
   min-width: 0;
   gap: 0.35rem;
-  overflow-x: auto;
+  width: 100%;
   padding: 0.15rem 0;
 }
 .stint {
@@ -70,7 +70,8 @@
   align-items: center;
   gap: 0.35rem;
   position: relative;
-  min-width: 4.8rem;
+  min-width: 0;
+  overflow: hidden;
   padding: 0.35rem 0.5rem;
   border: 1px solid var(--fd-border);
   border-top: 3px solid var(--compound-color, var(--fd-text-dim));
@@ -80,10 +81,14 @@
   font-size: 0.7rem;
 }
 .stint small {
+  overflow: hidden;
   color: var(--fd-text-dim);
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
+.stint b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .stint em {
-  color: #718096;
+  color: var(--fd-text-dim);
   font-style: normal;
 }
 .stint i { margin-left: auto; color: var(--fd-text); font-size: .55rem; font-style: normal; letter-spacing: .08em; }
@@ -100,6 +105,6 @@
 .empty {
   padding: 1.25rem 1rem;
   margin: 0;
-  color: #718096;
+  color: var(--fd-text-dim);
   font-size: 0.8rem;
 }

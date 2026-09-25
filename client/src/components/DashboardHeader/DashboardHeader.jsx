@@ -1,9 +1,14 @@
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 import styles from './DashboardHeader.module.css';
 import { supportedLanguages, useI18n } from '../../i18n/i18n.js';
 import { TrackFlag } from '../TrackFlag/TrackFlag.jsx';
 export const DashboardHeader = memo(function DashboardHeader({ session, connectionStatus }) {
   const { language, setLanguage, t } = useI18n();
+  const [lightTheme, setLightTheme] = useState(() => localStorage.getItem('formula-delta-theme') === 'light');
+  useEffect(() => {
+    document.documentElement.dataset.theme = lightTheme ? 'light' : 'dark';
+    localStorage.setItem('formula-delta-theme', lightTheme ? 'light' : 'dark');
+  }, [lightTheme]);
   return (
     <>
       <header className={styles.header}>
@@ -29,6 +34,10 @@ export const DashboardHeader = memo(function DashboardHeader({ session, connecti
               ))}
             </select>
           </label>
+          <button type="button" className={styles.themeSwitch} aria-pressed={lightTheme} aria-label={lightTheme ? t.darkMode : t.lightMode} title={lightTheme ? t.darkMode : t.lightMode} onClick={() => setLightTheme((value) => !value)}>
+            <span aria-hidden="true">{lightTheme ? '☾' : '☀'}</span>
+            {lightTheme ? t.darkMode : t.lightMode}
+          </button>
         </div>
       </header>
       <div className={styles.statusBar}>

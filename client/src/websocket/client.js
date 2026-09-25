@@ -26,7 +26,6 @@ export function createWebSocketClient({
         const next = applyServerMessage(state, message);
         if (next !== state) {
           state = next;
-          logger.debug?.('[client] State message received', { type: message?.type });
           onState(state, event);
         }
       } catch (error) {

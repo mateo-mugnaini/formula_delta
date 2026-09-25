@@ -19,6 +19,20 @@
   font-synthesis: none;
   text-rendering: optimizeLegibility;
 }
+:root[data-theme='light'] {
+  --fd-bg: #eef1f4;
+  --fd-surface: #ffffff;
+  --fd-surface-raised: #f5f7f9;
+  --fd-border: #cbd3dc;
+  --fd-border-soft: #e0e5ea;
+  --fd-text: #17202a;
+  --fd-text-muted: #4c5b6b;
+  --fd-text-dim: #738091;
+  --fd-red: #c92732;
+  --fd-yellow: #9a6900;
+  --fd-green: #218642;
+  --fd-blue: #1667a8;
+}
 ::selection { color: var(--fd-bg); background: var(--fd-yellow); }
 button, input, select { min-height: 2rem; }
 button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--fd-yellow); outline-offset: 2px; }
@@ -28,6 +42,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 body {
   margin: 0;
   min-width: 320px;
+  overflow-x: hidden;
   background: var(--fd-bg);
 }
 button,

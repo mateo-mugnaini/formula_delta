@@ -1,8 +1,9 @@
 import { memo, useMemo, useState } from 'react';
 import styles from './DashboardPanels.module.css';
 import { useI18n } from '../../i18n/i18n.js';
-export const DashboardPanels = memo(function DashboardPanels({ state, client, delayMs, setDelayMs, selectedDriverId, onSelectDriver }) {
-  const { t } = useI18n();
+import { translateRaceControlEvent } from '../../state/race-control.js';
+export const DashboardPanels = memo(function DashboardPanels({ state, client, delayMs, setDelayMs }) {
+  const { t, language } = useI18n();
   const [pendingCommand, setPendingCommand] = useState(null);
   const send = (command, payload = {}) => {
     if (!client || pendingCommand) return;
@@ -16,43 +17,23 @@ export const DashboardPanels = memo(function DashboardPanels({ state, client, de
       .slice(0, 4),
     [state.timing],
   );
-  const focusedStints = selectedDriverId ? state.stints?.[selectedDriverId] || [] : [];
-  const currentStint = focusedStints.at(-1);
   return (
     <aside className={styles.rail}>
-      <Panel title={t.driverFocus}>
-        {selectedDriverId ? (
-          <div className={styles.focusGrid}>
-            <strong>{state.drivers?.[selectedDriverId]?.fullName || selectedDriverId}</strong>
-            <button onClick={() => onSelectDriver?.(null)}>{t.clear}</button>
-            <span>{t.team} {state.drivers?.[selectedDriverId]?.team?.name || '—'}</span>
-            <span>STINT {currentStint?.number ?? '—'}</span>
-            <span>COMPOUND {currentStint?.compound || '—'}</span>
-            <span>LAPS {currentStint?.totalLaps ?? '—'}</span>
-            <span>STATUS {getFocusStatus(state.timing?.[selectedDriverId])}</span>
-            <span>{t.interval} {state.timing?.[selectedDriverId]?.intervalToAhead?.display || '—'}</span>
-            <span>{t.bestLap} {state.timing?.[selectedDriverId]?.bestLap?.display || '—'}</span>
-            <span>{t.tyreAge} {state.timing?.[selectedDriverId]?.tyreAge ?? '—'}</span>
-            <span>{t.stops} {state.timing?.[selectedDriverId]?.pitStops ?? 0}</span>
-            <span>Position {state.timing?.[selectedDriverId]?.position ?? '—'}</span>
-            <span>Gap {state.timing?.[selectedDriverId]?.gapToLeader?.display || '—'}</span>
-            <span>Last lap {state.timing?.[selectedDriverId]?.lastLap?.display || '—'}</span>
-            <span>Tyre {state.timing?.[selectedDriverId]?.tyre?.compound || '—'}</span>
-          </div>
-        ) : <Empty text={t.selectDriver} />}
-      </Panel>
       <Panel title={t.raceControl}>
         {state.raceControl?.length ? (
           <div className={styles.messages}>
             {state.raceControl
               .slice(-4)
               .reverse()
-              .map((event) => (
+              .map((event) => {
+                const translated = translateRaceControlEvent(event, language);
+                return (
                 <p key={event.id}>
-                  <strong>{event.category || t.event}</strong>
-                  <span>{event.message}</span>
+                  <strong>{translated.category || t.event}</strong>
+                  <span>{translated.message}</span>
                 </p>
-              ))}
+                );
+              })}
           </div>
         ) : (
           <Empty text={t.noRecentMessages} />
@@ -150,7 +131,7 @@ export const DashboardPanels = memo(function DashboardPanels({ state, client, de
 }, areDashboardPanelsEqual);
 
 function areDashboardPanelsEqual(previous, next) {
-  if (previous.client !== next.client || previous.delayMs !== next.delayMs || previous.selectedDriverId !== next.selectedDriverId) return false;
+  if (previous.client !== next.client || previous.delayMs !== next.delayMs) return false;
   const previousState = previous.state;
   const nextState = next.state;
   return previousState.timing === nextState.timing && previousState.stints === nextState.stints && previousState.drivers === nextState.drivers && previousState.raceControl === nextState.raceControl && previousState.weather === nextState.weather && previousState.source === nextState.source && previousState.replay === nextState.replay && previousState.capabilities === nextState.capabilities;
@@ -178,10 +159,4 @@ function Metric({ label, value, suffix = '' }) {
       </strong>
     </div>
   );
-}
-function getFocusStatus(timing = {}) {
-  if (timing.inPit || timing.status?.inPit) return 'PIT';
-  if (timing.pitLane || timing.status?.pitOut) return 'PIT LANE';
-  if (timing.status?.stopped) return 'STOPPED';
-  return 'RUNNING';
 }

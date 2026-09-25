@@ -15,7 +15,6 @@ export function createPublisher({
       return () => clients.delete(client);
     },
     broadcast(message) {
-      logger.debug?.('Broadcasting state to frontend clients', { clients: clients.size, type: message.type });
       for (const client of clients) send(client, message);
     },
     clientCount: () => clients.size,

@@ -23,10 +23,6 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
-.focusGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; padding-top: 0.85rem; color: var(--fd-text-muted); font-size: 0.72rem; }
-.focusGrid strong { grid-column: 1 / -1; color: var(--fd-text); font-size: 0.85rem; }
-.focusGrid button { padding: 0.2rem 0.4rem; font-size: 0.65rem; }
-.focusGrid span { display: flex; justify-content: space-between; gap: .5rem; padding-bottom: .35rem; border-bottom: 1px solid var(--fd-border-soft); font-variant-numeric: tabular-nums; }
 .empty {
   padding: 1.25rem 0;
   color: var(--fd-text-dim);
@@ -41,7 +37,7 @@
   display: grid;
   gap: 0.25rem;
   margin: 0;
-  color: #aab5c7;
+  color: var(--fd-text-muted);
   font-size: 0.75rem;
   line-height: 1.35;
 }
@@ -112,7 +108,7 @@
   padding-top: 0.9rem;
 }
 .delayControl label {
-  color: #718096;
+  color: var(--fd-text-dim);
   font-size: 0.7rem;
   text-transform: uppercase;
 }
@@ -146,7 +142,7 @@ button {
 }
 button:hover:not(:disabled) {
   border-color: var(--fd-blue);
-  background: #1b2a3b;
+  background: color-mix(in srgb, var(--fd-blue) 10%, var(--fd-surface-raised));
 }
 button:focus-visible {
   outline: 2px solid var(--fd-yellow);

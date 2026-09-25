@@ -13,6 +13,7 @@ export function createBackendApp({
   onStatus = () => {},
   webSocketTransportFactory = createWebSocketTransport,
   logger = console,
+  onRaceControl = () => {},
 } = {}) {
   let publisher;
   let webSocketServer;
@@ -24,6 +25,7 @@ export function createBackendApp({
   });
   const pipeline = createIngestionPipeline({
     logger,
+    onRaceControl,
     onParsedUpdate: ({ parsed, state }) => {
       const message = createStateUpdate(state, { kind: parsed.kind });
       if (delayBuffer.getDelay() === 0) publisher?.broadcast(message);

@@ -48,12 +48,12 @@ export function App() {
           <section className={styles.strategyBand}>
             <StrategyPanel stints={state.stints} drivers={state.drivers} timing={state.timing} />
           </section>
-          <section className={styles.secondaryGrid}>
-            <TrackMapPanel title={t.trackMap} message={t.livePositionUnavailable} available={state.capabilities?.livePosition} />
-            <TeamRadioPanel messages={state.teamRadio} drivers={state.drivers} />
-          </section>
+          <TeamRadioPanel messages={state.teamRadio} drivers={state.drivers} />
         </div>
-        <DashboardPanels state={state} client={client} delayMs={delayMs} setDelayMs={setDelayMs} selectedDriverId={selectedDriverId} onSelectDriver={setSelectedDriverId} />
+        <aside className={styles.sideColumn}>
+          <TrackMapPanel title={t.trackMap} message={t.livePositionUnavailable} available={state.capabilities?.livePosition} />
+          <DashboardPanels state={state} client={client} delayMs={delayMs} setDelayMs={setDelayMs} />
+        </aside>
       </section>
     </main>
   );

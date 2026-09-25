@@ -8,11 +8,12 @@ import { parseTopic } from './topic-parsers.js';
 export function createIngestionPipeline({
   onRawEvent = () => {},
   onParsedUpdate = () => {},
+  onRaceControl = () => {},
   initialState = createInitialState(),
   logger = { debug() {} },
 } = {}) {
   let state = initialState;
-  let eventCount = 0;
+  let positionSampleLogged = false;
   return {
     getState: () => state,
     process(rawEvent) {
@@ -22,8 +23,15 @@ export function createIngestionPipeline({
         payload: rawEvent.payload,
       };
       onRawEvent(event);
-      eventCount += 1;
-      logger.debug?.('F1 event received', { count: eventCount, topic: event.topic });
+      if (!positionSampleLogged && /(position|cardata)/i.test(event.topic || '')) {
+        positionSampleLogged = true;
+        logger.info?.('Map data sample received', {
+          topic: event.topic,
+          payloadKeys: Object.keys(event.payload || {}).slice(0, 20),
+          driverKeys: Object.keys(event.payload?.Lines || event.payload?.Entries || event.payload || {}).slice(0, 10),
+          sample: summarizeMapPayload(event.payload),
+        });
+      }
       const parsed = parseTopic(event.topic, event.payload);
       if (parsed.kind === 'unknown') {
         logger.warn?.('Unknown F1 topic received', {
@@ -32,11 +40,22 @@ export function createIngestionPipeline({
         });
       }
       state = applyParsedUpdate(state, parsed);
+      if (parsed.kind === 'raceControl') onRaceControl(parsed.value);
       onParsedUpdate({ event, parsed, state });
-      logger.debug?.('F1 event normalized', { count: eventCount, kind: parsed.kind });
       return parsed;
     },
   };
+}
+
+function summarizeMapPayload(payload) {
+  if (!payload || typeof payload !== 'object') return { type: typeof payload, value: payload ?? null };
+  const source = payload.Lines || payload.Entries || payload;
+  const first = Object.entries(source).slice(0, 2);
+  return first.map(([driverId, value]) => ({
+    driverId,
+    keys: value && typeof value === 'object' ? Object.keys(value).slice(0, 20) : [],
+    value: value && typeof value !== 'object' ? value : undefined,
+  }));
 }
 
 export function applyParsedUpdate(state, parsed) {

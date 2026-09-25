@@ -13,20 +13,9 @@
 }
 .mainColumn { min-width: 0; }
 .layout > :last-child { min-width: 0; }
-.secondaryGrid {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 0.75rem;
-  margin-top: 0.75rem;
-}
+.sideColumn { display: grid; align-content: start; gap: 1rem; min-width: 0; }
 .strategyBand { width: 100%; }
 .strategyBand .panel { margin-top: 0.75rem; }
-.secondaryGrid > *:first-child,
-.secondaryGrid > *:nth-child(2) { grid-column: span 6; }
-@media (max-width: 800px) {
-  .secondaryGrid { grid-template-columns: 1fr; }
-  .secondaryGrid > * { grid-column: auto !important; }
-}
 @media (max-width: 800px) {
   .appShell {
     padding: 1rem;
