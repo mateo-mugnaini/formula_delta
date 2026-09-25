@@ -1,0 +1,8 @@
+.flag { display: inline-flex; align-items: center; gap: .4rem; padding: .22rem .45rem; border: 1px solid var(--fd-border); border-radius: .2rem; background: var(--fd-surface-raised); color: var(--fd-text-muted); font-size: .58rem; font-weight: 800; letter-spacing: .08em; }
+.flag svg { width: 1.25rem; height: .8rem; overflow: hidden; border-radius: .12rem; }
+.green svg rect { fill: var(--fd-green); }
+.yellow svg rect { fill: var(--fd-yellow); }
+.red svg rect { fill: var(--fd-red); }
+.chequered svg rect:nth-child(odd) { fill: var(--fd-text); }
+.chequered svg rect:nth-child(even) { fill: var(--fd-text-dim); }
+.unknown svg rect { fill: var(--fd-text-dim); }

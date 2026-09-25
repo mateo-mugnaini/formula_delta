@@ -6,13 +6,13 @@
 }
 .layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 21rem;
+  grid-template-columns: minmax(0, 7fr) minmax(17rem, 3fr);
   gap: 0.85rem;
   margin-top: 0.75rem;
   align-items: start;
 }
-.layout > :first-child { min-height: 0; }
-.layout > :last-child { position: sticky; top: 0.75rem; max-height: calc(100vh - 1.5rem); overflow-y: auto; scrollbar-width: thin; }
+.mainColumn { min-width: 0; }
+.layout > :last-child { min-width: 0; }
 .secondaryGrid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -21,9 +21,8 @@
 }
 .strategyBand { width: 100%; }
 .strategyBand .panel { margin-top: 0.75rem; }
-.secondaryGrid > *:first-child { grid-column: span 6; }
-.secondaryGrid > *:nth-child(2) { grid-column: span 3; }
-.secondaryGrid > *:nth-child(3) { grid-column: span 3; }
+.secondaryGrid > *:first-child,
+.secondaryGrid > *:nth-child(2) { grid-column: span 6; }
 @media (max-width: 800px) {
   .secondaryGrid { grid-template-columns: 1fr; }
   .secondaryGrid > * { grid-column: auto !important; }
@@ -35,5 +34,5 @@
   .layout {
     grid-template-columns: 1fr;
   }
-  .layout > :last-child { position: static; max-height: none; overflow: visible; }
+  .layout > :last-child { position: static; }
 }

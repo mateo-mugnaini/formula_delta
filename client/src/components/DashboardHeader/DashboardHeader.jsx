@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import styles from './DashboardHeader.module.css';
 import { supportedLanguages, useI18n } from '../../i18n/i18n.js';
+import { TrackFlag } from '../TrackFlag/TrackFlag.jsx';
 export const DashboardHeader = memo(function DashboardHeader({ session, connectionStatus }) {
   const { language, setLanguage, t } = useI18n();
   return (
@@ -33,9 +34,8 @@ export const DashboardHeader = memo(function DashboardHeader({ session, connecti
       <div className={styles.statusBar}>
         <span>{session?.meeting?.name || session?.name || t.formulaSession}</span>
         <span>{session?.meeting?.circuit?.shortName || '—'}</span>
-        <strong className={styles.trackStatus}>
-          {session?.trackStatus || t.trackStatusUnknown}
-        </strong>
+        <TrackFlag status={session?.trackStatus} code={session?.trackCode} />
+        <strong className={styles.trackStatus}>{session?.trackStatus || t.trackStatusUnknown}</strong>
         <span>{session?.type || t.formulaSession}</span>
         <span>{session?.currentLap != null ? `${t.lapOf} ${session.currentLap}/${session.totalLaps || '—'}` : t.sessionReady}</span>
         <span>{session?.source || 'unknown'} source</span>

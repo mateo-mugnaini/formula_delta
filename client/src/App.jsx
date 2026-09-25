@@ -6,7 +6,6 @@ import { DashboardHeader } from './components/DashboardHeader/DashboardHeader.js
 import { TimingTower } from './components/TimingTower/TimingTower.jsx';
 import { DashboardPanels } from './components/DashboardPanels/DashboardPanels.jsx';
 import { StrategyPanel } from './components/StrategyPanel/StrategyPanel.jsx';
-import { BattlePanel } from './components/BattlePanel/BattlePanel.jsx';
 import { TeamRadioPanel } from './components/TeamRadioPanel/TeamRadioPanel.jsx';
 import { TrackMapPanel } from './components/TrackMapPanel/TrackMapPanel.jsx';
 import { useI18n } from './i18n/i18n.js';
@@ -18,8 +17,8 @@ export function App() {
   const [selectedDriverId, setSelectedDriverId] = useState(null);
   const { t } = useI18n();
   const headerSession = useMemo(
-    () => ({ ...state.session, trackStatus: state.track?.status, source: state.source?.mode }),
-    [state.session, state.track?.status, state.source?.mode],
+    () => ({ ...state.session, trackStatus: state.track?.status, trackCode: state.track?.code, source: state.source?.mode }),
+    [state.session, state.track?.status, state.track?.code, state.source?.mode],
   );
   useEffect(() => {
     const client = createWebSocketClient({
@@ -44,16 +43,17 @@ export function App() {
         connectionStatus={state.connectionStatus}
       />
       <section className={styles.layout}>
-        <TimingTower timing={state.timing} stints={state.stints} drivers={state.drivers} selectedDriverId={selectedDriverId} onSelectDriver={setSelectedDriverId} />
+        <div className={styles.mainColumn}>
+          <TimingTower timing={state.timing} stints={state.stints} drivers={state.drivers} selectedDriverId={selectedDriverId} onSelectDriver={setSelectedDriverId} />
+          <section className={styles.strategyBand}>
+            <StrategyPanel stints={state.stints} drivers={state.drivers} timing={state.timing} />
+          </section>
+          <section className={styles.secondaryGrid}>
+            <TrackMapPanel title={t.trackMap} message={t.livePositionUnavailable} available={state.capabilities?.livePosition} />
+            <TeamRadioPanel messages={state.teamRadio} drivers={state.drivers} />
+          </section>
+        </div>
         <DashboardPanels state={state} client={client} delayMs={delayMs} setDelayMs={setDelayMs} selectedDriverId={selectedDriverId} onSelectDriver={setSelectedDriverId} />
-      </section>
-      <section className={styles.strategyBand}>
-        <StrategyPanel stints={state.stints} drivers={state.drivers} timing={state.timing} />
-      </section>
-      <section className={styles.secondaryGrid}>
-        <TrackMapPanel title={t.trackMap} message={t.livePositionUnavailable} available={state.capabilities?.livePosition} />
-        <BattlePanel timing={state.timing} drivers={state.drivers} gapHistory={state.gapHistory} />
-        <TeamRadioPanel messages={state.teamRadio} drivers={state.drivers} />
       </section>
     </main>
   );

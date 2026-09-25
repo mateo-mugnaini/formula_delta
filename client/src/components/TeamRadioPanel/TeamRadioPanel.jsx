@@ -59,7 +59,10 @@ export const TeamRadioPanel = memo(function TeamRadioPanel({ messages = [], driv
               <article key={message.id || `${message.driverId}-${message.timestamp}`}>
                 <strong>{drivers[message.driverId]?.abbreviation || message.driverId}</strong>
                 {message.url ? (
-                  <audio controls preload="none" src={message.url} />
+                  <>
+                    <audio controls preload="none" src={message.url} onError={(event) => { event.currentTarget.hidden = true; event.currentTarget.nextElementSibling.hidden = false; }} />
+                    <span hidden>Audio failed to load</span>
+                  </>
                 ) : (
                   <span>Audio unavailable</span>
                 )}
